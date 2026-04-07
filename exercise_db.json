@@ -1,0 +1,413 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "description": "HealthLog 筋トレ消費カロリーデータベース（PubMedエビデンスベース）",
+    "last_updated": "2025-04",
+    "met_formula": "消費kcal = MET × 体重(kg) × 時間(h)",
+    "evidence_notes": "MET値は間接熱量計（間接カロリメトリー）を用いた実測値に基づく。自重種目はPoulios et al. 2024、Nakagata et al. 2022、Chatzikamagianni et al. 2025より。マシン種目はReis et al. 2019より。スーパーセット値はRealzola et al. 2022より。",
+    "fields": {
+      "id": "一意識別子",
+      "n": "種目名",
+      "cat": "カテゴリ",
+      "group": "部位グループ",
+      "muscles": "主働筋",
+      "met": "MET値（中強度標準値）",
+      "met_range": "文献報告MET範囲 [min, max]",
+      "kcal_per_rep": "1rep あたり推定kcal（参考値、体重70kgで計算）",
+      "evidence": "参考文献リスト",
+      "notes": "補足"
+    }
+  },
+  "categories": ["コンパウンド下半身","コンパウンド上半身","アイソレーション上半身","アイソレーション下半身","自重・体幹","有酸素系"],
+  "exercises": [
+    {
+      "id": "ex_squat",
+      "n": "スクワット",
+      "cat": "コンパウンド下半身",
+      "group": "下半身",
+      "muscles": "大腿四頭筋・臀筋・ハムストリングス",
+      "met": 5.4,
+      "met_range": [4.5, 6.5],
+      "evidence": [
+        {
+          "pmid": "32379233",
+          "citation": "Nakagata T, et al. J Strength Cond Res. 2022;36(5):1290-1296.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32379233/",
+          "value": "5.4 METs（間接熱量計、10 rep/min、自重）",
+          "note": "体重抵抗スクワット、間接熱量計での実測値"
+        },
+        {
+          "pmid": "40730581",
+          "citation": "Del-Cuerpo I, et al. Sci Rep. 2025;15:28194.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40730581/",
+          "value": "3 sets × 12 rep @ 75%1RM と 3 sets × 30 rep @ 50%1RM のEE測定",
+          "note": "強度により変動。男性が女性より有意に高いEE（Del-Cuerpo et al. Nutrients 2023）"
+        }
+      ],
+      "notes": "自重スクワット：5.4 METs、バーベルスクワット（高強度）は6.0 METs以上になる場合あり"
+    },
+    {
+      "id": "ex_bench_press",
+      "n": "ベンチプレス",
+      "cat": "コンパウンド上半身",
+      "group": "胸",
+      "muscles": "大胸筋・三角筋前部・上腕三頭筋",
+      "met": 4.5,
+      "met_range": [3.5, 5.5],
+      "evidence": [
+        {
+          "pmid": "31437191",
+          "citation": "Reis VM, et al. PLoS One. 2019;14(8):e0221284.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31437191/",
+          "value": "水平ベンチプレス：低強度（12-24%1RM）でVO2測定。Sy.x = 0.47 kcal·min⁻¹",
+          "note": "低強度での実測。中強度ではMETが高くなる"
+        },
+        {
+          "pmid": "33927111",
+          "citation": "Realzola RA, et al. J Strength Cond Res. 2022;36(10):2709-2716.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33927111/",
+          "value": "チェストプレス + シーテッドロウのスーパーセット実施時のVO2・血中乳酸測定",
+          "note": "スーパーセットでは通常のセットより代謝負荷が有意に増大"
+        }
+      ],
+      "notes": "インクラインベンチプレスは同等～やや高い（45°傾斜でMET約4.8）"
+    },
+    {
+      "id": "ex_deadlift",
+      "n": "デッドリフト",
+      "cat": "コンパウンド下半身",
+      "group": "後ろ側全体",
+      "muscles": "脊柱起立筋・ハムストリングス・臀筋・僧帽筋",
+      "met": 6.0,
+      "met_range": [5.0, 7.5],
+      "evidence": [
+        {
+          "pmid": "33927111",
+          "citation": "Realzola RA, et al. J Strength Cond Res. 2022;36(10):2709-2716.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33927111/",
+          "value": "ヘックスバーデッドリフト + レッグプレス スーパーセット実施時のVO2測定",
+          "note": "多関節複合種目のため単離種目より代謝負荷が高い"
+        }
+      ],
+      "notes": "全身を使うコンパウンド種目のためMETは高め。実測値は研究が限定的"
+    },
+    {
+      "id": "ex_lat_pulldown",
+      "n": "ラットプルダウン",
+      "cat": "コンパウンド上半身",
+      "group": "背中",
+      "muscles": "広背筋・大円筋・上腕二頭筋",
+      "met": 3.5,
+      "met_range": [2.8, 4.2],
+      "evidence": [
+        {
+          "pmid": "31437191",
+          "citation": "Reis VM, et al. PLoS One. 2019;14(8):e0221284.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31437191/",
+          "value": "ラットプルダウン：Sy.x = 0.28 kcal·min⁻¹（最も安定した推定値）",
+          "note": "8種目中、心拍数によるエネルギー推定精度が最も高い種目のひとつ"
+        },
+        {
+          "pmid": "33927111",
+          "citation": "Realzola RA, et al. J Strength Cond Res. 2022;36(10):2709-2716.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33927111/",
+          "value": "オーバーヘッドプレス + ラットプルダウン スーパーセット実施時の測定あり"
+        }
+      ]
+    },
+    {
+      "id": "ex_leg_press",
+      "n": "レッグプレス",
+      "cat": "コンパウンド下半身",
+      "group": "下半身",
+      "muscles": "大腿四頭筋・臀筋",
+      "met": 4.0,
+      "met_range": [3.2, 5.0],
+      "evidence": [
+        {
+          "pmid": "31437191",
+          "citation": "Reis VM, et al. PLoS One. 2019;14(8):e0221284.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31437191/",
+          "value": "45°傾斜レッグプレス：低強度でのVO2実測。Sy.x = 0.54 kcal·min⁻¹",
+          "note": "スクワットより負荷が体幹に分散されないため、単位重量あたりのMETはやや低め"
+        }
+      ]
+    },
+    {
+      "id": "ex_shoulder_press",
+      "n": "ショルダープレス（オーバーヘッドプレス）",
+      "cat": "コンパウンド上半身",
+      "group": "肩",
+      "muscles": "三角筋・上腕三頭筋・僧帽筋",
+      "met": 4.0,
+      "met_range": [3.2, 5.0],
+      "evidence": [
+        {
+          "pmid": "40440526",
+          "citation": "Chatzikamagianni E, et al. J Strength Cond Res. 2025;39(9):933-944.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40440526/",
+          "value": "サスペンションオーバーヘッドプレス：METs 3.5-3.7（最高値の種目）",
+          "note": "サスペンション版では不安定性が加わるためMETが上昇"
+        },
+        {
+          "pmid": "33927111",
+          "citation": "Realzola RA, et al. J Strength Cond Res. 2022;36(10):2709-2716.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33927111/",
+          "value": "オーバーヘッドダンベルプレス + ラットプルダウン スーパーセット時のVO2測定あり"
+        }
+      ]
+    },
+    {
+      "id": "ex_bicep_curl",
+      "n": "バイセップカール",
+      "cat": "アイソレーション上半身",
+      "group": "腕（前側）",
+      "muscles": "上腕二頭筋・腕橈骨筋",
+      "met": 2.5,
+      "met_range": [2.0, 3.0],
+      "evidence": [
+        {
+          "pmid": "31437191",
+          "citation": "Reis VM, et al. PLoS One. 2019;14(8):e0221284.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31437191/",
+          "value": "バイセップカール：Sy.x = 0.13 kcal·min⁻¹（最も低い推定値）",
+          "note": "単関節アイソレーション種目のため活動筋群が限定的"
+        }
+      ],
+      "notes": "アイソレーション種目のためMETは低め。時間で計算"
+    },
+    {
+      "id": "ex_tricep_ext",
+      "n": "トライセップエクステンション",
+      "cat": "アイソレーション上半身",
+      "group": "腕（後側）",
+      "muscles": "上腕三頭筋",
+      "met": 2.5,
+      "met_range": [2.0, 3.0],
+      "evidence": [
+        {
+          "pmid": "31437191",
+          "citation": "Reis VM, et al. PLoS One. 2019;14(8):e0221284.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31437191/",
+          "value": "トライセップエクステンション：Sy.x = 0.08 kcal·min⁻¹（8種目中最も低い）",
+          "note": "単一筋群のアイソレーション種目"
+        }
+      ]
+    },
+    {
+      "id": "ex_pushup",
+      "n": "プッシュアップ（腕立て伏せ）",
+      "cat": "自重・体幹",
+      "group": "胸・腕",
+      "muscles": "大胸筋・上腕三頭筋・三角筋前部",
+      "met": 7.8,
+      "met_range": [6.0, 9.0],
+      "evidence": [
+        {
+          "pmid": "32379233",
+          "citation": "Nakagata T, et al. J Strength Cond Res. 2022;36(5):1290-1296.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32379233/",
+          "value": "プッシュアップ 7.8 METs（間接熱量計、10 rep/min）。スクワット（5.4）より有意に高い",
+          "note": "自重での上半身複合種目のため代謝負荷が高い"
+        },
+        {
+          "pmid": "39178048",
+          "citation": "Poulios A, et al. J Strength Cond Res. 2024;38(12):2034-2046.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39178048/",
+          "value": "プッシュアップ TEE: 22.0 kcal/min（T30）、24.9 kcal/min（T45）",
+          "note": "45秒実施でより高いTEEを記録"
+        }
+      ]
+    },
+    {
+      "id": "ex_plank",
+      "n": "プランク",
+      "cat": "自重・体幹",
+      "group": "体幹",
+      "muscles": "腹横筋・多裂筋・横隔膜",
+      "met": 3.0,
+      "met_range": [2.6, 3.5],
+      "evidence": [
+        {
+          "pmid": "39178048",
+          "citation": "Poulios A, et al. J Strength Cond Res. 2024;38(12):2034-2046.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39178048/",
+          "value": "プランク TEE: 11.3 kcal/min（T30）、12.6 kcal/min（T45）—7種目中最低",
+          "note": "等尺性収縮のため動的種目より代謝負荷は低い"
+        },
+        {
+          "pmid": "40440526",
+          "citation": "Chatzikamagianni E, et al. J Strength Cond Res. 2025;39(9):933-944.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40440526/",
+          "value": "サスペンションプランク：METs 2.6（最低値）"
+        }
+      ]
+    },
+    {
+      "id": "ex_lunge",
+      "n": "ランジ（フォワードランジ）",
+      "cat": "コンパウンド下半身",
+      "group": "下半身",
+      "muscles": "大腿四頭筋・臀筋・ハムストリングス",
+      "met": 5.0,
+      "met_range": [4.0, 6.0],
+      "evidence": [
+        {
+          "pmid": "39178048",
+          "citation": "Poulios A, et al. J Strength Cond Res. 2024;38(12):2034-2046.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39178048/",
+          "value": "フォワードランジ TEE: 18.6 kcal/min（T30）、22.0 kcal/min（T45）",
+          "note": "シングルレッグスクワットと同等の代謝負荷"
+        }
+      ]
+    },
+    {
+      "id": "ex_leg_ext",
+      "n": "レッグエクステンション",
+      "cat": "アイソレーション下半身",
+      "group": "前もも",
+      "muscles": "大腿四頭筋",
+      "met": 3.0,
+      "met_range": [2.5, 3.8],
+      "evidence": [
+        {
+          "pmid": "31437191",
+          "citation": "Reis VM, et al. PLoS One. 2019;14(8):e0221284.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31437191/",
+          "value": "レッグエクステンション：Sy.x = 0.59 kcal·min⁻¹",
+          "note": "アイソレーション下半身種目"
+        }
+      ]
+    },
+    {
+      "id": "ex_burpee",
+      "n": "バーピー",
+      "cat": "有酸素系",
+      "group": "全身",
+      "muscles": "全身（大胸筋・大腿四頭筋・体幹・心肺系）",
+      "met": 8.0,
+      "met_range": [7.0, 10.0],
+      "evidence": [
+        {
+          "pmid": "39178048",
+          "citation": "Poulios A, et al. J Strength Cond Res. 2024;38(12):2034-2046.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39178048/",
+          "value": "バーピー TEE: 32.2 kcal/min（T30）、40.7 kcal/min（T45）—7種目中最高",
+          "note": "最高RPE・最高心拍数・最高血中乳酸を記録。全身有酸素的種目"
+        }
+      ]
+    },
+    {
+      "id": "ex_row",
+      "n": "ベントオーバーロウ（バーベル）",
+      "cat": "コンパウンド上半身",
+      "group": "背中",
+      "muscles": "広背筋・僧帽筋・菱形筋・上腕二頭筋",
+      "met": 4.5,
+      "met_range": [3.8, 5.5],
+      "evidence": [
+        {
+          "pmid": "33927111",
+          "citation": "Realzola RA, et al. J Strength Cond Res. 2022;36(10):2709-2716.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33927111/",
+          "value": "シーテッドロウ：スーパーセット時のVO2・乳酸測定値を含む",
+          "note": "ベントオーバーロウはシーテッドロウより体幹安定筋の関与が高くMETはやや上昇"
+        }
+      ]
+    },
+    {
+      "id": "ex_pull_up",
+      "n": "チンニング（懸垂・プルアップ）",
+      "cat": "自重・体幹",
+      "group": "背中",
+      "muscles": "広背筋・大円筋・上腕二頭筋",
+      "met": 5.0,
+      "met_range": [4.0, 6.5],
+      "evidence": [
+        {
+          "pmid": "39178048",
+          "citation": "Poulios A, et al. J Strength Cond Res. 2024;38(12):2034-2046.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39178048/",
+          "value": "自重上肢引き種目としてシングルレッグスクワット（TEE: 19.8 kcal/min）と同等と推定",
+          "note": "体重を持ち上げる複合種目のため代謝負荷は高め"
+        }
+      ]
+    },
+    {
+      "id": "ex_hip_thrust",
+      "n": "ヒップスラスト",
+      "cat": "コンパウンド下半身",
+      "group": "臀部",
+      "muscles": "臀筋・ハムストリングス",
+      "met": 4.5,
+      "met_range": [3.5, 5.5],
+      "evidence": [],
+      "notes": "直接的なMET実測研究は限定的。スクワット（5.4）より低く見積もり。今後文献更新予定"
+    },
+    {
+      "id": "ex_cable_flye",
+      "n": "ケーブルフライ",
+      "cat": "アイソレーション上半身",
+      "group": "胸",
+      "muscles": "大胸筋",
+      "met": 3.0,
+      "met_range": [2.5, 3.5],
+      "evidence": [],
+      "notes": "単関節アイソレーション種目。直接的な実測研究は限定的"
+    },
+    {
+      "id": "ex_calf_raise",
+      "n": "カーフレイズ",
+      "cat": "アイソレーション下半身",
+      "group": "ふくらはぎ",
+      "muscles": "腓腹筋・ヒラメ筋",
+      "met": 2.3,
+      "met_range": [2.0, 2.8],
+      "evidence": [
+        {
+          "pmid": "32379233",
+          "citation": "Nakagata T, et al. J Strength Cond Res. 2022;36(5):1290-1296.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32379233/",
+          "value": "ヒールレイズ（カーフレイズ）のエネルギーコストは3種目中最低: 0.13 ± 0.04 kcal/rep",
+          "note": "10 rep/min外挿値 2.7 kcal (2.3 METs)"
+        }
+      ]
+    },
+    {
+      "id": "ex_crunch",
+      "n": "クランチ",
+      "cat": "自重・体幹",
+      "group": "腹部",
+      "muscles": "腹直筋・外腹斜筋",
+      "met": 2.8,
+      "met_range": [2.1, 3.2],
+      "evidence": [
+        {
+          "pmid": "31112657",
+          "citation": "Nakagata T, et al. Appl Physiol Nutr Metab. 2019;44(11):1257-1260.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31112657/",
+          "value": "クランチ：2.1–3.2 METs（高齢者での間接熱量計実測）",
+          "note": "若年者では同等かやや高い値"
+        }
+      ]
+    },
+    {
+      "id": "ex_jumping_jack",
+      "n": "ジャンピングジャック",
+      "cat": "有酸素系",
+      "group": "全身",
+      "muscles": "全身・心肺系",
+      "met": 7.0,
+      "met_range": [6.0, 8.5],
+      "evidence": [
+        {
+          "pmid": "39178048",
+          "citation": "Poulios A, et al. J Strength Cond Res. 2024;38(12):2034-2046.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39178048/",
+          "value": "ジャンピングジャック TEE: 23.1 kcal/min（T30）、22.8 kcal/min（T45）",
+          "note": "プッシュアップと同等の代謝負荷。バーピーに次いで高い"
+        }
+      ]
+    }
+  ]
+}
