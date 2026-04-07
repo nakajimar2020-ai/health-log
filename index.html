@@ -14,373 +14,300 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --green:#1D9E75;--green-dk:#0F6E56;--green-lt:#E1F5EE;
-  --red:#E24B4A;--red-lt:#FEECEC;
-  --blue:#378ADD;--blue-lt:#EFF6FD;
-  --amber:#EF9F27;--amber-lt:#FEF3E2;
-  --bg:#f4f4f2;--card:#ffffff;--card2:#f7f7f5;
-  --border:#ebebeb;--txt:#1a1a1a;--txt2:#666;--txt3:#aaa;
-  --r-md:10px;--r-lg:14px;--r-xl:20px;
+  --gr:#1D9E75;--gr-dk:#0F6E56;--gr-lt:#E1F5EE;
+  --rd:#E24B4A;--rd-lt:#FEECEC;
+  --bl:#378ADD;--bl-lt:#EFF6FD;
+  --am:#EF9F27;--am-lt:#FEF3E2;
+  --pu:#7F77DD;--pu-lt:#EEEDFE;
+  --bg:#f4f4f2;--card:#fff;--card2:#f7f7f5;
+  --bdr:#e8e8e8;--txt:#1a1a1a;--txt2:#555;--txt3:#aaa;
+  --rmd:10px;--rlg:14px;--rxl:20px;
 }
 html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--txt)}
 .app{display:flex;flex-direction:column;height:100%;height:100dvh}
-
-/* ─ Header ─ */
-.hdr{background:var(--green);color:#fff;padding-top:env(safe-area-inset-top,0);flex-shrink:0}
+.hdr{background:var(--gr);color:#fff;padding-top:env(safe-area-inset-top,0);flex-shrink:0}
 .hdr-inner{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 10px}
-.hdr-title{font-size:18px;font-weight:700;letter-spacing:-.3px}
-.hdr-sub{font-size:12px;opacity:.8;margin-top:2px}
-.hdr-btns{display:flex;gap:8px}
-.hdr-btn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 11px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
-.hdr-btn:active{background:rgba(255,255,255,.35)}
-
-/* ─ Tabs ─ */
-.tabs{display:flex;background:var(--green);border-top:1px solid rgba(255,255,255,.12)}
-.tab{flex:1;padding:8px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:rgba(255,255,255,.55);font-size:11px;transition:all .15s}
-.tab.active{color:#fff;background:rgba(255,255,255,.13);font-weight:600}
-.tab-ic{font-size:18px;line-height:1}
-
-/* ─ Content ─ */
+.htitle{font-size:18px;font-weight:700}
+.hsub{font-size:11px;opacity:.75;margin-top:1px}
+.hbtn{background:rgba(255,255,255,.2);border:none;color:#fff;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer}
+.tabs{display:flex;background:var(--gr);border-top:1px solid rgba(255,255,255,.12)}
+.tab{flex:1;padding:8px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:rgba(255,255,255,.5);font-size:10px}
+.tab.on{color:#fff;background:rgba(255,255,255,.13);font-weight:600}
+.ti{font-size:17px;line-height:1}
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-.screen{display:none;padding:12px 12px calc(env(safe-area-inset-bottom,0) + 16px)}
-.screen.active{display:block}
-
-/* ─ Cards ─ */
-.card{background:var(--card);border-radius:var(--r-lg);padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.ctitle{font-size:11px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
-
-/* ─ Metrics ─ */
-.mgrid{display:grid;gap:8px;margin-bottom:10px}
+.screen{display:none;padding:10px 10px calc(env(safe-area-inset-bottom,0) + 14px)}
+.screen.on{display:block}
+.card{background:var(--card);border-radius:var(--rlg);padding:13px;margin-bottom:9px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.ctitle{font-size:11px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px}
+.mgrid{display:grid;gap:7px;margin-bottom:9px}
 .g4{grid-template-columns:repeat(4,1fr)}
 .g3{grid-template-columns:repeat(3,1fr)}
 .g2{grid-template-columns:repeat(2,1fr)}
-.metric{background:var(--card2);border-radius:var(--r-md);padding:10px 6px;text-align:center}
-.mv{font-size:20px;font-weight:700;line-height:1}
-.mu{font-size:10px;color:var(--txt3);margin-top:1px}
-.ml{font-size:10px;color:var(--txt3);margin-top:2px}
-
-/* ─ Progress bar ─ */
-.pbwrap{background:var(--card2);border-radius:6px;height:8px;overflow:hidden;margin:6px 0 4px}
-.pbfill{height:100%;border-radius:6px;transition:width .45s,background .3s}
-
-/* ─ Meal cards ─ */
-.mcrd{background:var(--card);border-radius:var(--r-lg);margin-bottom:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.mhdr{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;user-select:none}
+.met{background:var(--card2);border-radius:var(--rmd);padding:9px 5px;text-align:center}
+.mv{font-size:19px;font-weight:700;line-height:1}
+.mu{font-size:10px;color:var(--txt3)}
+.ml{font-size:10px;color:var(--txt3);margin-top:1px}
+.pbwrap{background:var(--card2);border-radius:5px;height:7px;overflow:hidden;margin:5px 0 4px}
+.pb{height:100%;border-radius:5px;transition:width .4s,background .3s}
+.mcrd{background:var(--card);border-radius:var(--rlg);margin-bottom:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.mhdr{display:flex;justify-content:space-between;align-items:center;padding:11px 13px;cursor:pointer;user-select:none}
 .mtitle{font-size:14px;font-weight:700}
-.mkcal{font-size:13px;font-weight:700;color:var(--green)}
-.mbody{padding:0 14px 12px;border-top:1px solid var(--border)}
-.fitem{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid #f5f5f3}
+.mkcal{font-size:13px;font-weight:700;color:var(--gr)}
+.mbody{padding:0 13px 11px;border-top:1px solid var(--bdr)}
+.fitem{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f5f5f3}
 .fitem:last-child{border-bottom:none}
 .fn{font-size:13px;font-weight:600}
-.fs{font-size:11px;color:var(--txt3);margin-top:3px;line-height:1.5}
-.fk{font-size:14px;font-weight:700;color:var(--green);white-space:nowrap}
-.delbtn{background:none;border:none;color:#ccc;font-size:18px;cursor:pointer;padding:0 4px;line-height:1}
-.delbtn:active{color:var(--red)}
-.addbtn{width:100%;padding:10px;border:1.5px dashed #ddd;border-radius:10px;background:none;color:var(--txt3);font-size:13px;cursor:pointer;margin-top:8px;font-weight:600}
-.addbtn:active{background:var(--card2)}
-
-/* ─ Tags ─ */
-.tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:4px;margin-left:5px;font-weight:700;vertical-align:middle}
-.t-raw{background:var(--amber-lt);color:#854F0B}
-.t-cooked{background:var(--green-lt);color:var(--green-dk)}
-.t-conv{background:#EEF2FF;color:#4338CA}
-.t-meal{background:var(--red-lt);color:#991B1B}
-
-/* ─ Overlays / Sheets ─ */
-.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:200;flex-direction:column;justify-content:flex-end}
+.fs{font-size:11px;color:var(--txt3);margin-top:2px;line-height:1.5}
+.fk{font-size:13px;font-weight:700;color:var(--gr);white-space:nowrap}
+.delbtn{background:none;border:none;color:#ccc;font-size:17px;cursor:pointer;padding:0 4px;line-height:1}
+.addbtn{width:100%;padding:9px;border:1.5px dashed #ddd;border-radius:9px;background:none;color:var(--txt3);font-size:13px;cursor:pointer;margin-top:7px;font-weight:600}
+.tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:4px;margin-left:4px;font-weight:700;vertical-align:middle}
+.t-r{background:var(--am-lt);color:#854F0B}
+.t-c{background:var(--gr-lt);color:var(--gr-dk)}
+.t-cv{background:var(--pu-lt);color:#534AB7}
+.t-m{background:var(--rd-lt);color:#991B1B}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;flex-direction:column;justify-content:flex-end}
 .ov.open{display:flex}
-.sheet{background:var(--card);border-radius:var(--r-xl) var(--r-xl) 0 0;max-height:92dvh;overflow-y:auto;padding-bottom:max(env(safe-area-inset-bottom,0),16px);transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1)}
+.sheet{background:var(--card);border-radius:var(--rxl) var(--rxl) 0 0;max-height:92dvh;overflow-y:auto;padding-bottom:max(env(safe-area-inset-bottom,0),14px);transform:translateY(100%);transition:transform .28s cubic-bezier(.32,.72,0,1)}
 .ov.open .sheet{transform:translateY(0)}
-.shandle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:14px auto 0}
-.shdr{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 12px;border-bottom:1px solid var(--border)}
-.stitle{font-size:17px;font-weight:700}
-.xbtn{background:none;border:none;font-size:24px;color:var(--txt3);cursor:pointer;line-height:1;padding:0 2px}
-.xbtn:active{color:var(--txt)}
-.sbody{padding:14px 16px}
-
-/* ─ Segmented control ─ */
-.seg{display:flex;background:var(--card2);border-radius:10px;padding:3px;gap:3px;margin-bottom:14px}
-.segb{flex:1;padding:8px 4px;border:none;background:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:var(--txt3);transition:all .15s}
-.segb.active{background:var(--card);color:var(--txt);box-shadow:0 1px 4px rgba(0,0,0,.1)}
-
-/* ─ Search / Forms ─ */
-.sinput{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;outline:none;background:var(--card2);color:var(--txt)}
-.sinput:focus{border-color:var(--green)}
-.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;margin-bottom:8px}
+.shandle{width:38px;height:4px;background:#ddd;border-radius:2px;margin:13px auto 0}
+.shdr{display:flex;justify-content:space-between;align-items:center;padding:13px 15px 11px;border-bottom:1px solid var(--bdr)}
+.stitle{font-size:16px;font-weight:700}
+.xbtn{background:none;border:none;font-size:22px;color:var(--txt3);cursor:pointer;line-height:1}
+.sbody{padding:13px 15px}
+.seg{display:flex;background:var(--card2);border-radius:9px;padding:3px;gap:3px;margin-bottom:13px}
+.segb{flex:1;padding:8px 4px;border:none;background:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;color:var(--txt3)}
+.segb.on{background:var(--card);color:var(--txt);box-shadow:0 1px 3px rgba(0,0,0,.09)}
+.sinput{width:100%;padding:11px 13px;border:1.5px solid var(--bdr);border-radius:11px;font-size:15px;outline:none;background:var(--card2);color:var(--txt)}
+.sinput:focus{border-color:var(--gr)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none;margin-bottom:8px}
 .chips::-webkit-scrollbar{display:none}
-.chip{padding:6px 13px;background:var(--card2);border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:none;color:var(--txt2);flex-shrink:0}
-.chip.active{background:var(--green);color:#fff}
-.chip:active{opacity:.8}
-.fcand{padding:12px 0;border-bottom:1px solid #f5f5f3;cursor:pointer;transition:background .1s}
+.chip{padding:6px 12px;background:var(--card2);border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border:none;color:var(--txt2);flex-shrink:0}
+.chip.on{background:var(--gr);color:#fff}
+.fcand{padding:11px 0;border-bottom:1px solid #f5f5f3;cursor:pointer}
 .fcand:active{background:var(--card2)}
-.fcand:last-child{border-bottom:none}
-.fcname{font-size:14px;font-weight:600}
-.fcinfo{font-size:12px;color:var(--txt3);margin-top:3px}
-.no-result{font-size:13px;color:var(--txt3);text-align:center;padding:24px 0;line-height:1.8}
-.detail-macros{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
-.dm{background:var(--card2);border-radius:var(--r-md);padding:10px 6px;text-align:center}
-.dmv{font-size:16px;font-weight:700}
+.fcname{font-size:13px;font-weight:600}
+.fcinfo{font-size:11px;color:var(--txt3);margin-top:2px}
+.dmacros{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:11px 0}
+.dm{background:var(--card2);border-radius:var(--rmd);padding:9px 5px;text-align:center}
+.dmv{font-size:15px;font-weight:700}
 .dml{font-size:10px;color:var(--txt3);margin-top:2px}
-.qas{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.qab{padding:7px 14px;background:var(--card2);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:var(--txt2)}
-.qab:active{background:var(--green);color:#fff}
-.amtrow{display:flex;align-items:center;gap:10px;margin:12px 0}
-.amtrow label{font-size:13px;color:var(--txt2);flex-shrink:0;font-weight:600}
-.amtin{flex:1;padding:11px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:17px;text-align:center;background:var(--card2);color:var(--txt);outline:none;font-weight:700}
-.amtin:focus{border-color:var(--green)}
-.pvbox{background:var(--green-lt);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--green-dk);font-weight:600;margin-bottom:12px}
-.cfmbtn{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s}
-.cfmbtn:active{background:var(--green-dk)}
-.manual-g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.fg{margin-bottom:12px}
-.fl{font-size:11px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;display:block}
-.fi{width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;background:var(--card2);color:var(--txt);outline:none}
-.fi:focus{border-color:var(--green)}
-.fsel{width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;background:var(--card2);color:var(--txt);outline:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
-.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.ibox{background:var(--card2);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--txt2);margin-bottom:10px;line-height:1.6}
+.qas{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.qab{padding:6px 13px;background:var(--card2);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:var(--txt2)}
+.qab:active{background:var(--gr);color:#fff}
+.amtrow{display:flex;align-items:center;gap:9px;margin:11px 0}
+.amtin{flex:1;padding:10px 11px;border:1.5px solid var(--bdr);border-radius:9px;font-size:16px;text-align:center;background:var(--card2);color:var(--txt);outline:none;font-weight:700}
+.amtin:focus{border-color:var(--gr)}
+.pvbox{background:var(--gr-lt);border-radius:9px;padding:10px 13px;font-size:13px;color:var(--gr-dk);font-weight:600;margin-bottom:11px}
+.cfmbtn{width:100%;padding:13px;background:var(--gr);color:#fff;border:none;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer}
+.cfmbtn:active{background:var(--gr-dk)}
+.fg{margin-bottom:11px}
+.fl{font-size:11px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;display:block}
+.fi{width:100%;padding:10px 11px;border:1.5px solid var(--bdr);border-radius:9px;font-size:15px;background:var(--card2);color:var(--txt);outline:none}
+.fi:focus{border-color:var(--gr)}
+.fsel{width:100%;padding:10px 11px;border:1.5px solid var(--bdr);border-radius:9px;font-size:14px;background:var(--card2);color:var(--txt);outline:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ibox{background:var(--card2);border-radius:9px;padding:10px 12px;font-size:12px;color:var(--txt2);margin-bottom:9px;line-height:1.7}
 .ibox strong{color:var(--txt);font-weight:700}
-.abox{border-radius:10px;padding:11px 14px;font-size:13px;margin-bottom:10px;line-height:1.6}
-.abox-g{background:var(--green-lt);color:var(--green-dk)}
-.abox-a{background:var(--amber-lt);color:#633806}
-.abox-r{background:var(--red-lt);color:#991B1B}
-
-/* ─ Exercise ─ */
-.exitem{display:flex;justify-content:space-between;align-items:flex-start;padding:11px 0;border-bottom:1px solid #f5f5f3}
+.abox{border-radius:9px;padding:10px 12px;font-size:12px;margin-bottom:9px;line-height:1.7}
+.ag{background:var(--gr-lt);color:var(--gr-dk)}
+.aa{background:var(--am-lt);color:#633806}
+.exitem{padding:10px 0;border-bottom:1px solid #f5f5f3}
 .exitem:last-child{border-bottom:none}
 .exn{font-size:13px;font-weight:700}
-.exs{font-size:11px;color:var(--txt3);margin-top:3px;line-height:1.6}
-.ex-ev{font-size:10px;color:var(--green);margin-top:3px}
-.exk{font-size:15px;font-weight:700;color:var(--red);white-space:nowrap}
-
-/* ─ Weight ─ */
-.wrow{display:flex;gap:8px;align-items:center}
-.win{flex:1;padding:13px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:20px;text-align:center;background:var(--card2);color:var(--txt);font-weight:700;outline:none}
-.win:focus{border-color:var(--green)}
-.sb{padding:13px 18px;background:var(--green);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;flex-shrink:0}
-.sb:active{background:var(--green-dk)}
-
-/* ─ Weekly ─ */
-.wkg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-.wkc{background:var(--card2);border-radius:12px;padding:12px}
-.wkv{font-size:22px;font-weight:700}
-.wkl{font-size:11px;color:var(--txt3);margin-top:3px}
-
-/* ─ Settings ─ */
-.ndot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.ndot.on{background:var(--green)}
+.exs{font-size:11px;color:var(--txt3);margin-top:2px;line-height:1.6}
+.exev{font-size:10px;color:var(--gr);margin-top:2px}
+.exk{font-size:14px;font-weight:700;color:var(--rd)}
+.exgrp{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;margin-right:5px;font-weight:700;background:var(--card2);color:var(--txt2)}
+.sb{padding:11px 16px;background:var(--gr);color:#fff;border:none;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer}
+.sb:active{background:var(--gr-dk)}
+.wrow{display:flex;gap:7px;align-items:center}
+.win{flex:1;padding:12px 13px;border:1.5px solid var(--bdr);border-radius:11px;font-size:19px;text-align:center;background:var(--card2);color:var(--txt);font-weight:700;outline:none}
+.win:focus{border-color:var(--gr)}
+.wkg{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px}
+.wkc{background:var(--card2);border-radius:11px;padding:11px}
+.wkv{font-size:21px;font-weight:700}
+.wkl{font-size:11px;color:var(--txt3);margin-top:2px}
+.ndot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ndot.on{background:var(--gr)}
 .ndot.off{background:#ccc}
-.nsec{display:flex;align-items:center;gap:9px;padding:8px 0 12px}
-
-/* ─ Loading ─ */
-.loading-screen{position:fixed;inset:0;background:var(--green);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity .4s}
-.loading-screen.done{opacity:0;pointer-events:none}
-.loading-logo{font-size:52px;margin-bottom:16px}
-.loading-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:8px}
-.loading-sub{font-size:14px;color:rgba(255,255,255,.7)}
-.loading-bar-wrap{width:180px;height:4px;background:rgba(255,255,255,.25);border-radius:2px;margin-top:24px;overflow:hidden}
-.loading-bar{height:100%;background:#fff;border-radius:2px;width:0%;transition:width .3s}
-
-/* ─ Toast ─ */
-.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0) + 78px);left:50%;transform:translateX(-50%) translateY(16px);background:rgba(26,26,26,.92);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;opacity:0;transition:all .25s;z-index:999;pointer-events:none;white-space:nowrap;backdrop-filter:blur(4px)}
+.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0) + 76px);left:50%;transform:translateX(-50%) translateY(14px);background:rgba(26,26,26,.92);color:#fff;padding:9px 18px;border-radius:22px;font-size:13px;font-weight:600;opacity:0;transition:all .25s;z-index:999;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.loading-scr{position:fixed;inset:0;background:var(--gr);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity .4s}
+.loading-scr.done{opacity:0;pointer-events:none}
+.load-ic{font-size:50px;margin-bottom:14px}
+.load-t{font-size:21px;font-weight:700;color:#fff;margin-bottom:6px}
+.load-s{font-size:13px;color:rgba(255,255,255,.7)}
+.load-bw{width:170px;height:4px;background:rgba(255,255,255,.25);border-radius:2px;margin-top:22px;overflow:hidden}
+.load-b{height:100%;background:#fff;border-radius:2px;width:0%;transition:width .3s}
 
-/* ─ Evidence badge ─ */
-.ev-badge{font-size:10px;background:var(--green-lt);color:var(--green-dk);padding:2px 7px;border-radius:4px;font-weight:700;display:inline-block;margin-top:4px}
-
-/* ─ Empty state ─ */
-.empty{text-align:center;padding:28px 0;color:var(--txt3);font-size:13px;line-height:1.8}
-.empty-ic{font-size:36px;margin-bottom:8px;opacity:.5}
+/* ─ Calendar ─ */
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cal-month{font-size:16px;font-weight:700}
+.cal-nav{background:none;border:none;font-size:20px;cursor:pointer;color:var(--txt2);padding:4px 8px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-dow{text-align:center;font-size:10px;font-weight:600;color:var(--txt3);padding:3px 0}
+.cal-day{text-align:center;padding:5px 2px;font-size:12px;border-radius:8px;cursor:pointer;position:relative;min-height:36px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:2px}
+.cal-day:active{background:var(--card2)}
+.cal-day.today{background:var(--gr-lt)}
+.cal-day.today .cal-dn{color:var(--gr);font-weight:700}
+.cal-day.selected{background:var(--gr)}
+.cal-day.selected .cal-dn{color:#fff;font-weight:700}
+.cal-day.other-month .cal-dn{color:#ccc}
+.cal-dn{font-size:13px;font-weight:500;line-height:1}
+.cal-dot-row{display:flex;gap:2px;justify-content:center;flex-wrap:wrap;max-width:28px}
+.cal-dot{width:5px;height:5px;border-radius:50%}
+.cal-dot-food{background:var(--gr)}
+.cal-dot-ex{background:var(--rd)}
+.cal-day-detail{background:var(--card);border-radius:var(--rlg);padding:13px;margin-top:9px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.cal-detail-date{font-size:14px;font-weight:700;margin-bottom:10px;color:var(--gr)}
+.cal-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.cal-sm{background:var(--card2);border-radius:8px;padding:8px 4px;text-align:center}
+.cal-smv{font-size:16px;font-weight:700}
+.cal-sml{font-size:10px;color:var(--txt3);margin-top:1px}
+.ex-group-section{margin-bottom:10px}
+.ex-group-label{font-size:11px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.ex-group-label::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.group-chip{padding:7px 14px;background:var(--card2);border:1.5px solid var(--bdr);border-radius:22px;font-size:13px;font-weight:700;cursor:pointer;color:var(--txt2);white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:5px}
+.group-chip.on{background:var(--gr);color:#fff;border-color:var(--gr)}
+.group-chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.cat-label{font-size:10px;font-weight:700;color:var(--txt3);text-transform:uppercase;margin:8px 0 4px;display:flex;align-items:center;gap:6px}
+.cat-label::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.ev-link{font-size:10px;color:var(--gr);margin-top:2px;display:block}
+.empty{text-align:center;padding:22px 0;color:var(--txt3);font-size:13px;line-height:1.8}
 </style>
 </head>
 <body>
 
-<!-- Loading screen -->
-<div class="loading-screen" id="loading">
-  <div class="loading-logo">🏋️</div>
-  <div class="loading-title">HealthLog</div>
-  <div class="loading-sub" id="loading-sub">データを読み込み中...</div>
-  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
+<div class="loading-scr" id="loading">
+  <div class="load-ic">🏋️</div>
+  <div class="load-t">HealthLog</div>
+  <div class="load-s" id="load-sub">データを読み込み中...</div>
+  <div class="load-bw"><div class="load-b" id="load-bar"></div></div>
 </div>
 
 <div class="app">
   <div class="hdr">
     <div class="hdr-inner">
-      <div>
-        <div class="hdr-title">🏋️ HealthLog</div>
-        <div class="hdr-sub" id="hdate"></div>
-      </div>
-      <div class="hdr-btns">
-        <button class="hdr-btn" onclick="syncNotion()" id="sync-btn">Notion同期</button>
-      </div>
+      <div><div class="htitle">🏋️ HealthLog</div><div class="hsub" id="hdate"></div></div>
+      <button class="hbtn" onclick="syncNotion()" id="sync-btn">Notion同期</button>
     </div>
     <div class="tabs">
-      <div class="tab active" onclick="go('food')"><span class="tab-ic">🍽</span><span>食事</span></div>
-      <div class="tab" onclick="go('exercise')"><span class="tab-ic">💪</span><span>筋トレ</span></div>
-      <div class="tab" onclick="go('weight')"><span class="tab-ic">⚖️</span><span>体重</span></div>
-      <div class="tab" onclick="go('weekly')"><span class="tab-ic">📊</span><span>週次</span></div>
-      <div class="tab" onclick="go('settings')"><span class="tab-ic">⚙️</span><span>設定</span></div>
+      <div class="tab on" onclick="go('food')"><span class="ti">🍽</span><span>食事</span></div>
+      <div class="tab" onclick="go('exercise')"><span class="ti">💪</span><span>筋トレ</span></div>
+      <div class="tab" onclick="go('calendar')"><span class="ti">📅</span><span>記録</span></div>
+      <div class="tab" onclick="go('weight')"><span class="ti">⚖️</span><span>体重</span></div>
+      <div class="tab" onclick="go('weekly')"><span class="ti">📊</span><span>週次</span></div>
+      <div class="tab" onclick="go('settings')"><span class="ti">⚙️</span><span>設定</span></div>
     </div>
   </div>
 
   <div class="content">
 
-    <!-- ─ 食事 ─ -->
-    <div id="screen-food" class="screen active">
+    <!-- 食事 -->
+    <div id="screen-food" class="screen on">
       <div class="mgrid g4">
-        <div class="metric"><div class="mv" id="t-k" style="color:var(--green)">0</div><div class="mu">kcal</div><div class="ml">摂取</div></div>
-        <div class="metric"><div class="mv" id="t-p" style="color:var(--blue)">0</div><div class="mu">g</div><div class="ml">P</div></div>
-        <div class="metric"><div class="mv" id="t-f" style="color:var(--red)">0</div><div class="mu">g</div><div class="ml">F</div></div>
-        <div class="metric"><div class="mv" id="t-c" style="color:var(--amber)">0</div><div class="mu">g</div><div class="ml">C</div></div>
+        <div class="met"><div class="mv" id="t-k" style="color:var(--gr)">0</div><div class="mu">kcal</div><div class="ml">摂取</div></div>
+        <div class="met"><div class="mv" id="t-p" style="color:var(--bl)">0</div><div class="mu">g</div><div class="ml">P</div></div>
+        <div class="met"><div class="mv" id="t-f" style="color:var(--rd)">0</div><div class="mu">g</div><div class="ml">F</div></div>
+        <div class="met"><div class="mv" id="t-c" style="color:var(--am)">0</div><div class="mu">g</div><div class="ml">C</div></div>
       </div>
       <div class="card">
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--txt3);margin-bottom:4px"><span style="font-weight:600">目標達成率</span><span id="gpct" style="font-weight:700">0%</span></div>
-        <div class="pbwrap"><div class="pbfill" id="gbar" style="width:0%;background:var(--green)"></div></div>
-        <div style="font-size:11px;color:var(--txt3);margin-top:5px">目標 <strong id="gtgt" style="color:var(--txt)">--</strong> kcal/日 &nbsp;|&nbsp; TDEE <strong id="gtdee" style="color:var(--txt)">--</strong> kcal</div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--txt3);margin-bottom:4px"><span style="font-weight:700">目標達成率</span><span id="gpct" style="font-weight:700">0%</span></div>
+        <div class="pbwrap"><div class="pb" id="gbar" style="width:0%;background:var(--gr)"></div></div>
+        <div style="font-size:11px;color:var(--txt3);margin-top:3px">目標 <strong id="gtgt" style="color:var(--txt)">--</strong> kcal | TDEE <strong id="gtdee" style="color:var(--txt)">--</strong> kcal</div>
       </div>
-      <div class="mcrd">
-        <div class="mhdr" onclick="toggleM('b')"><span class="mtitle">🌅 朝食</span><div style="display:flex;align-items:center;gap:8px"><span class="mkcal" id="mk-b">0 kcal</span><span style="color:#ccc;font-size:12px" id="ar-b">▼</span></div></div>
-        <div class="mbody" id="mb-b"><div id="fi-b"></div><button class="addbtn" onclick="openFood('b')">＋ 食品を追加</button></div>
-      </div>
-      <div class="mcrd">
-        <div class="mhdr" onclick="toggleM('l')"><span class="mtitle">☀️ 昼食</span><div style="display:flex;align-items:center;gap:8px"><span class="mkcal" id="mk-l">0 kcal</span><span style="color:#ccc;font-size:12px" id="ar-l">▼</span></div></div>
-        <div class="mbody" id="mb-l"><div id="fi-l"></div><button class="addbtn" onclick="openFood('l')">＋ 食品を追加</button></div>
-      </div>
-      <div class="mcrd">
-        <div class="mhdr" onclick="toggleM('d')"><span class="mtitle">🌙 夕食</span><div style="display:flex;align-items:center;gap:8px"><span class="mkcal" id="mk-d">0 kcal</span><span style="color:#ccc;font-size:12px" id="ar-d">▼</span></div></div>
-        <div class="mbody" id="mb-d"><div id="fi-d"></div><button class="addbtn" onclick="openFood('d')">＋ 食品を追加</button></div>
-      </div>
-      <div class="mcrd">
-        <div class="mhdr" onclick="toggleM('s')"><span class="mtitle">🍎 間食</span><div style="display:flex;align-items:center;gap:8px"><span class="mkcal" id="mk-s">0 kcal</span><span style="color:#ccc;font-size:12px" id="ar-s">▼</span></div></div>
-        <div class="mbody" id="mb-s" style="display:none"><div id="fi-s"></div><button class="addbtn" onclick="openFood('s')">＋ 食品を追加</button></div>
-      </div>
+      <div class="mcrd"><div class="mhdr" onclick="toggleM('b')"><span class="mtitle">🌅 朝食</span><div style="display:flex;align-items:center;gap:7px"><span class="mkcal" id="mk-b">0 kcal</span><span style="color:#ccc;font-size:11px" id="ar-b">▼</span></div></div><div class="mbody" id="mb-b"><div id="fi-b"></div><button class="addbtn" onclick="openFood('b')">＋ 食品を追加</button></div></div>
+      <div class="mcrd"><div class="mhdr" onclick="toggleM('l')"><span class="mtitle">☀️ 昼食</span><div style="display:flex;align-items:center;gap:7px"><span class="mkcal" id="mk-l">0 kcal</span><span style="color:#ccc;font-size:11px" id="ar-l">▼</span></div></div><div class="mbody" id="mb-l"><div id="fi-l"></div><button class="addbtn" onclick="openFood('l')">＋ 食品を追加</button></div></div>
+      <div class="mcrd"><div class="mhdr" onclick="toggleM('d')"><span class="mtitle">🌙 夕食</span><div style="display:flex;align-items:center;gap:7px"><span class="mkcal" id="mk-d">0 kcal</span><span style="color:#ccc;font-size:11px" id="ar-d">▼</span></div></div><div class="mbody" id="mb-d"><div id="fi-d"></div><button class="addbtn" onclick="openFood('d')">＋ 食品を追加</button></div></div>
+      <div class="mcrd"><div class="mhdr" onclick="toggleM('s')"><span class="mtitle">🍎 間食</span><div style="display:flex;align-items:center;gap:7px"><span class="mkcal" id="mk-s">0 kcal</span><span style="color:#ccc;font-size:11px" id="ar-s">▼</span></div></div><div class="mbody" id="mb-s" style="display:none"><div id="fi-s"></div><button class="addbtn" onclick="openFood('s')">＋ 食品を追加</button></div></div>
     </div>
 
-    <!-- ─ 筋トレ ─ -->
+    <!-- 筋トレ -->
     <div id="screen-exercise" class="screen">
-      <div class="mgrid g2" style="margin-bottom:10px">
-        <div class="metric"><div class="mv" id="ek" style="color:var(--red)">0</div><div class="mu">kcal 消費</div><div class="ml">本日</div></div>
-        <div class="metric"><div class="mv" id="es" style="color:#7F77DD">0</div><div class="mu">セット</div><div class="ml">本日合計</div></div>
+      <div class="mgrid g2" style="margin-bottom:9px">
+        <div class="met"><div class="mv" id="ek" style="color:var(--rd)">0</div><div class="mu">kcal 消費</div><div class="ml">本日</div></div>
+        <div class="met"><div class="mv" id="es" style="color:var(--pu)">0</div><div class="mu">セット</div><div class="ml">本日合計</div></div>
       </div>
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
           <div class="ctitle" style="margin-bottom:0">本日の記録</div>
-          <button class="sb" style="padding:9px 16px;font-size:13px" onclick="openEx()">＋ 追加</button>
+          <button class="sb" style="padding:8px 14px;font-size:12px" onclick="openEx()">＋ 追加</button>
         </div>
-        <div id="ex-list"><div class="empty"><div class="empty-ic">💪</div>まだ記録がありません</div></div>
-      </div>
-      <div class="card">
-        <div class="ctitle">PubMed エビデンス</div>
-        <div style="font-size:12px;color:var(--txt3);line-height:1.9">
-          スクワット 5.4 METs・プッシュアップ 7.8 METs<br>
-          → <a href="https://pubmed.ncbi.nlm.nih.gov/32379233/" style="color:var(--green)">Nakagata et al., J Strength Cond Res, 2022</a><br>
-          ランジ 5.0 METs・バーピー 8.0 METs・プランク 3.0 METs<br>
-          → <a href="https://pubmed.ncbi.nlm.nih.gov/39178048/" style="color:var(--green)">Poulios et al., J Strength Cond Res, 2024</a><br>
-          ラットプルダウン 3.5 METs・バイセップカール 2.5 METs<br>
-          → <a href="https://pubmed.ncbi.nlm.nih.gov/31437191/" style="color:var(--green)">Reis et al., PLoS One, 2019</a><br>
-          サスペンション系 2.6–3.7 METs<br>
-          → <a href="https://pubmed.ncbi.nlm.nih.gov/40440526/" style="color:var(--green)">Chatzikamagianni et al., J Strength Cond Res, 2025</a>
-        </div>
+        <div id="ex-list"><div class="empty">まだ記録がありません</div></div>
       </div>
     </div>
 
-    <!-- ─ 体重 ─ -->
+    <!-- カレンダー -->
+    <div id="screen-calendar" class="screen">
+      <div class="card">
+        <div class="cal-header">
+          <button class="cal-nav" onclick="calMove(-1)">‹</button>
+          <div class="cal-month" id="cal-month-label"></div>
+          <button class="cal-nav" onclick="calMove(1)">›</button>
+        </div>
+        <div class="cal-grid" id="cal-dow-row"></div>
+        <div class="cal-grid" id="cal-grid" style="margin-top:4px"></div>
+      </div>
+      <div id="cal-detail"></div>
+    </div>
+
+    <!-- 体重 -->
     <div id="screen-weight" class="screen">
-      <div class="card">
-        <div class="ctitle">今日の体重を記録</div>
-        <div class="wrow">
-          <input type="number" step="0.1" placeholder="68.5" id="w-in" inputmode="decimal" class="win">
-          <span style="font-size:15px;color:var(--txt3);flex-shrink:0">kg</span>
-          <button class="sb" onclick="saveW()">記録</button>
-        </div>
-      </div>
+      <div class="card"><div class="ctitle">今日の体重を記録</div><div class="wrow"><input type="number" step="0.1" placeholder="68.5" id="w-in" inputmode="decimal" class="win"><span style="font-size:14px;color:var(--txt3)">kg</span><button class="sb" onclick="saveW()">記録</button></div></div>
       <div class="mgrid g3">
-        <div class="metric"><div class="mv" id="w-cur">--</div><div class="mu">kg</div><div class="ml">現在</div></div>
-        <div class="metric"><div class="mv" id="w-bmi">--</div><div class="mu">BMI</div><div class="ml"></div></div>
-        <div class="metric"><div class="mv" id="w-diff">--</div><div class="mu">kg</div><div class="ml">目標差</div></div>
+        <div class="met"><div class="mv" id="w-cur">--</div><div class="mu">kg</div><div class="ml">現在</div></div>
+        <div class="met"><div class="mv" id="w-bmi">--</div><div class="mu">BMI</div></div>
+        <div class="met"><div class="mv" id="w-diff">--</div><div class="mu">kg</div><div class="ml">目標差</div></div>
       </div>
-      <div class="card">
-        <div class="ctitle">基礎代謝（BMR）</div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="font-size:28px;font-weight:700" id="bmr-v">--</div>
-            <div style="font-size:11px;color:var(--txt3);margin-top:3px">kcal/日（Harris-Benedict改訂式）</div>
-          </div>
-          <span id="bmr-bdg"></span>
-        </div>
-        <div style="font-size:11px;color:var(--txt3);margin-top:6px" id="bmr-note"></div>
-      </div>
-      <div class="card">
-        <div class="ctitle">体重推移（直近30日）</div>
-        <div style="position:relative;height:130px"><canvas id="w-chart"></canvas></div>
-        <div class="empty" id="w-empty" style="padding:12px 0;font-size:11px">データが2件以上で表示されます</div>
-      </div>
+      <div class="card"><div class="ctitle">基礎代謝（BMR）</div><div style="font-size:27px;font-weight:700" id="bmr-v">--</div><div style="font-size:11px;color:var(--txt3);margin-top:3px">kcal/日（Harris-Benedict改訂式）</div><div style="font-size:11px;color:var(--txt3);margin-top:4px" id="bmr-note"></div></div>
+      <div class="card"><div class="ctitle">体重推移</div><div style="position:relative;height:125px"><canvas id="w-chart"></canvas></div><div style="font-size:11px;color:var(--txt3);margin-top:6px;text-align:center" id="w-empty">データが2件以上で表示</div></div>
     </div>
 
-    <!-- ─ 週次 ─ -->
+    <!-- 週次 -->
     <div id="screen-weekly" class="screen">
       <div class="wkg">
-        <div class="wkc"><div class="wkv" id="wk-in" style="color:var(--green)">0</div><div class="wkl">kcal 摂取（週）</div></div>
-        <div class="wkc"><div class="wkv" id="wk-burn" style="color:var(--red)">0</div><div class="wkl">kcal 運動消費（週）</div></div>
-        <div class="wkc"><div class="wkv" id="wk-bmr">0</div><div class="wkl">kcal 基礎代謝（週）</div></div>
-        <div class="wkc"><div class="wkv" id="wk-bal">0</div><div class="wkl">kcal エネルギーバランス</div></div>
+        <div class="wkc"><div class="wkv" id="wk-in" style="color:var(--gr)">0</div><div class="wkl">kcal 摂取（週）</div></div>
+        <div class="wkc"><div class="wkv" id="wk-burn" style="color:var(--rd)">0</div><div class="wkl">kcal 運動消費</div></div>
+        <div class="wkc"><div class="wkv" id="wk-bmr">0</div><div class="wkl">kcal 基礎代謝</div></div>
+        <div class="wkc"><div class="wkv" id="wk-bal">0</div><div class="wkl">kcal バランス</div></div>
       </div>
-      <div class="card">
-        <div class="ctitle">週次カロリー推移</div>
-        <div style="position:relative;height:160px"><canvas id="wk-chart"></canvas></div>
-      </div>
+      <div class="card"><div class="ctitle">週次カロリー推移</div><div style="position:relative;height:150px"><canvas id="wk-chart"></canvas></div></div>
       <div class="card"><div class="ctitle">週次分析</div><div id="wk-an"></div></div>
-      <div class="card">
-        <div class="ctitle">次週の1日目標摂取カロリー</div>
-        <div style="font-size:36px;font-weight:700;color:var(--green)" id="next-tgt">--</div>
-        <div style="font-size:12px;color:var(--txt3);margin-top:4px" id="next-note"></div>
-      </div>
+      <div class="card"><div class="ctitle">次週の1日目標摂取カロリー</div><div style="font-size:34px;font-weight:700;color:var(--gr)" id="next-tgt">--</div><div style="font-size:11px;color:var(--txt3);margin-top:4px" id="next-note"></div></div>
     </div>
 
-    <!-- ─ 設定 ─ -->
+    <!-- 設定 -->
     <div id="screen-settings" class="screen">
       <div class="card">
         <div class="ctitle">基本情報</div>
         <div class="fg"><label class="fl">性別</label><select class="fsel" id="s-gender"><option value="male">男性</option><option value="female">女性</option></select></div>
         <div class="fg"><label class="fl">年齢</label><input class="fi" type="number" id="s-age" placeholder="30" inputmode="numeric"></div>
         <div class="fg"><label class="fl">身長 (cm)</label><input class="fi" type="number" id="s-ht" placeholder="170" inputmode="decimal"></div>
-        <div class="fg"><label class="fl">現在の体重 (kg)</label><input class="fi" type="number" id="s-wt" placeholder="70.0" step="0.1" inputmode="decimal"></div>
+        <div class="fg"><label class="fl">体重 (kg)</label><input class="fi" type="number" id="s-wt" placeholder="70.0" step="0.1" inputmode="decimal"></div>
       </div>
       <div class="card">
         <div class="ctitle">ダイエット目標</div>
         <div class="fg"><label class="fl">目標体重 (kg)</label><input class="fi" type="number" id="s-tgt" placeholder="65.0" step="0.1" inputmode="decimal"></div>
         <div class="fg"><label class="fl">目標期間 (週)</label><input class="fi" type="number" id="s-wks" placeholder="12" inputmode="numeric"></div>
-        <div class="fg">
-          <label class="fl">活動レベル</label>
-          <select class="fsel" id="s-act">
-            <option value="1.2">ほぼ座り仕事（1.2）</option>
-            <option value="1.375">軽い運動 週1-3回（1.375）</option>
-            <option value="1.55" selected>中程度 週3-5回（1.55）</option>
-            <option value="1.725">活発 週6-7回（1.725）</option>
-            <option value="1.9">非常に活発（1.9）</option>
-          </select>
-        </div>
+        <div class="fg"><label class="fl">活動レベル</label><select class="fsel" id="s-act"><option value="1.2">ほぼ座り仕事（1.2）</option><option value="1.375">軽い運動 週1-3回（1.375）</option><option value="1.55" selected>中程度 週3-5回（1.55）</option><option value="1.725">活発 週6-7回（1.725）</option><option value="1.9">非常に活発（1.9）</option></select></div>
       </div>
       <div class="card">
         <div class="ctitle">Notion連携</div>
-        <div class="nsec"><div class="ndot off" id="n-dot"></div><div id="n-lbl" style="font-size:13px">未設定</div></div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0 10px"><div class="ndot off" id="n-dot"></div><div id="n-lbl" style="font-size:13px">未設定</div></div>
         <div class="fg"><label class="fl">Integration Token</label><input class="fi" type="password" id="s-ntk" placeholder="secret_..."></div>
-        <div class="fg"><label class="fl">データベースID（任意）</label><input class="fi" type="text" id="s-ndb" placeholder="省略時はページを自動作成"></div>
-        <div class="ibox" style="font-size:11px">
-          <a href="https://www.notion.so/my-integrations" style="color:var(--green)" target="_blank">notion.so/my-integrations</a> でトークンを取得してください。データはスマホ本体に保存され、同期ボタンを押したときだけNotionに送られます。
-        </div>
       </div>
       <div class="card">
         <div class="ctitle">データ管理</div>
-        <div style="display:flex;gap:8px">
-          <button onclick="exportData()" style="flex:1;padding:11px;background:var(--blue-lt);color:var(--blue);border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer">📤 JSONエクスポート</button>
-          <button onclick="document.getElementById('import-input').click()" style="flex:1;padding:11px;background:var(--card2);color:var(--txt2);border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer">📥 インポート</button>
+        <div style="display:flex;gap:7px">
+          <button onclick="exportData()" style="flex:1;padding:10px;background:var(--bl-lt);color:var(--bl);border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">📤 エクスポート</button>
+          <button onclick="document.getElementById('imp').click()" style="flex:1;padding:10px;background:var(--card2);color:var(--txt2);border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">📥 インポート</button>
         </div>
-        <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(this)">
-        <div class="ibox" style="font-size:11px;margin-top:8px">機種変更やブラウザのキャッシュクリアに備え、定期的にエクスポートしてください。</div>
+        <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)">
       </div>
-      <button class="cfmbtn" onclick="saveSettings()">設定を保存</button>
-      <div style="height:20px"></div>
+      <button class="cfmbtn" onclick="saveSt()">設定を保存</button>
+      <div style="height:16px"></div>
     </div>
 
   </div>
@@ -393,207 +320,166 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
     <div class="shdr"><span class="stitle">食品を追加</span><button class="xbtn" onclick="closeOv('food-ov')">×</button></div>
     <div class="sbody">
       <div class="seg">
-        <button class="segb active" id="tab-db" onclick="swTab('db')">データベース</button>
-        <button class="segb" id="tab-manual" onclick="swTab('manual')">手動入力</button>
+        <button class="segb on" id="tab-db" onclick="swFTab('db')">データベース</button>
+        <button class="segb" id="tab-manual" onclick="swFTab('manual')">手動入力</button>
       </div>
-      <!-- DB検索 -->
-      <div id="panel-db">
-        <input class="sinput" type="text" id="fq" placeholder="例：鶏胸肉、ご飯、さつまいも…" oninput="searchF(this.value)" autocomplete="off">
-        <div class="chips" id="chips" style="margin-top:10px"></div>
-        <div id="f-results"></div>
+      <div id="fp-db">
+        <input class="sinput" type="text" id="fq" placeholder="例：カレーライス、カルボナーラ、寿司まぐろ…" oninput="sF(this.value)" autocomplete="off">
+        <div class="chips" id="fchips" style="margin-top:8px"></div>
+        <div id="f-res"></div>
         <div id="f-det" style="display:none;margin-top:4px">
-          <div style="font-size:17px;font-weight:700;margin-bottom:3px" id="fd-n"></div>
-          <div style="margin-bottom:10px" id="fd-tw"></div>
-          <div class="detail-macros">
+          <div style="font-size:16px;font-weight:700;margin-bottom:2px" id="fd-n"></div>
+          <div style="margin-bottom:9px" id="fd-tw"></div>
+          <div class="dmacros">
             <div class="dm"><div class="dmv" id="fd-k">--</div><div class="dml">kcal</div></div>
-            <div class="dm"><div class="dmv" style="color:var(--blue)" id="fd-p">--</div><div class="dml">P(g)</div></div>
-            <div class="dm"><div class="dmv" style="color:var(--red)" id="fd-f">--</div><div class="dml">F(g)</div></div>
-            <div class="dm"><div class="dmv" style="color:var(--amber)" id="fd-c">--</div><div class="dml">C(g)</div></div>
+            <div class="dm"><div class="dmv" style="color:var(--bl)" id="fd-p">--</div><div class="dml">P(g)</div></div>
+            <div class="dm"><div class="dmv" style="color:var(--rd)" id="fd-f">--</div><div class="dml">F(g)</div></div>
+            <div class="dm"><div class="dmv" style="color:var(--am)" id="fd-c">--</div><div class="dml">C(g)</div></div>
           </div>
-          <div style="font-size:12px;color:var(--txt3);margin-bottom:10px">食物繊維 <strong id="fd-fi">--</strong>g / 100g</div>
-          <div style="font-size:11px;font-weight:700;color:var(--txt3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px">クイック選択</div>
+          <div style="font-size:11px;color:var(--txt3);margin-bottom:8px">食物繊維 <strong id="fd-fi">--</strong>g / 100g</div>
           <div class="qas" id="qas"></div>
-          <div class="amtrow">
-            <label>量</label>
-            <input type="number" id="fd-amt" value="100" min="1" max="2000" inputmode="decimal" class="amtin" oninput="updPv()">
-            <span style="font-size:14px;color:var(--txt3);font-weight:600">g</span>
-          </div>
+          <div class="amtrow"><label style="font-size:13px;color:var(--txt2);flex-shrink:0;font-weight:600">量</label><input type="number" id="fd-amt" value="100" min="1" max="2000" inputmode="decimal" class="amtin" oninput="updPv()"><span style="font-size:13px;color:var(--txt3);font-weight:600">g</span></div>
           <div class="pvbox" id="fd-pv">→ 0 kcal / P:0g F:0g C:0g</div>
           <button class="cfmbtn" onclick="addF()">食事に追加</button>
         </div>
       </div>
-      <!-- 手動入力 -->
-      <div id="panel-manual" style="display:none">
+      <div id="fp-manual" style="display:none">
         <div class="ibox">コンビニ弁当・外食など、パッケージのPFCをそのまま入力できます。</div>
         <div class="fg"><label class="fl">食品名 *</label><input class="fi" type="text" id="m-n" placeholder="例：セブン 幕の内弁当"></div>
         <div class="fg"><label class="fl">カロリー (kcal) *</label><input class="fi" type="number" id="m-k" placeholder="500" inputmode="decimal"></div>
-        <div class="manual-g2">
+        <div class="fr2">
           <div class="fg"><label class="fl">たんぱく質 (g)</label><input class="fi" type="number" id="m-p" placeholder="20" inputmode="decimal"></div>
           <div class="fg"><label class="fl">脂質 (g)</label><input class="fi" type="number" id="m-f" placeholder="15" inputmode="decimal"></div>
           <div class="fg"><label class="fl">糖質 (g)</label><input class="fi" type="number" id="m-c" placeholder="60" inputmode="decimal"></div>
           <div class="fg"><label class="fl">食物繊維 (g)</label><input class="fi" type="number" id="m-fi" placeholder="2" inputmode="decimal"></div>
         </div>
-        <div class="fg"><label class="fl">量 (g)・任意</label><input class="fi" type="number" id="m-a" placeholder="例：450" inputmode="decimal"></div>
+        <div class="fg"><label class="fl">量 (g)・任意</label><input class="fi" type="number" id="m-a" placeholder="450" inputmode="decimal"></div>
         <button class="cfmbtn" onclick="addManual()">食事に追加</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- 筋トレシート -->
+<!-- 筋トレ追加シート -->
 <div class="ov" id="ex-ov">
   <div class="sheet">
     <div class="shandle"></div>
     <div class="shdr"><span class="stitle">筋トレを記録</span><button class="xbtn" onclick="closeOv('ex-ov')">×</button></div>
     <div class="sbody">
-      <div class="fg"><label class="fl">種目</label><select class="fsel" id="ex-menu" onchange="updExInfo()"></select></div>
-      <div id="ex-ev-info" style="margin-bottom:10px"></div>
-      <div class="fr3">
-        <div class="fg"><label class="fl">負荷 (kg)</label><input class="fi" type="number" id="ex-w" placeholder="60" step="0.5" inputmode="decimal" oninput="updRM()"></div>
-        <div class="fg"><label class="fl">Rep数</label><input class="fi" type="number" id="ex-r" placeholder="10" inputmode="numeric" oninput="updRM()"></div>
-        <div class="fg"><label class="fl">セット数</label><input class="fi" type="number" id="ex-s" placeholder="3" inputmode="numeric"></div>
+      <div class="seg">
+        <button class="segb on" id="etab-sel" onclick="swETab('sel')">種目を選ぶ</button>
+        <button class="segb" id="etab-custom" onclick="swETab('custom')">カスタム種目</button>
       </div>
-      <div class="fg"><label class="fl">所要時間 (分)</label><input class="fi" type="number" id="ex-dur" placeholder="例：5" inputmode="numeric" oninput="updRM()"></div>
-      <div class="ibox" id="rm-pv">推定1RM: -- kg（Epley式）</div>
-      <button class="cfmbtn" onclick="addEx()">記録する</button>
+
+      <!-- 種目選択 -->
+      <div id="ep-sel">
+        <div style="font-size:11px;font-weight:700;color:var(--txt3);margin-bottom:7px;text-transform:uppercase;letter-spacing:.4px">部位を選択</div>
+        <div class="group-chips" id="group-chips"></div>
+        <div id="ex-menu-list"></div>
+        <div id="ex-sel-info" style="display:none;margin-bottom:10px"></div>
+        <div class="fr3">
+          <div class="fg"><label class="fl">負荷 (kg)</label><input class="fi" type="number" id="ex-w" placeholder="60" step="0.5" inputmode="decimal" oninput="updRM()"></div>
+          <div class="fg"><label class="fl">Rep数</label><input class="fi" type="number" id="ex-r" placeholder="10" inputmode="numeric" oninput="updRM()"></div>
+          <div class="fg"><label class="fl">セット数</label><input class="fi" type="number" id="ex-s" placeholder="3" inputmode="numeric"></div>
+        </div>
+        <div class="fg"><label class="fl">時間 (分)</label><input class="fi" type="number" id="ex-dur" placeholder="5" inputmode="numeric" oninput="updRM()"></div>
+        <div class="ibox" id="rm-pv">推定1RM: -- kg（Epley式）</div>
+        <button class="cfmbtn" onclick="addEx(false)">記録する</button>
+      </div>
+
+      <!-- カスタム種目 -->
+      <div id="ep-custom" style="display:none">
+        <div class="ibox">データベースにない種目を記録できます。消費カロリーは最も近い種目を参照して計算します。</div>
+        <div class="fg"><label class="fl">種目名 *</label><input class="fi" type="text" id="cx-n" placeholder="例：ケーブルフライ"></div>
+        <div class="fg"><label class="fl">部位</label><select class="fsel" id="cx-g"><option value="chest">胸</option><option value="back">背中</option><option value="legs">足・下半身</option><option value="shoulders">肩</option><option value="arms">腕</option><option value="core">腹・体幹</option><option value="cardio">有酸素</option><option value="other">その他・全身</option></select></div>
+        <div class="fg"><label class="fl">消費カロリー参照種目（最も近い種目）</label><select class="fsel" id="cx-proxy"></select></div>
+        <div class="fr3">
+          <div class="fg"><label class="fl">負荷 (kg)</label><input class="fi" type="number" id="cx-w" placeholder="60" step="0.5" inputmode="decimal"></div>
+          <div class="fg"><label class="fl">Rep数</label><input class="fi" type="number" id="cx-r" placeholder="10" inputmode="numeric"></div>
+          <div class="fg"><label class="fl">セット数</label><input class="fi" type="number" id="cx-s" placeholder="3" inputmode="numeric"></div>
+        </div>
+        <div class="fg"><label class="fl">時間 (分)</label><input class="fi" type="number" id="cx-dur" placeholder="5" inputmode="numeric"></div>
+        <button class="cfmbtn" onclick="addEx(true)">記録する</button>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
-
 <script>
-// ══════════════════════════════════════
-// DB 変数（fetch後に格納）
-// ══════════════════════════════════════
-let FDB = [];      // food_db.json の foods[]
-let FCATS = [];    // food_db.json の categories[]
-let EXDB = [];     // exercise_db.json の exercises[]
+let FDB=[],FCATS=[],EXDB=[],EXGROUPS=[];
+const TAGL={raw:'生',cooked:'加熱後',conv:'コンビニ',meal:'料理・外食'};
+const TAGC={raw:'t-r',cooked:'t-c',conv:'t-cv',meal:'t-m'};
+const TODAY=new Date().toISOString().slice(0,10);
 
-const TAGL = {raw:'生',cooked:'加熱後',conv:'コンビニ',meal:'外食'};
-const TAGC = {raw:'t-raw',cooked:'t-cooked',conv:'t-conv',meal:'t-meal'};
-
-// ══════════════════════════════════════
-// State
-// ══════════════════════════════════════
-let ST = {
-  meals:{b:[],l:[],d:[],s:[]},
-  exercises:[],
-  weights:[],
-  settings:{gender:'male',age:30,height:170,weight:70,target:65,weeks:12,activity:1.55,notionToken:'',notionDb:''},
+let ST={
+  days:{},
+  settings:{gender:'male',age:30,height:170,weight:70,target:65,weeks:12,activity:1.55,notionToken:''},
   bmrF:1.0,
 };
-function loadState(){
-  try{const s=localStorage.getItem('hl5');if(s)ST={...ST,...JSON.parse(s)};}catch(e){}
-}
-function saveState(){
-  try{localStorage.setItem('hl5',JSON.stringify(ST));}catch(e){}
-}
+function loadST(){try{const s=localStorage.getItem('hl6');if(s)ST={...ST,...JSON.parse(s)};}catch(e){}}
+function saveST(){try{localStorage.setItem('hl6',JSON.stringify(ST));}catch(e){}}
 
-// ══════════════════════════════════════
-// Init — DBをfetch
-// ══════════════════════════════════════
-async function init(){
-  loadState();
-  const bar = document.getElementById('loading-bar');
-  const sub = document.getElementById('loading-sub');
-
-  try{
-    sub.textContent = '食品データベースを読み込み中...';
-    bar.style.width = '20%';
-    const r1 = await fetch('./food_db.json');
-    if(!r1.ok) throw new Error('food_db.json が見つかりません');
-    const fd = await r1.json();
-    FDB = fd.foods || [];
-    FCATS = fd.categories || [];
-    bar.style.width = '60%';
-
-    sub.textContent = '筋トレデータベースを読み込み中...';
-    const r2 = await fetch('./exercise_db.json');
-    if(!r2.ok) throw new Error('exercise_db.json が見つかりません');
-    const ed = await r2.json();
-    EXDB = ed.exercises || [];
-    bar.style.width = '100%';
-
-  }catch(e){
-    // フォールバック：JSONファイルが無い場合でも動作
-    console.warn('DB fetch failed:', e.message, '— フォールバックデータを使用');
-    FDB = getFallbackFoods();
-    EXDB = getFallbackExercises();
-    FCATS = ['肉類','魚介','穀物','卵・乳製品','大豆・豆腐','野菜・芋','果物','コンビニ','外食','サプリ・プロテイン','ナッツ・種実'];
-    bar.style.width = '100%';
-  }
-
-  buildExMenu();
-
-  const d = new Date();
-  document.getElementById('hdate').textContent = `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
-
-  if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
-
-  setTimeout(()=>{
-    document.getElementById('loading').classList.add('done');
-    renderFood();
-    loadSettings();
-  }, 300);
+function getDay(d=TODAY){
+  if(!ST.days[d])ST.days[d]={meals:{b:[],l:[],d:[],s:[]},exercises:[]};
+  return ST.days[d];
 }
 
-function buildExMenu(){
-  const sel = document.getElementById('ex-menu');
-  sel.innerHTML = EXDB.map(e=>`<option value="${e.id}">${e.n}（${e.muscles.split('・')[0]}）</option>`).join('');
-}
-
-// ══════════════════════════════════════
-// Calculations
-// ══════════════════════════════════════
 function bMR(w){
   const s=ST.settings;
   let b=s.gender==='male'?88.362+13.397*w+4.799*s.height-5.677*s.age:447.593+9.247*w+3.098*s.height-4.330*s.age;
   return Math.round(b*ST.bmrF);
 }
 function tdee(){return Math.round(bMR(ST.settings.weight)*ST.settings.activity);}
-function calcTarget(){
-  const s=ST.settings,d=s.weight-s.target;
-  if(d<=0)return tdee();
-  return Math.round(Math.max(tdee()-(d*7200/(s.weeks*7)),1200));
+function calcTgt(){const s=ST.settings,d=s.weight-s.target;if(d<=0)return tdee();return Math.round(Math.max(tdee()-(d*7200/(s.weeks*7)),1200));}
+
+async function init(){
+  loadST();
+  const bar=document.getElementById('load-bar'),sub=document.getElementById('load-sub');
+  try{
+    sub.textContent='食品データベースを読み込み中...';bar.style.width='20%';
+    const r1=await fetch('./food_db.json');
+    const fd=r1.ok?await r1.json():null;
+    if(fd){FDB=fd.foods||[];FCATS=fd.categories||[];}else throw new Error('fallback');
+    bar.style.width='60%';
+    sub.textContent='筋トレデータベースを読み込み中...';
+    const r2=await fetch('./exercise_db.json');
+    const ed=r2.ok?await r2.json():null;
+    if(ed){EXDB=ed.exercises||[];EXGROUPS=ed.groups||[];}else throw new Error('fallback');
+    bar.style.width='100%';
+  }catch(e){
+    FDB=getFB_food();EXDB=getFB_ex();
+    FCATS=['肉類','魚介','穀物・麺','卵・乳製品','大豆・豆腐','野菜・芋','果物','和食・定食','丼・カレー','麺類（料理）','洋食・パスタ','中華・アジア料理','寿司・刺身','鍋・汁物','コンビニ','サプリ・プロテイン','ナッツ・種実'];
+    EXGROUPS=[{id:'chest',label:'胸'},{id:'back',label:'背中'},{id:'legs',label:'足・下半身'},{id:'shoulders',label:'肩'},{id:'arms',label:'腕'},{id:'core',label:'腹・体幹'},{id:'cardio',label:'有酸素'},{id:'other',label:'その他・全身'}];
+    bar.style.width='100%';
+  }
+  buildExGroups();buildCxProxy();
+  const d=new Date();
+  document.getElementById('hdate').textContent=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  setTimeout(()=>{document.getElementById('loading').classList.add('done');renderFood();loadSettingsUI();initCal();},280);
 }
 
-// ══════════════════════════════════════
-// Navigation
-// ══════════════════════════════════════
 function go(t){
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['food','exercise','weight','weekly','settings'][i]===t));
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+t).classList.add('active');
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',['food','exercise','calendar','weight','weekly','settings'][i]===t));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById('screen-'+t).classList.add('on');
   if(t==='food')renderFood();
   if(t==='exercise')renderEx();
   if(t==='weight')renderW();
   if(t==='weekly')renderWeekly();
-  if(t==='settings')loadSettings();
+  if(t==='settings')loadSettingsUI();
+  if(t==='calendar')renderCal();
 }
 
-// ══════════════════════════════════════
-// Food — render
-// ══════════════════════════════════════
 function renderFood(){
-  let tk=0,tp=0,tf=0,tc=0;
+  const day=getDay();let tk=0,tp=0,tf=0,tc=0;
   ['b','l','d','s'].forEach(m=>{
-    let mk=0;
-    const fi=document.getElementById('fi-'+m);
-    fi.innerHTML='';
-    ST.meals[m].forEach((item,i)=>{
+    let mk=0;const fi=document.getElementById('fi-'+m);fi.innerHTML='';
+    day.meals[m].forEach((item,i)=>{
       mk+=item.k;tk+=item.k;tp+=item.p;tf+=item.f;tc+=item.c;
-      const tg=item.tag?`<span class="tag ${TAGC[item.tag]||'t-raw'}">${TAGL[item.tag]||''}</span>`:'';
-      fi.innerHTML+=`<div class="fitem">
-        <div style="flex:1;min-width:0">
-          <div class="fn">${item.n}${tg}</div>
-          <div class="fs">${item.a?item.a+'g &nbsp;|&nbsp; ':''}P:${item.p}g &nbsp;F:${item.f}g &nbsp;C:${item.c}g</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:8px">
-          <span class="fk">${item.k}kcal</span>
-          <button class="delbtn" onclick="delF('${m}',${i})">×</button>
-        </div>
-      </div>`;
+      const tg=item.tag?`<span class="tag ${TAGC[item.tag]||'t-r'}">${TAGL[item.tag]||''}</span>`:'';
+      fi.innerHTML+=`<div class="fitem"><div style="flex:1;min-width:0"><div class="fn">${item.n}${tg}</div><div class="fs">${item.a?item.a+'g | ':''}P:${item.p}g F:${item.f}g C:${item.c}g</div></div><div style="display:flex;align-items:center;gap:5px;flex-shrink:0;margin-left:7px"><span class="fk">${item.k}kcal</span><button class="delbtn" onclick="delF('${m}',${i})">×</button></div></div>`;
     });
     document.getElementById('mk-'+m).textContent=Math.round(mk)+' kcal';
   });
@@ -601,475 +487,267 @@ function renderFood(){
   document.getElementById('t-p').textContent=Math.round(tp);
   document.getElementById('t-f').textContent=Math.round(tf);
   document.getElementById('t-c').textContent=Math.round(tc);
-  const tgt=calcTarget(),pct=tgt>0?Math.min(Math.round(tk/tgt*100),150):0;
+  const tgt=calcTgt(),pct=tgt>0?Math.min(Math.round(tk/tgt*100),150):0;
   document.getElementById('gpct').textContent=pct+'%';
-  const b=document.getElementById('gbar');
-  b.style.width=Math.min(pct,100)+'%';
-  b.style.background=pct>110?'var(--red)':pct>90?'var(--amber)':'var(--green)';
-  document.getElementById('gtgt').textContent=tgt;
-  document.getElementById('gtdee').textContent=tdee();
+  const b=document.getElementById('gbar');b.style.width=Math.min(pct,100)+'%';b.style.background=pct>110?'var(--rd)':pct>90?'var(--am)':'var(--gr)';
+  document.getElementById('gtgt').textContent=tgt;document.getElementById('gtdee').textContent=tdee();
 }
-function delF(m,i){ST.meals[m].splice(i,1);saveState();renderFood();}
-function toggleM(m){
-  const b=document.getElementById('mb-'+m),a=document.getElementById('ar-'+m);
-  const v=b.style.display==='none';
-  b.style.display=v?'block':'none';
-  a.textContent=v?'▲':'▼';
-}
+function delF(m,i){getDay().meals[m].splice(i,1);saveST();renderFood();}
+function toggleM(m){const b=document.getElementById('mb-'+m),a=document.getElementById('ar-'+m);const v=b.style.display==='none';b.style.display=v?'block':'none';a.textContent=v?'▲':'▼';}
 
-// ══════════════════════════════════════
-// Food sheet
-// ══════════════════════════════════════
-let cMeal=null,cFood=null,cCat='すべて';
-
-function openFood(meal){
-  cMeal=meal;cFood=null;cCat='すべて';
-  document.getElementById('fq').value='';
-  document.getElementById('f-results').innerHTML='';
-  document.getElementById('f-det').style.display='none';
-  swTab('db');
-  buildChips();
-  openOv('food-ov');
-  setTimeout(()=>document.getElementById('fq').focus(),350);
-}
-function buildChips(){
-  const all=['すべて',...FCATS];
-  document.getElementById('chips').innerHTML=all.map(c=>
-    `<button class="chip${c===cCat?' active':''}" onclick="setCat('${c}')">${c}</button>`
-  ).join('');
-}
-function setCat(c){cCat=c;buildChips();searchF(document.getElementById('fq').value);}
-function swTab(t){
-  ['db','manual'].forEach(x=>{
-    document.getElementById('tab-'+x).classList.toggle('active',x===t);
-    document.getElementById('panel-'+x).style.display=x===t?'block':'none';
-  });
-}
-function searchF(q){
+let cMeal=null,cFood=null,cFCat='すべて';
+function openFood(meal){cMeal=meal;cFood=null;cFCat='すべて';document.getElementById('fq').value='';document.getElementById('f-res').innerHTML='';document.getElementById('f-det').style.display='none';swFTab('db');bldFChips();openOv('food-ov');setTimeout(()=>document.getElementById('fq').focus(),300);}
+function bldFChips(){document.getElementById('fchips').innerHTML=['すべて',...FCATS].map(c=>`<button class="chip${c===cFCat?' on':''}" onclick="setFCat('${c.replace(/'/g,'&#39;')}')">${c}</button>`).join('');}
+function setFCat(c){cFCat=c;bldFChips();sF(document.getElementById('fq').value);}
+function swFTab(t){['db','manual'].forEach(x=>{document.getElementById('tab-'+x).classList.toggle('on',x===t);document.getElementById('fp-'+x).style.display=x===t?'block':'none';});}
+function sF(q){
   document.getElementById('f-det').style.display='none';
   let res=FDB;
-  if(cCat!=='すべて') res=res.filter(f=>f.cat===cCat);
-  if(q) res=res.filter(f=>f.n.includes(q));
-  res=res.slice(0,16);
-  const c=document.getElementById('f-results');
-  if(!res.length){
-    c.innerHTML=`<div class="no-result">
-      <div>「${q||cCat}」は見つかりません</div>
-      <div style="font-size:11px">「手動入力」タブで直接入力できます</div>
-    </div>`;
-    return;
-  }
-  c.innerHTML=res.map(f=>`
-    <div class="fcand" onclick='selF(${JSON.stringify(f).replace(/'/g,"&#39;")})'>
-      <div class="fcname">
-        ${f.n}
-        ${f.tag?`<span class="tag ${TAGC[f.tag]||''}">${TAGL[f.tag]||''}</span>`:''}
-        ${f.note?`<span style="font-size:10px;color:var(--txt3);margin-left:5px">${f.note}</span>`:''}
-      </div>
-      <div class="fcinfo">${f.k} kcal &nbsp;|&nbsp; P:${f.p}g &nbsp;F:${f.f}g &nbsp;C:${f.c}g &nbsp;(100g)</div>
-    </div>
-  `).join('');
+  if(cFCat!=='すべて')res=res.filter(f=>f.cat===cFCat);
+  if(q)res=res.filter(f=>f.n.includes(q));
+  res=res.slice(0,18);
+  const c=document.getElementById('f-res');
+  if(!res.length){c.innerHTML=`<div class="empty" style="padding:16px 0">「${q||cFCat}」は見つかりません<br><small style="font-size:11px">「手動入力」タブで直接入力できます</small></div>`;return;}
+  c.innerHTML=res.map(f=>`<div class="fcand" onclick='selF(${JSON.stringify(f).replace(/'/g,"&#39;")})'><div class="fcname">${f.n}${f.tag?`<span class="tag ${TAGC[f.tag]||''}">${TAGL[f.tag]||''}</span>`:''}${f.note?`<span style="font-size:10px;color:var(--txt3);margin-left:5px">${f.note}</span>`:''}</div><div class="fcinfo">${f.k} kcal | P:${f.p}g F:${f.f}g C:${f.c}g (100g)</div></div>`).join('');
 }
 function selF(f){
   cFood=f;
   document.getElementById('fd-n').textContent=f.n;
-  let tagHtml=f.tag?`<span class="tag ${TAGC[f.tag]||''}">${TAGL[f.tag]||''}</span>`:''
-  if(f.note) tagHtml+=`<span style="font-size:11px;color:var(--txt3);margin-left:7px">${f.note}</span>`;
-  document.getElementById('fd-tw').innerHTML=tagHtml;
-  document.getElementById('fd-k').textContent=f.k;
-  document.getElementById('fd-p').textContent=f.p;
-  document.getElementById('fd-f').textContent=f.f;
-  document.getElementById('fd-c').textContent=f.c;
-  document.getElementById('fd-fi').textContent=f.fi;
-  document.getElementById('f-results').innerHTML='';
-  document.getElementById('qas').innerHTML=(f.qa||[100]).map(a=>`
-    <button class="qab" onclick="setAmt(${a})">${a}g${f.unit?' (1'+f.unit+')':''}</button>
-  `).join('');
+  document.getElementById('fd-tw').innerHTML=f.tag?`<span class="tag ${TAGC[f.tag]||''}">${TAGL[f.tag]||''}</span>${f.note?` <span style="font-size:11px;color:var(--txt3)">${f.note}</span>`:''}`:'';
+  ['k','p','f','c','fi'].forEach(k=>document.getElementById('fd-'+k).textContent=f[k]);
+  document.getElementById('f-res').innerHTML='';
+  document.getElementById('qas').innerHTML=(f.qa||[100]).map(a=>`<button class="qab" onclick="setAmt(${a})">${a}g</button>`).join('');
   setAmt((f.qa&&f.qa[0])||100);
   document.getElementById('f-det').style.display='block';
 }
 function setAmt(a){document.getElementById('fd-amt').value=a;updPv();}
-function updPv(){
-  if(!cFood)return;
-  const a=parseFloat(document.getElementById('fd-amt').value)||100,r=a/100;
-  document.getElementById('fd-pv').textContent=
-    `→ ${Math.round(cFood.k*r)} kcal &nbsp;/ &nbsp;P:${(cFood.p*r).toFixed(1)}g &nbsp;F:${(cFood.f*r).toFixed(1)}g &nbsp;C:${(cFood.c*r).toFixed(1)}g`;
-}
-function addF(){
-  if(!cFood)return;
-  const a=parseFloat(document.getElementById('fd-amt').value)||100,r=a/100;
-  ST.meals[cMeal].push({n:cFood.n,a,tag:cFood.tag||'',k:Math.round(cFood.k*r),p:+((cFood.p*r).toFixed(1)),f:+((cFood.f*r).toFixed(1)),c:+((cFood.c*r).toFixed(1)),fi:+((cFood.fi*r).toFixed(1))});
-  saveState();closeOv('food-ov');renderFood();toast('✓ 追加しました');
-}
-function addManual(){
-  const name=document.getElementById('m-n').value.trim();
-  if(!name){toast('食品名を入力してください');return;}
-  const k=parseFloat(document.getElementById('m-k').value)||0;
-  if(!k){toast('カロリーを入力してください');return;}
-  ST.meals[cMeal].push({
-    n:name,
-    a:parseFloat(document.getElementById('m-a').value)||null,
-    tag:'conv',
-    k:Math.round(k),
-    p:+(parseFloat(document.getElementById('m-p').value)||0).toFixed(1),
-    f:+(parseFloat(document.getElementById('m-f').value)||0).toFixed(1),
-    c:+(parseFloat(document.getElementById('m-c').value)||0).toFixed(1),
-    fi:+(parseFloat(document.getElementById('m-fi').value)||0).toFixed(1),
-  });
-  ['m-n','m-k','m-p','m-f','m-c','m-fi','m-a'].forEach(id=>document.getElementById(id).value='');
-  saveState();closeOv('food-ov');renderFood();toast('✓ 追加しました');
-}
+function updPv(){if(!cFood)return;const a=parseFloat(document.getElementById('fd-amt').value)||100,r=a/100;document.getElementById('fd-pv').textContent=`→ ${Math.round(cFood.k*r)} kcal / P:${(cFood.p*r).toFixed(1)}g F:${(cFood.f*r).toFixed(1)}g C:${(cFood.c*r).toFixed(1)}g`;}
+function addF(){if(!cFood)return;const a=parseFloat(document.getElementById('fd-amt').value)||100,r=a/100;getDay().meals[cMeal].push({n:cFood.n,a,tag:cFood.tag||'',k:Math.round(cFood.k*r),p:+((cFood.p*r).toFixed(1)),f:+((cFood.f*r).toFixed(1)),c:+((cFood.c*r).toFixed(1)),fi:+((cFood.fi*r).toFixed(1))});saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
+function addManual(){const name=document.getElementById('m-n').value.trim();if(!name){toast('食品名を入力してください');return;}const k=parseFloat(document.getElementById('m-k').value)||0;if(!k){toast('カロリーを入力してください');return;}getDay().meals[cMeal].push({n:name,a:parseFloat(document.getElementById('m-a').value)||null,tag:'conv',k:Math.round(k),p:+(parseFloat(document.getElementById('m-p').value)||0).toFixed(1),f:+(parseFloat(document.getElementById('m-f').value)||0).toFixed(1),c:+(parseFloat(document.getElementById('m-c').value)||0).toFixed(1),fi:+(parseFloat(document.getElementById('m-fi').value)||0).toFixed(1)});['m-n','m-k','m-p','m-f','m-c','m-fi','m-a'].forEach(id=>document.getElementById(id).value='');saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
 
-// ══════════════════════════════════════
-// Exercise
-// ══════════════════════════════════════
-function renderEx(){
-  const list=document.getElementById('ex-list');
-  if(!ST.exercises.length){
-    list.innerHTML='<div class="empty"><div class="empty-ic">💪</div>まだ記録がありません</div>';
-    document.getElementById('ek').textContent=0;
-    document.getElementById('es').textContent=0;
-    return;
-  }
-  let tk=0,ts=0;
-  list.innerHTML=ST.exercises.map((e,i)=>{
-    tk+=e.k;ts+=e.sets;
-    const evText=e.evidence?`<div class="ex-ev">📄 ${e.evidence}</div>`:'';
-    return`<div class="exitem">
-      <div style="flex:1;min-width:0">
-        <div class="exn">${e.name}</div>
-        <div class="exs">
-          ${e.w}kg × ${e.reps}rep × ${e.sets}set &nbsp;|&nbsp; ${e.dur}分 &nbsp;|&nbsp; MET:${e.met}<br>
-          推定1RM: ${e.rm}kg &nbsp;|&nbsp; ${e.muscles}
-        </div>
-        ${evText}
-      </div>
-      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:8px">
-        <span class="exk">${e.k}kcal</span>
-        <button class="delbtn" onclick="delEx(${i})">×</button>
-      </div>
-    </div>`;
-  }).join('');
-  document.getElementById('ek').textContent=Math.round(tk);
-  document.getElementById('es').textContent=ts;
+let selExId=null,selGroup='chest';
+function buildExGroups(){
+  document.getElementById('group-chips').innerHTML=EXGROUPS.map(g=>`<button class="group-chip${g.id===selGroup?' on':''}" onclick="setExGroup('${g.id}')">${g.label}</button>`).join('');
+  renderExMenuList();
 }
-function delEx(i){ST.exercises.splice(i,1);saveState();renderEx();}
-function openEx(){openOv('ex-ov');updExInfo();document.getElementById('rm-pv').textContent='推定1RM: -- kg（Epley式）';}
-function updExInfo(){
-  const id=document.getElementById('ex-menu').value;
-  const ex=EXDB.find(e=>e.id===id);
-  if(!ex){document.getElementById('ex-ev-info').innerHTML='';return;}
-  const evHtml=ex.evidence&&ex.evidence.length?
-    `<a href="${ex.evidence[0].url}" style="color:var(--green);font-size:11px" target="_blank">📄 ${ex.evidence[0].citation}</a>`:
-    '<span style="font-size:11px;color:var(--txt3)">直接的な実測データは限定的</span>';
-  document.getElementById('ex-ev-info').innerHTML=`
-    <div class="ibox" style="font-size:12px">
-      <strong>${ex.n}</strong> &nbsp; MET: ${ex.met}（範囲 ${ex.met_range[0]}–${ex.met_range[1]}）<br>
-      主働筋: ${ex.muscles}<br>
-      ${evHtml}
-    </div>
-  `;
+function setExGroup(g){selGroup=g;selExId=null;document.getElementById('ex-sel-info').style.display='none';document.getElementById('group-chips').querySelectorAll('.group-chip').forEach((el,i)=>el.classList.toggle('on',EXGROUPS[i]&&EXGROUPS[i].id===g));renderExMenuList();}
+function renderExMenuList(){
+  const exes=EXDB.filter(e=>e.group===selGroup);
+  const CAT_LABELS={barbell:'バーベル',dumbbell:'ダンベル',machine:'マシン',cable:'ケーブル',bodyweight:'自重',cardio:'有酸素',other:'その他'};
+  const cats=[...new Set(exes.map(e=>e.cat))];
+  let html='';
+  cats.forEach(cat=>{
+    const list=exes.filter(e=>e.cat===cat);
+    html+=`<div class="cat-label">${CAT_LABELS[cat]||cat}</div>`;
+    html+=list.map(e=>`<div class="fcand${e.id===selExId?' on':''}" style="${e.id===selExId?'background:var(--gr-lt);border-radius:8px;':''}padding:10px 0" onclick="selEx('${e.id}')"><div class="fcname">${e.n}</div><div class="fcinfo">${e.muscles} | MET:${e.met}</div></div>`).join('');
+  });
+  document.getElementById('ex-menu-list').innerHTML=html||'<div class="empty" style="padding:12px">該当なし</div>';
+}
+function selEx(id){
+  selExId=id;
+  renderExMenuList();
+  const ex=EXDB.find(e=>e.id===id);if(!ex)return;
+  const ev=ex.evidence&&ex.evidence.length?`<a href="${ex.evidence[0].url}" class="ev-link" target="_blank">📄 ${ex.evidence[0].citation}</a>`:'<span style="font-size:10px;color:var(--txt3)">類推値</span>';
+  document.getElementById('ex-sel-info').innerHTML=`<div class="ibox" style="font-size:12px"><strong>${ex.n}</strong>　MET:${ex.met}（${ex.met_range[0]}–${ex.met_range[1]}）<br>主働筋: ${ex.muscles}<br>${ev}</div>`;
+  document.getElementById('ex-sel-info').style.display='block';
+  updRM();
+}
+function swETab(t){['sel','custom'].forEach(x=>{document.getElementById('etab-'+x).classList.toggle('on',x===t);document.getElementById('ep-'+x).style.display=x===t?'block':'none';});}
+function buildCxProxy(){
+  const sel=document.getElementById('cx-proxy');
+  sel.innerHTML=EXDB.map(e=>`<option value="${e.id}">${e.n} (MET:${e.met})</option>`).join('');
 }
 function updRM(){
   const w=parseFloat(document.getElementById('ex-w').value),r=parseInt(document.getElementById('ex-r').value),dur=parseFloat(document.getElementById('ex-dur').value);
-  const id=document.getElementById('ex-menu').value;
-  const ex=EXDB.find(e=>e.id===id);
-  const bw=ST.settings.weight||70;
+  const ex=EXDB.find(e=>e.id===selExId);const bw=ST.settings.weight||70;
   let txt='推定1RM: -- kg（Epley式）';
-  if(w&&r) txt=`推定1RM: ${Math.round(w*(1+r/30)*10)/10} kg（Epley式）`;
-  if(ex&&dur&&bw) txt+=` &nbsp;|&nbsp; 推定消費: ${Math.round(ex.met*bw*(dur/60))} kcal`;
+  if(w&&r)txt=`推定1RM: ${Math.round(w*(1+r/30)*10)/10} kg（Epley式）`;
+  if(ex&&dur&&bw)txt+=` | 推定消費: ${Math.round(ex.met*bw*(dur/60))} kcal`;
   document.getElementById('rm-pv').innerHTML=txt;
 }
-function addEx(){
-  const id=document.getElementById('ex-menu').value;
-  const ex=EXDB.find(e=>e.id===id);
-  if(!ex)return;
-  const w=parseFloat(document.getElementById('ex-w').value)||0;
-  const r=parseInt(document.getElementById('ex-r').value)||10;
-  const sets=parseInt(document.getElementById('ex-s').value)||3;
-  const dur=parseFloat(document.getElementById('ex-dur').value)||5;
+function addEx(isCustom){
   const bw=ST.settings.weight||70;
-  const ev=ex.evidence&&ex.evidence.length?ex.evidence[0].citation:'';
-  ST.exercises.push({name:ex.n,w,reps:r,sets,dur,met:ex.met,rm:Math.round(w*(1+r/30)*10)/10,k:Math.round(ex.met*bw*(dur/60)),muscles:ex.muscles,evidence:ev});
-  saveState();closeOv('ex-ov');renderEx();toast('✓ 記録しました');
+  let name,group,group_label,muscles,met,ev,rm,kcal;
+  if(isCustom){
+    name=document.getElementById('cx-n').value.trim();if(!name){toast('種目名を入力してください');return;}
+    const gid=document.getElementById('cx-g').value;
+    const grp=EXGROUPS.find(g=>g.id===gid);
+    group=gid;group_label=grp?grp.label:'その他';muscles='';
+    const proxyId=document.getElementById('cx-proxy').value;
+    const proxy=EXDB.find(e=>e.id===proxyId);
+    met=proxy?proxy.met:4.0;
+    ev=proxy?`参照: ${proxy.n}`:'';
+    const w=parseFloat(document.getElementById('cx-w').value)||0,r=parseInt(document.getElementById('cx-r').value)||10;
+    const sets=parseInt(document.getElementById('cx-s').value)||3,dur=parseFloat(document.getElementById('cx-dur').value)||5;
+    rm=Math.round(w*(1+r/30)*10)/10;kcal=Math.round(met*bw*(dur/60));
+    getDay().exercises.push({name,group,group_label,muscles,met,rm,k:kcal,w,reps:r,sets,dur,ev,custom:true});
+  }else{
+    if(!selExId){toast('種目を選択してください');return;}
+    const ex=EXDB.find(e=>e.id===selExId);if(!ex)return;
+    name=ex.n;group=ex.group;group_label=ex.group_label;muscles=ex.muscles;met=ex.met;
+    ev=ex.evidence&&ex.evidence.length?ex.evidence[0].citation:'';
+    const w=parseFloat(document.getElementById('ex-w').value)||0,r=parseInt(document.getElementById('ex-r').value)||10;
+    const sets=parseInt(document.getElementById('ex-s').value)||3,dur=parseFloat(document.getElementById('ex-dur').value)||5;
+    rm=Math.round(w*(1+r/30)*10)/10;kcal=Math.round(met*bw*(dur/60));
+    getDay().exercises.push({name,group,group_label,muscles,met,rm,k:kcal,w,reps:r,sets,dur,ev});
+  }
+  saveST();closeOv('ex-ov');renderEx();toast('✓ 記録しました');
+}
+function renderEx(){
+  const list=document.getElementById('ex-list');
+  const exes=getDay().exercises;
+  if(!exes.length){list.innerHTML='<div class="empty">まだ記録がありません</div>';document.getElementById('ek').textContent=0;document.getElementById('es').textContent=0;return;}
+  const groups=EXGROUPS.map(g=>g.id);
+  let tk=0,ts=0,html='';
+  groups.forEach(gid=>{
+    const items=exes.filter(e=>e.group===gid);if(!items.length)return;
+    const glbl=EXGROUPS.find(g=>g.id===gid)?.label||gid;
+    html+=`<div class="ex-group-section"><div class="ex-group-label">${glbl}</div>`;
+    items.forEach((e,i)=>{tk+=e.k;ts+=e.sets;const idx=exes.indexOf(e);html+=`<div class="exitem"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div class="exn">${e.custom?'★ ':''}`+e.name+`</div><div class="exs">${e.w}kg × ${e.reps}rep × ${e.sets}set | ${e.dur}分 | MET:${e.met}</div>${e.rm?`<div class="exs">推定1RM: ${e.rm}kg${e.muscles?' | '+e.muscles:''}</div>`:''}<div class="exev">${e.ev||''}</div></div><div style="display:flex;align-items:center;gap:5px;flex-shrink:0;margin-left:7px"><span class="exk">${e.k}kcal</span><button class="delbtn" onclick="delEx(${idx})">×</button></div></div></div>`;});
+    html+='</div>';
+  });
+  list.innerHTML=html;
+  document.getElementById('ek').textContent=Math.round(tk);
+  document.getElementById('es').textContent=ts;
+}
+function delEx(i){getDay().exercises.splice(i,1);saveST();renderEx();}
+function openEx(){selExId=null;document.getElementById('ex-sel-info').style.display='none';swETab('sel');buildExGroups();openOv('ex-ov');}
+
+// ── Calendar ──
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
+let calSelDate=TODAY;
+function initCal(){renderCal();}
+function calMove(d){calMonth+=d;if(calMonth>11){calMonth=0;calYear++;}else if(calMonth<0){calMonth=11;calYear--;}renderCal();}
+function renderCal(){
+  const months=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  document.getElementById('cal-month-label').textContent=`${calYear}年 ${months[calMonth]}`;
+  const dows=['日','月','火','水','木','金','土'];
+  document.getElementById('cal-dow-row').innerHTML=dows.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  const first=new Date(calYear,calMonth,1).getDay();
+  const last=new Date(calYear,calMonth+1,0).getDate();
+  const prevLast=new Date(calYear,calMonth,0).getDate();
+  let cells='';
+  for(let i=0;i<first;i++){const d=prevLast-first+1+i;cells+=`<div class="cal-day other-month"><span class="cal-dn">${d}</span></div>`;}
+  for(let d=1;d<=last;d++){
+    const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const day=ST.days[ds];
+    const hasFood=day&&Object.values(day.meals).some(m=>m.length>0);
+    const hasEx=day&&day.exercises&&day.exercises.length>0;
+    const isToday=ds===TODAY,isSel=ds===calSelDate;
+    const dots=(hasFood?`<span class="cal-dot cal-dot-food"></span>`:'')+(hasEx?`<span class="cal-dot cal-dot-ex"></span>`:'');
+    cells+=`<div class="cal-day${isToday?' today':''}${isSel?' selected':''}" onclick="selCalDay('${ds}')"><span class="cal-dn">${d}</span><div class="cal-dot-row">${dots}</div></div>`;
+  }
+  const remaining=(7-((first+last)%7))%7;
+  for(let d=1;d<=remaining;d++)cells+=`<div class="cal-day other-month"><span class="cal-dn">${d}</span></div>`;
+  document.getElementById('cal-grid').innerHTML=cells;
+  renderCalDetail();
+}
+function selCalDay(ds){calSelDate=ds;renderCal();}
+function renderCalDetail(){
+  const ds=calSelDate;const day=ST.days[ds];
+  const [y,m,d]=ds.split('-');
+  const label=`${y}年${parseInt(m)}月${parseInt(d)}日`;
+  if(!day||(!Object.values(day.meals).some(a=>a.length)&&!day.exercises?.length)){
+    document.getElementById('cal-detail').innerHTML=`<div class="card"><div class="cal-detail-date">${label}</div><div class="empty" style="padding:12px 0">記録なし</div></div>`;return;
+  }
+  const allF=Object.values(day.meals).flat();
+  const intake=Math.round(allF.reduce((s,f)=>s+f.k,0));
+  const exes=day.exercises||[];
+  const burn=Math.round(exes.reduce((s,e)=>s+e.k,0));
+  const totalSets=exes.reduce((s,e)=>s+e.sets,0);
+  const totalReps=exes.reduce((s,e)=>s+(e.reps*e.sets),0);
+  const totalLoad=exes.reduce((s,e)=>s+(e.w*e.reps*e.sets),0);
+  const totalEx=exes.length;
+  let html=`<div class="card"><div class="cal-detail-date">${label}</div>`;
+  html+=`<div class="cal-summary-grid">
+    <div class="cal-sm"><div class="cal-smv" style="color:var(--gr)">${intake}</div><div class="cal-sml">kcal摂取</div></div>
+    <div class="cal-sm"><div class="cal-smv" style="color:var(--rd)">${burn}</div><div class="cal-sml">kcal消費</div></div>
+    <div class="cal-sm"><div class="cal-smv" style="color:var(--bl)">${totalEx}</div><div class="cal-sml">種目数</div></div>
+    <div class="cal-sm"><div class="cal-smv" style="color:var(--pu)">${totalSets}</div><div class="cal-sml">セット数</div></div>
+  </div>`;
+  if(exes.length){
+    html+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px">
+      <div class="cal-sm"><div class="cal-smv">${totalReps.toLocaleString()}</div><div class="cal-sml">総レップ数</div></div>
+      <div class="cal-sm"><div class="cal-smv">${totalLoad>=1000?(totalLoad/1000).toFixed(1)+'t':totalLoad+'kg'}</div><div class="cal-sml">総負荷量</div></div>
+    </div>`;
+    html+='<div class="ctitle" style="margin-bottom:7px">筋トレ一覧</div>';
+    exes.forEach(e=>{html+=`<div class="exitem"><div class="exn"><span class="exgrp">${e.group_label||''}</span>${e.name}</div><div class="exs">${e.w}kg × ${e.reps}rep × ${e.sets}set | ${e.k}kcal</div></div>`;});
+  }
+  if(allF.length){
+    html+='<div class="ctitle" style="margin:10px 0 7px">食事一覧</div>';
+    ['b','l','d','s'].forEach((mk,mi)=>{
+      const mname=['朝食','昼食','夕食','間食'][mi];
+      const items=day.meals[mk];if(!items.length)return;
+      html+=`<div style="font-size:12px;font-weight:700;color:var(--txt3);margin:5px 0 3px">${mname}</div>`;
+      items.forEach(f=>{html+=`<div class="fitem"><div class="fn" style="font-size:12px">${f.n}</div><span class="fk" style="font-size:12px">${f.k}kcal</span></div>`;});
+    });
+  }
+  html+='</div>';
+  document.getElementById('cal-detail').innerHTML=html;
 }
 
-// ══════════════════════════════════════
-// Weight
-// ══════════════════════════════════════
 let wChart=null;
-function saveW(){
-  const w=parseFloat(document.getElementById('w-in').value);
-  if(!w||w<20||w>300){toast('正しい体重を入力してください');return;}
-  const today=new Date().toISOString().slice(0,10);
-  const idx=ST.weights.findIndex(x=>x.d===today);
-  if(idx>=0)ST.weights[idx].w=w;else ST.weights.push({d:today,w});
-  ST.weights=ST.weights.slice(-30);
-  ST.settings.weight=w;
-  saveState();renderW();toast('✓ 記録しました');
-}
+function saveW(){const w=parseFloat(document.getElementById('w-in').value);if(!w||w<20||w>300){toast('正しい体重を入力してください');return;}if(!ST.weights)ST.weights=[];const idx=ST.weights.findIndex(x=>x.d===TODAY);if(idx>=0)ST.weights[idx].w=w;else ST.weights.push({d:TODAY,w});ST.weights=ST.weights.slice(-30);ST.settings.weight=w;saveST();renderW();toast('✓ 記録しました');}
 function renderW(){
   const cw=ST.settings.weight,s=ST.settings;
   document.getElementById('w-cur').textContent=cw||'--';
-  if(cw&&s.height){
-    const bmi=Math.round(cw/((s.height/100)**2)*10)/10;
-    const el=document.getElementById('w-bmi');
-    el.textContent=bmi;
-    el.style.color=bmi<18.5?'var(--blue)':bmi<25?'var(--green)':bmi<30?'var(--amber)':'var(--red)';
-  }
-  if(cw&&s.target){
-    const d=Math.round((cw-s.target)*10)/10;
-    const el=document.getElementById('w-diff');
-    el.textContent=d>0?'+'+d:d;
-    el.style.color=d>0?'var(--red)':'var(--green)';
-  }
-  if(cw){
-    document.getElementById('bmr-v').textContent=bMR(cw);
-    if(ST.bmrF!==1.0){
-      document.getElementById('bmr-bdg').innerHTML='<span class="tag t-raw" style="font-size:11px">実測補正済み</span>';
-      document.getElementById('bmr-note').textContent=`補正係数: ×${ST.bmrF.toFixed(2)}`;
-    }
-  }
+  if(cw&&s.height){const bmi=Math.round(cw/((s.height/100)**2)*10)/10;const el=document.getElementById('w-bmi');el.textContent=bmi;el.style.color=bmi<18.5?'var(--bl)':bmi<25?'var(--gr)':bmi<30?'var(--am)':'var(--rd)';}
+  if(cw&&s.target){const d=Math.round((cw-s.target)*10)/10;const el=document.getElementById('w-diff');el.textContent=d>0?'+'+d:d;el.style.color=d>0?'var(--rd)':'var(--gr)';}
+  if(cw)document.getElementById('bmr-v').textContent=bMR(cw);
+  const wts=ST.weights||[];
+  document.getElementById('w-empty').style.display=wts.length<2?'block':'none';
+  if(wts.length<2)return;
   const ctx=document.getElementById('w-chart');
-  document.getElementById('w-empty').style.display=ST.weights.length<2?'block':'none';
-  if(ST.weights.length<2)return;
   if(wChart)wChart.destroy();
-  wChart=new Chart(ctx,{
-    type:'line',
-    data:{
-      labels:ST.weights.map(x=>x.d.slice(5)),
-      datasets:[{
-        data:ST.weights.map(x=>x.w),
-        borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.1)',
-        tension:0.3,pointRadius:3,pointBackgroundColor:'#1D9E75',fill:true
-      }]
-    },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{display:false},ticks:{font:{size:10},maxTicksLimit:7}},y:{ticks:{font:{size:10}}}}}
-  });
+  wChart=new Chart(ctx,{type:'line',data:{labels:wts.map(x=>x.d.slice(5)),datasets:[{data:wts.map(x=>x.w),borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.1)',tension:0.3,pointRadius:3,fill:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},maxTicksLimit:7}},y:{ticks:{font:{size:10}}}}}});
 }
 
-// ══════════════════════════════════════
-// Weekly
-// ══════════════════════════════════════
 let wkChart=null;
 function renderWeekly(){
-  const allF=Object.values(ST.meals).flat();
+  const allDays=Object.values(ST.days);
+  const allF=allDays.flatMap(d=>Object.values(d.meals).flat());
   const intake=Math.round(allF.reduce((s,f)=>s+f.k,0));
-  const burn=Math.round(ST.exercises.reduce((s,e)=>s+e.k,0));
+  const burn=Math.round(allDays.flatMap(d=>d.exercises||[]).reduce((s,e)=>s+e.k,0));
   const bmr=bMR(ST.settings.weight||70),wBMR=bmr*7,bal=intake-burn-wBMR;
-  document.getElementById('wk-in').textContent=intake;
-  document.getElementById('wk-burn').textContent=burn;
-  document.getElementById('wk-bmr').textContent=wBMR;
-  const be=document.getElementById('wk-bal');
-  be.textContent=(bal>0?'+':'')+Math.round(bal);
-  be.style.color=bal>0?'var(--red)':'var(--green)';
-
-  // 週次棒グラフ（今日=右端）
+  document.getElementById('wk-in').textContent=intake;document.getElementById('wk-burn').textContent=burn;document.getElementById('wk-bmr').textContent=wBMR;
+  const be=document.getElementById('wk-bal');be.textContent=(bal>0?'+':'')+Math.round(bal);be.style.color=bal>0?'var(--rd)':'var(--gr)';
   const days=['日','月','火','水','木','金','土'],td=new Date().getDay();
   const wlbl=Array.from({length:7},(_,i)=>days[(td-6+i+7)%7]);
   const wdat=Array(7).fill(0);wdat[6]=intake;
   const ctx=document.getElementById('wk-chart');
   if(wkChart)wkChart.destroy();
-  wkChart=new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels:wlbl,
-      datasets:[
-        {data:wdat,backgroundColor:wdat.map((_,i)=>i===6?'#1D9E75':'rgba(29,158,117,0.25)'),borderRadius:6,label:'摂取'},
-        {data:wdat.map((_,i)=>i===6?calcTarget():0),type:'line',borderColor:'#EF9F27',borderDash:[4,3],borderWidth:2,pointRadius:0,fill:false,label:'目標'}
-      ]
-    },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{ticks:{font:{size:10}},beginAtZero:true}}}
-  });
-
+  wkChart=new Chart(ctx,{type:'bar',data:{labels:wlbl,datasets:[{data:wdat,backgroundColor:wdat.map((_,i)=>i===6?'#1D9E75':'rgba(29,158,117,0.3)'),borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{ticks:{font:{size:10}},beginAtZero:true}}}});
   const predict=Math.round(bal/7200*100)/100;
   let html='';
-  if(bal>500) html+='<div class="abox abox-a">⚠️ エネルギー過剰です。摂取カロリーを見直しましょう。</div>';
-  else if(bal<-1500) html+='<div class="abox abox-a">⚠️ カロリー不足が大きすぎます。筋肉量低下に注意してください。</div>';
-  else if(bal<0) html+='<div class="abox abox-g">✓ 良好なマイナスバランスです。目標に向かっています。</div>';
+  if(bal>500)html+='<div class="abox aa">⚠️ エネルギー過剰です。</div>';
+  else if(bal<-1500)html+='<div class="abox aa">⚠️ カロリー不足が大きすぎます。</div>';
+  else if(bal<0)html+='<div class="abox ag">✓ 良好なマイナスバランスです。</div>';
   else html+='<div class="ibox">ほぼ維持カロリーバランスです。</div>';
-  html+=`<div class="ibox"><strong>予測体重変化:</strong> ${predict>0?'+':''}${predict} kg（7200 kcal/kg法）</div>`;
-
-  if(ST.weights.length>=2){
-    const actual=Math.round((ST.weights[ST.weights.length-1].w-ST.weights[0].w)*100)/100;
-    html+=`<div class="ibox"><strong>実際の体重変化:</strong> ${actual>0?'+':''}${actual} kg</div>`;
-    if(Math.abs(predict-actual)>0.3&&ST.weights.length>=7){
-      const estBMR=(intake-burn-actual*7200)/7;
-      const factor=Math.round(estBMR/bmr*100)/100;
-      html+=`<div class="abox abox-a">
-        <strong>基礎代謝乖離を検出</strong><br>
-        予測 ${predict}kg vs 実測 ${actual}kg<br>
-        推定実際BMR: ${Math.round(estBMR)} kcal/日
-        <br><button onclick="applyBMR(${factor})" style="margin-top:9px;padding:9px 18px;background:var(--green);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer">次週からこのBMRを適用</button>
-      </div>`;
-    }
-  }
+  html+=`<div class="ibox"><strong>予測体重変化:</strong> ${predict>0?'+':''}${predict} kg</div>`;
+  const wts=ST.weights||[];
+  if(wts.length>=2){const actual=Math.round((wts[wts.length-1].w-wts[0].w)*100)/100;html+=`<div class="ibox"><strong>実際の体重変化:</strong> ${actual>0?'+':''}${actual} kg</div>`;if(Math.abs(predict-actual)>0.3&&wts.length>=7){const estBMR=(intake-burn-actual*7200)/7,factor=Math.round(estBMR/bmr*100)/100;html+=`<div class="abox aa"><strong>基礎代謝乖離を検出</strong><br>推定BMR: ${Math.round(estBMR)} kcal/日<br><button onclick="applyBMR(${factor})" style="margin-top:8px;padding:8px 14px;background:var(--gr);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">次週から適用</button></div>`;}}
   document.getElementById('wk-an').innerHTML=html;
-  const tgt=calcTarget();
-  document.getElementById('next-tgt').textContent=tgt+' kcal';
-  document.getElementById('next-note').textContent=`TDEE: ${tdee()} kcal | BMR: ${bmr} kcal | 目標: ${ST.settings.target}kg (${ST.settings.weeks}週)`;
+  const tgt=calcTgt();document.getElementById('next-tgt').textContent=tgt+' kcal';document.getElementById('next-note').textContent=`TDEE: ${tdee()} kcal | BMR: ${bmr} kcal | 目標: ${ST.settings.target}kg (${ST.settings.weeks}週)`;
 }
-function applyBMR(f){ST.bmrF=f;saveState();renderWeekly();renderW();toast('✓ BMRを更新しました');}
+function applyBMR(f){ST.bmrF=f;saveST();renderWeekly();renderW();toast('✓ BMRを更新しました');}
 
-// ══════════════════════════════════════
-// Settings
-// ══════════════════════════════════════
-function loadSettings(){
-  const s=ST.settings;
-  document.getElementById('s-gender').value=s.gender||'male';
-  document.getElementById('s-age').value=s.age||'';
-  document.getElementById('s-ht').value=s.height||'';
-  document.getElementById('s-wt').value=s.weight||'';
-  document.getElementById('s-tgt').value=s.target||'';
-  document.getElementById('s-wks').value=s.weeks||'';
-  document.getElementById('s-act').value=s.activity||1.55;
-  document.getElementById('s-ntk').value=s.notionToken||'';
-  document.getElementById('s-ndb').value=s.notionDb||'';
-  const t=s.notionToken;
-  document.getElementById('n-dot').className='ndot '+(t?'on':'off');
-  document.getElementById('n-lbl').textContent=t?'連携済み（同期ボタンで送信）':'未設定';
-}
-function saveSettings(){
-  ST.settings={
-    gender:document.getElementById('s-gender').value,
-    age:parseInt(document.getElementById('s-age').value)||30,
-    height:parseFloat(document.getElementById('s-ht').value)||170,
-    weight:parseFloat(document.getElementById('s-wt').value)||70,
-    target:parseFloat(document.getElementById('s-tgt').value)||65,
-    weeks:parseInt(document.getElementById('s-wks').value)||12,
-    activity:parseFloat(document.getElementById('s-act').value)||1.55,
-    notionToken:document.getElementById('s-ntk').value.trim(),
-    notionDb:document.getElementById('s-ndb').value.trim(),
-  };
-  saveState();loadSettings();toast('✓ 設定を保存しました');
-}
+function loadSettingsUI(){const s=ST.settings;['gender','age','ht','wt','tgt','wks','act','ntk'].forEach(k=>{const el=document.getElementById('s-'+k);if(el)el.value=s[{gender:'gender',age:'age',ht:'height',wt:'weight',tgt:'target',wks:'weeks',act:'activity',ntk:'notionToken'}[k]]||'';});const t=s.notionToken;document.getElementById('n-dot').className='ndot '+(t?'on':'off');document.getElementById('n-lbl').textContent=t?'連携済み':'未設定';}
+function saveSt(){ST.settings={gender:document.getElementById('s-gender').value,age:parseInt(document.getElementById('s-age').value)||30,height:parseFloat(document.getElementById('s-ht').value)||170,weight:parseFloat(document.getElementById('s-wt').value)||70,target:parseFloat(document.getElementById('s-tgt').value)||65,weeks:parseInt(document.getElementById('s-wks').value)||12,activity:parseFloat(document.getElementById('s-act').value)||1.55,notionToken:document.getElementById('s-ntk').value.trim()};saveST();loadSettingsUI();toast('✓ 設定を保存しました');}
 
-// ══════════════════════════════════════
-// Export / Import
-// ══════════════════════════════════════
-function exportData(){
-  const data=JSON.stringify({...ST,exported:new Date().toISOString()},null,2);
-  const a=document.createElement('a');
-  a.href='data:application/json;charset=utf-8,'+encodeURIComponent(data);
-  a.download=`healthlog_${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  toast('✓ エクスポートしました');
-}
-function importData(input){
-  const file=input.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const data=JSON.parse(e.target.result);
-      if(data.meals&&data.settings){
-        ST={...ST,...data};
-        saveState();renderFood();loadSettings();
-        toast('✓ インポートしました');
-      }else toast('フォーマットが正しくありません');
-    }catch{toast('JSONの読み込みに失敗しました');}
-  };
-  reader.readAsText(file);
-  input.value='';
-}
+async function syncNotion(){const token=ST.settings.notionToken;if(!token){toast('設定でTokenを入力してください');go('settings');return;}const btn=document.getElementById('sync-btn');btn.textContent='同期中…';btn.disabled=true;try{const day=getDay();const allF=Object.values(day.meals).flat();const intake=Math.round(allF.reduce((s,f)=>s+f.k,0));const burn=Math.round(day.exercises.reduce((s,e)=>s+e.k,0));const res=await fetch('https://api.notion.com/v1/pages',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json','Notion-Version':'2022-06-28'},body:JSON.stringify({parent:{type:'workspace',workspace:true},properties:{title:{title:[{text:{content:`HealthLog ${TODAY}`}}]}},children:[{object:'block',type:'heading_2',heading_2:{rich_text:[{text:{content:'📊 本日サマリー'}}]}},{object:'block',type:'paragraph',paragraph:{rich_text:[{text:{content:`摂取: ${intake} kcal | 運動消費: ${burn} kcal | 体重: ${ST.settings.weight||'--'}kg`}}]}}]})});if(!res.ok)throw new Error((await res.json()).message);toast('✓ Notionに同期しました');}catch(e){toast('エラー: '+e.message);}finally{btn.textContent='Notion同期';btn.disabled=false;}}
 
-// ══════════════════════════════════════
-// Notion sync
-// ══════════════════════════════════════
-async function syncNotion(){
-  const token=ST.settings.notionToken;
-  if(!token){toast('設定でTokenを入力してください');go('settings');return;}
-  const btn=document.getElementById('sync-btn');
-  btn.textContent='同期中…';btn.disabled=true;
-  try{
-    const today=new Date().toISOString().slice(0,10);
-    const allF=Object.values(ST.meals).flat();
-    const intake=Math.round(allF.reduce((s,f)=>s+f.k,0));
-    const burn=Math.round(ST.exercises.reduce((s,e)=>s+e.k,0));
-    const prot=Math.round(allF.reduce((s,f)=>s+f.p,0));
-    const fat=Math.round(allF.reduce((s,f)=>s+f.f,0));
-    const carb=Math.round(allF.reduce((s,f)=>s+f.c,0));
-    const res=await fetch('https://api.notion.com/v1/pages',{
-      method:'POST',
-      headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json','Notion-Version':'2022-06-28'},
-      body:JSON.stringify({
-        parent:{type:'workspace',workspace:true},
-        properties:{title:{title:[{text:{content:`HealthLog ${today}`}}]}},
-        children:[
-          {object:'block',type:'heading_2',heading_2:{rich_text:[{text:{content:'📊 本日サマリー'}}]}},
-          {object:'block',type:'paragraph',paragraph:{rich_text:[{text:{content:`摂取: ${intake} kcal | 運動消費: ${burn} kcal | 体重: ${ST.settings.weight||'--'}kg\nP:${prot}g | F:${fat}g | C:${carb}g`}}]}},
-          {object:'block',type:'heading_3',heading_3:{rich_text:[{text:{content:'🍽 食事記録'}}]}},
-          ...Object.entries({b:'朝食',l:'昼食',d:'夕食',s:'間食'}).map(([k,lbl])=>({
-            object:'block',type:'paragraph',
-            paragraph:{rich_text:[{text:{content:`${lbl}: ${ST.meals[k].map(f=>`${f.n}(${f.k}kcal)`).join(', ')||'なし'}`}}]}
-          })),
-          {object:'block',type:'heading_3',heading_3:{rich_text:[{text:{content:'💪 筋トレ記録'}}]}},
-          ...(ST.exercises.length?ST.exercises.map(e=>({
-            object:'block',type:'paragraph',
-            paragraph:{rich_text:[{text:{content:`${e.name}: ${e.w}kg×${e.reps}rep×${e.sets}set | 消費${e.k}kcal | 推定1RM:${e.rm}kg`}}]}
-          })):[{object:'block',type:'paragraph',paragraph:{rich_text:[{text:{content:'なし'}}]}}]),
-        ]
-      })
-    });
-    if(!res.ok)throw new Error((await res.json()).message||'Notion API error');
-    toast('✓ Notionに同期しました');
-  }catch(e){toast('エラー: '+e.message);}
-  finally{btn.textContent='Notion同期';btn.disabled=false;}
-}
+function exportData(){const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(ST,null,2));a.download=`healthlog_${TODAY}.json`;a.click();toast('✓ エクスポートしました');}
+function importData(inp){const file=inp.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{try{const data=JSON.parse(e.target.result);if(data.settings){ST={...ST,...data};saveST();renderFood();loadSettingsUI();toast('✓ インポートしました');}else toast('フォーマットが正しくありません');}catch{toast('読み込みに失敗しました');}};r.readAsText(file);inp.value='';}
 
-// ══════════════════════════════════════
-// Overlay helpers
-// ══════════════════════════════════════
 function openOv(id){document.getElementById(id).classList.add('open');}
 function closeOv(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
 
-// ══════════════════════════════════════
-// Toast
-// ══════════════════════════════════════
-let tt;
-function toast(msg){
-  const el=document.getElementById('toast');
-  el.textContent=msg;el.classList.add('show');
-  clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('show'),2400);
-}
+let tt;function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('show'),2300);}
 
-// ══════════════════════════════════════
-// Fallback data（JSONファイルなしでも動作）
-// ══════════════════════════════════════
-function getFallbackFoods(){
-  return[
-    {id:'m001',n:'鶏胸肉（皮なし・生）',cat:'肉類',tag:'raw',k:108,p:22.3,f:1.5,c:0,fi:0,qa:[100,150,200]},
-    {id:'m002',n:'鶏胸肉（皮なし・加熱後）',cat:'肉類',tag:'cooked',k:116,p:24.4,f:1.9,c:0,fi:0,qa:[100,130,150]},
-    {id:'g001',n:'白米（茶碗普通・約150g）',cat:'穀物',tag:'cooked',k:168,p:2.5,f:0.3,c:37.1,fi:0.3,qa:[150],unit:'茶碗'},
-    {id:'g004',n:'おにぎり（コンビニ・塩・約100g）',cat:'穀物',tag:'cooked',k:170,p:3.0,f:0.5,c:37.5,fi:0.4,qa:[100],unit:'個'},
-    {id:'e001',n:'卵（全卵・生・Mサイズ）',cat:'卵・乳製品',tag:'raw',k:151,p:12.3,f:10.3,c:0.3,fi:0,qa:[60,120],unit:'個'},
-    {id:'v001',n:'さつまいも（生）',cat:'野菜・芋',tag:'raw',k:132,p:1.2,f:0.2,c:31.5,fi:2.2,qa:[100,150,200]},
-    {id:'v002',n:'さつまいも（蒸し）',cat:'野菜・芋',tag:'cooked',k:131,p:1.2,f:0.2,c:31.9,fi:3.8,qa:[100,150,200]},
-    {id:'v003',n:'さつまいも（焼き）',cat:'野菜・芋',tag:'cooked',k:163,p:1.4,f:0.2,c:40.3,fi:4.0,qa:[100,150,200]},
-    {id:'sp001',n:'プロテイン（ホエイ・1回分30g）',cat:'サプリ・プロテイン',tag:'raw',k:114,p:22.0,f:1.5,c:3.5,fi:0,qa:[30,60]},
-  ];
-}
-function getFallbackExercises(){
-  return[
-    {id:'ex_squat',n:'スクワット',cat:'コンパウンド下半身',muscles:'大腿四頭筋・臀筋',met:5.4,met_range:[4.5,6.5],evidence:[{citation:'Nakagata et al. J Strength Cond Res. 2022',url:'https://pubmed.ncbi.nlm.nih.gov/32379233/'}]},
-    {id:'ex_bench_press',n:'ベンチプレス',cat:'コンパウンド上半身',muscles:'大胸筋・三角筋前部・上腕三頭筋',met:4.5,met_range:[3.5,5.5],evidence:[{citation:'Reis et al. PLoS One. 2019',url:'https://pubmed.ncbi.nlm.nih.gov/31437191/'}]},
-    {id:'ex_deadlift',n:'デッドリフト',cat:'コンパウンド下半身',muscles:'脊柱起立筋・ハムストリングス・臀筋',met:6.0,met_range:[5.0,7.5],evidence:[]},
-    {id:'ex_lat_pulldown',n:'ラットプルダウン',cat:'コンパウンド上半身',muscles:'広背筋・大円筋',met:3.5,met_range:[2.8,4.2],evidence:[{citation:'Reis et al. PLoS One. 2019',url:'https://pubmed.ncbi.nlm.nih.gov/31437191/'}]},
-    {id:'ex_pushup',n:'プッシュアップ',cat:'自重・体幹',muscles:'大胸筋・上腕三頭筋',met:7.8,met_range:[6.0,9.0],evidence:[{citation:'Nakagata et al. J Strength Cond Res. 2022',url:'https://pubmed.ncbi.nlm.nih.gov/32379233/'}]},
-    {id:'ex_plank',n:'プランク',cat:'自重・体幹',muscles:'腹横筋・多裂筋',met:3.0,met_range:[2.6,3.5],evidence:[{citation:'Poulios et al. J Strength Cond Res. 2024',url:'https://pubmed.ncbi.nlm.nih.gov/39178048/'}]},
-    {id:'ex_lunge',n:'ランジ',cat:'コンパウンド下半身',muscles:'大腿四頭筋・臀筋',met:5.0,met_range:[4.0,6.0],evidence:[{citation:'Poulios et al. J Strength Cond Res. 2024',url:'https://pubmed.ncbi.nlm.nih.gov/39178048/'}]},
-    {id:'ex_bicep_curl',n:'バイセップカール',cat:'アイソレーション上半身',muscles:'上腕二頭筋',met:2.5,met_range:[2.0,3.0],evidence:[{citation:'Reis et al. PLoS One. 2019',url:'https://pubmed.ncbi.nlm.nih.gov/31437191/'}]},
-    {id:'ex_burpee',n:'バーピー',cat:'有酸素系',muscles:'全身',met:8.0,met_range:[7.0,10.0],evidence:[{citation:'Poulios et al. J Strength Cond Res. 2024',url:'https://pubmed.ncbi.nlm.nih.gov/39178048/'}]},
-    {id:'ex_shoulder_press',n:'ショルダープレス',cat:'コンパウンド上半身',muscles:'三角筋・上腕三頭筋',met:4.0,met_range:[3.2,5.0],evidence:[]},
-    {id:'ex_leg_press',n:'レッグプレス',cat:'コンパウンド下半身',muscles:'大腿四頭筋・臀筋',met:4.0,met_range:[3.2,5.0],evidence:[]},
-    {id:'ex_tricep_ext',n:'トライセップエクステンション',cat:'アイソレーション上半身',muscles:'上腕三頭筋',met:2.5,met_range:[2.0,3.0],evidence:[]},
-    {id:'ex_leg_ext',n:'レッグエクステンション',cat:'アイソレーション下半身',muscles:'大腿四頭筋',met:3.0,met_range:[2.5,3.8],evidence:[]},
-  ];
-}
+function getFB_food(){return[{id:'m001',n:'鶏胸肉（皮なし・生）',cat:'肉類',tag:'raw',k:108,p:22.3,f:1.5,c:0,fi:0,qa:[100,150,200]},{id:'g002',n:'白米（茶碗普通・約150g）',cat:'穀物・麺',tag:'cooked',k:168,p:2.5,f:0.3,c:37.1,fi:0.3,qa:[150]},{id:'don008',n:'カレーライス（中辛）',cat:'丼・カレー',tag:'meal',k:748,p:18.0,f:22.0,c:115.0,fi:4.0,qa:[600],unit:'皿'},{id:'west001',n:'カルボナーラ（1人前）',cat:'洋食・パスタ',tag:'meal',k:820,p:28.0,f:38.0,c:90.0,fi:2.5,qa:[350],unit:'食'},{id:'su001',n:'寿司 まぐろ（赤身・1貫）',cat:'寿司・刺身',tag:'meal',k:55,p:5.0,f:0.4,c:8.5,fi:0.1,qa:[25],unit:'貫'}];}
+function getFB_ex(){return[{id:'chest_bench_press',n:'ベンチプレス（バーベル）',group:'chest',group_label:'胸',cat:'barbell',muscles:'大胸筋・三角筋前部・上腕三頭筋',met:4.5,met_range:[3.5,5.5],evidence_level:'A',evidence:[{citation:'Reis VM, et al. PLoS One. 2019',url:'https://pubmed.ncbi.nlm.nih.gov/31437191/'}]},{id:'legs_squat',n:'スクワット（バーベル）',group:'legs',group_label:'足・下半身',cat:'barbell',muscles:'大腿四頭筋・臀筋',met:5.4,met_range:[4.5,6.5],evidence_level:'A',evidence:[{citation:'Nakagata T, et al. J Strength Cond Res. 2022',url:'https://pubmed.ncbi.nlm.nih.gov/32379233/'}]},{id:'cardio_run',n:'ランニング（軽め・8km/h）',group:'cardio',group_label:'有酸素',cat:'cardio',muscles:'下肢全体・心肺系',met:8.3,met_range:[7.0,9.5],evidence_level:'C',evidence:[]}];}
 
-// ── 起動
 init();
 </script>
 </body>
