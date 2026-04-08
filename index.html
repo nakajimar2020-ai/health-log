@@ -242,7 +242,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
       <div class="card">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--txt3);margin-bottom:4px"><span style="font-weight:700">目標達成率</span><span id="gpct" style="font-weight:700">0%</span></div>
         <div class="pbwrap"><div class="pb" id="gbar" style="width:0%;background:var(--gr)"></div></div>
-        <div style="font-size:11px;color:var(--txt3);margin-top:3px">目標 <strong id="gtgt" style="color:var(--txt)">--</strong> kcal | TDEE <strong id="gtdee" style="color:var(--txt)">--</strong> kcal</div>
+        <div style="font-size:11px;color:var(--txt3);margin-top:3px">目標 <strong id="gtgt" style="color:var(--txt)">--</strong> kcal | 1日の総消費 <strong id="gtdee" style="color:var(--txt)">--</strong> kcal</div>
         <div class="fi-bar" style="margin-top:6px"><span style="color:#8B6914;font-weight:700">食物繊維</span><div class="fi-bar-track"><div class="fi-bar-fill" id="fi-bar" style="width:0%"></div></div><span id="fi-goal-lbl">0 / 24g</span></div>
       </div>
       <div class="mcrd"><div class="mhdr" onclick="toggleM('b')"><span class="mtitle">🌅 朝食</span><div style="display:flex;align-items:center;gap:7px"><span class="mkcal" id="mk-b">0 kcal</span><span style="color:#ccc;font-size:11px" id="ar-b">▼</span></div></div><div class="mbody" id="mb-b"><div id="fi-b"></div><button class="addbtn" onclick="openFood('b')">＋ 食品を追加</button></div></div>
@@ -323,7 +323,13 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
         </div>
       </div>
       <div class="card"><div class="ctitle">週次カロリー推移</div><div style="position:relative;height:150px"><canvas id="wk-chart"></canvas></div></div>
-      <div class="card"><div class="ctitle">週次分析</div><div id="wk-an"></div></div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div class="ctitle" style="margin-bottom:0">週次分析</div>
+          <button onclick="openOv('weekly-detail-ov')" title="計算方法の詳細" style="background:var(--bl-lt);color:var(--bl);border:none;border-radius:50%;width:28px;height:28px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0">ℹ</button>
+        </div>
+        <div id="wk-an"></div>
+      </div>
       <div class="card"><div class="ctitle">次週の1日目標摂取カロリー</div><div style="font-size:34px;font-weight:700;color:var(--gr)" id="next-tgt">--</div><div style="font-size:11px;color:var(--txt3);margin-top:4px" id="next-note"></div></div>
     </div>
 
@@ -363,6 +369,66 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
       <div style="height:16px"></div>
     </div>
 
+  </div>
+</div>
+
+<!-- 週次分析 詳細シート -->
+<div class="ov" id="weekly-detail-ov">
+  <div class="sheet" style="max-height:90vh">
+    <div class="shandle"></div>
+    <div class="shdr"><span class="stitle">📊 カロリー計算の仕組み</span><button class="xbtn" onclick="closeOv('weekly-detail-ov')">×</button></div>
+    <div class="sbody" style="overflow-y:auto;max-height:calc(90vh - 60px)">
+
+      <div style="font-size:12px;font-weight:700;color:var(--rd);margin:4px 0 8px">🔥 1日の総消費カロリー（よく「TDEE」と呼ばれます）</div>
+      <div class="ibox" style="font-size:12px;line-height:1.8">
+        <b>総消費カロリー ＝ 基礎代謝 × 活動係数</b><br>
+        「何もしなくても消えるカロリー（基礎代謝）」に、日常の動き・運動量を掛けて算出します。<br><br>
+        <span style="color:var(--txt3)">例：基礎代謝 1,600 kcal × 活動係数 1.55（週3〜5回運動）＝ <b style="color:var(--txt)">2,480 kcal/日</b></span><br><br>
+        活動係数の目安：<br>
+        　1.2 ：ほぼ座り仕事・運動なし<br>
+        　1.375：軽い運動（週1〜3回）<br>
+        　1.55 ：中程度の運動（週3〜5回）<br>
+        　1.725：活発（週6〜7回）<br>
+        　1.9  ：非常に活発（肉体労働など）
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--bl);margin:14px 0 8px">🧮 基礎代謝（BMR）の計算式</div>
+      <div class="ibox" style="font-size:12px;line-height:1.8">
+        <b>Harris-Benedict 改訂式（Mifflin-St Jeor式）</b>を使用しています。<br><br>
+        男性：88.4 ＋（13.4 × 体重kg）＋（4.8 × 身長cm）−（5.7 × 年齢）<br>
+        女性：447.6 ＋（9.2 × 体重kg）＋（3.1 × 身長cm）−（4.3 × 年齢）<br><br>
+        <span style="color:var(--txt3)">基礎代謝とは、寝ていても・じっとしていても心臓を動かしたり体温を保つために使う最低限のカロリーです。</span>
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--gr);margin:14px 0 8px">🎯 次週の目標摂取カロリーの計算</div>
+      <div class="ibox" style="font-size:12px;line-height:1.8">
+        <b>目標摂取 ＝ 総消費カロリー − 1日あたりの赤字カロリー</b><br><br>
+        体脂肪 1kg を落とすには約 <b>7,200 kcal</b> の赤字が必要です。<br><br>
+        <span style="color:var(--txt3)">例：5kg 落としたい・12週間の場合<br>
+        必要な赤字合計：5 × 7,200 ＝ 36,000 kcal<br>
+        1日あたり：36,000 ÷（12週 × 7日）≒ <b style="color:var(--txt)">428 kcal/日 の赤字</b><br>
+        目標摂取：2,480 − 428 ＝ <b style="color:var(--txt)">2,052 kcal</b></span><br><br>
+        ※ 計算結果が 1,200 kcal を下回る場合は安全のため 1,200 kcal に固定しています。
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--am);margin:14px 0 8px">⚖️ カロリーバランスの見方</div>
+      <div class="ibox" style="font-size:12px;line-height:1.8">
+        <b>バランス ＝ 摂取カロリー −（運動消費 ＋ 基礎代謝）</b><br><br>
+        <span style="color:var(--rd)">＋（プラス）</span>…消費より多く食べている → 脂肪蓄積方向<br>
+        <span style="color:var(--gr)">−（マイナス）</span>…消費より少なく食べている → 脂肪燃焼方向<br><br>
+        <span style="color:var(--txt3)">ダイエット中はバランスを毎日マイナスにする必要はなく、<b style="color:var(--txt)">1週間の合計</b>でマイナスになっていることが大切です。</span>
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--pu);margin:14px 0 8px">💪 運動消費カロリーの計算</div>
+      <div class="ibox" style="font-size:12px;line-height:1.8">
+        <b>消費 ＝ MET × 体重(kg) × 実働時間(h) ＋ 1.5 × 体重(kg) × 休憩時間(h)</b><br><br>
+        MET（メッツ）とは運動の強度を数値化したもので、安静時を「1」として何倍のエネルギーを使うかを示します。<br><br>
+        <span style="color:var(--txt3)">例：体重 70kg・スクワット（MET 5.4）・20分（休憩 5分）<br>
+        実働 15分＋休憩 5分<br>
+        消費：5.4 × 70 × (15/60) ＋ 1.5 × 70 × (5/60) ≒ <b style="color:var(--txt)">103 kcal</b></span>
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -965,7 +1031,7 @@ function renderWeekly(){
   const wts=ST.weights||[];
   if(wts.length>=2){const actual=Math.round((wts[wts.length-1].w-wts[0].w)*100)/100;html+=`<div class="ibox"><strong>実際の体重変化:</strong> ${actual>0?'+':''}${actual} kg</div>`;if(Math.abs(predict-actual)>0.3&&wts.length>=7){const estBMR=(intake-burn-actual*7200)/7,factor=Math.round(estBMR/bmr*100)/100;html+=`<div class="abox aa"><strong>基礎代謝乖離を検出</strong><br>推定BMR: ${Math.round(estBMR)} kcal/日<br><button onclick="applyBMR(${factor})" style="margin-top:8px;padding:8px 14px;background:var(--gr);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">次週から適用</button></div>`;}}
   document.getElementById('wk-an').innerHTML=html;
-  const tgt=calcTgt();document.getElementById('next-tgt').textContent=tgt+' kcal';document.getElementById('next-note').textContent=`TDEE: ${tdee()} kcal | BMR: ${bmr} kcal | 目標: ${ST.settings.target}kg (${ST.settings.weeks}週)`;
+  const tgt=calcTgt();document.getElementById('next-tgt').textContent=tgt+' kcal';document.getElementById('next-note').textContent=`1日の総消費: ${tdee()} kcal（基礎代謝 ${bmr} kcal × 活動係数 ${ST.settings.activity}）| 目標: ${ST.settings.target}kg・${ST.settings.weeks}週`;
 }
 function applyBMR(f){ST.bmrF=f;saveST();renderWeekly();renderW();toast('✓ BMRを更新しました');}
 
