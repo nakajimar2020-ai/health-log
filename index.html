@@ -253,13 +253,20 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 
     <!-- 筋トレ -->
     <div id="screen-exercise" class="screen">
+      <div class="date-nav">
+        <button class="date-nav-btn" onclick="exNavDay(-1)">‹</button>
+        <span class="date-nav-lbl" id="ex-date-lbl"></span>
+        <button class="date-nav-today" onclick="exNavToday()" id="ex-today-btn">今日</button>
+        <button class="date-nav-btn" onclick="exNavDay(1)" id="ex-next-btn">›</button>
+        <button class="date-nav-btn" onclick="openExCal()" title="カレンダーから日付を選ぶ" style="font-size:16px">📅</button>
+      </div>
       <div class="mgrid g2" style="margin-bottom:9px">
-        <div class="met"><div class="mv" id="ek" style="color:var(--rd)">0</div><div class="mu">kcal 消費</div><div class="ml">本日</div></div>
-        <div class="met"><div class="mv" id="es" style="color:var(--pu)">0</div><div class="mu">セット</div><div class="ml">本日合計</div></div>
+        <div class="met"><div class="mv" id="ek" style="color:var(--rd)">0</div><div class="mu">kcal 消費</div><div class="ml">運動</div></div>
+        <div class="met"><div class="mv" id="es" style="color:var(--pu)">0</div><div class="mu">セット</div><div class="ml">合計</div></div>
       </div>
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div class="ctitle" style="margin-bottom:0">本日の記録</div>
+          <div class="ctitle" style="margin-bottom:0" id="ex-list-title">本日の記録</div>
           <button class="sb" style="padding:8px 14px;font-size:12px" onclick="openEx()">＋ 追加</button>
         </div>
         <div id="ex-list"><div class="empty">まだ記録がありません</div></div>
@@ -343,15 +350,71 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
       <div class="card">
         <div class="ctitle">データ管理</div>
         <div style="display:flex;gap:7px">
-          <button onclick="exportData()" style="flex:1;padding:10px;background:var(--bl-lt);color:var(--bl);border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">📤 エクスポート</button>
+          <button id="export-btn" onclick="exportData()" style="flex:1;padding:10px;background:var(--bl-lt);color:var(--bl);border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">📤 エクスポート</button>
           <button onclick="document.getElementById('imp').click()" style="flex:1;padding:10px;background:var(--card2);color:var(--txt2);border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">📥 インポート</button>
         </div>
         <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)">
+      </div>
+      <div class="card">
+        <div class="ctitle">引用文献</div>
+        <button onclick="openOv('refs-ov')" style="width:100%;padding:11px;background:var(--card2);color:var(--txt2);border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;text-align:left">📄 使用文献一覧を見る →</button>
       </div>
       <button class="cfmbtn" onclick="saveSt()">設定を保存</button>
       <div style="height:16px"></div>
     </div>
 
+  </div>
+</div>
+
+<!-- 引用文献シート -->
+<div class="ov" id="refs-ov">
+  <div class="sheet" style="max-height:90vh">
+    <div class="shandle"></div>
+    <div class="shdr"><span class="stitle">引用文献</span><button class="xbtn" onclick="closeOv('refs-ov')">×</button></div>
+    <div class="sbody" style="overflow-y:auto;max-height:calc(90vh - 60px)">
+      <div style="font-size:11px;color:var(--txt3);margin-bottom:14px">HealthLogで使用しているアルゴリズム・数値の根拠となる査読済み論文の一覧です。</div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--rd);margin:12px 0 6px">💪 レジスタンストレーニングの消費カロリー（MET値）</div>
+      <div class="ibox" style="font-size:11px;line-height:1.7">
+        <b>[1]</b> Reis VM, et al. "Oxygen Uptake Kinetics and Metabolic Demands during Resistance Exercise in Apparently Healthy Adults." <i>PLoS One.</i> 2019;14(8):e0221284. PMID:31437191<br>
+        → ベンチプレス・インクライン・ラットプルダウン・バイセップカール等の実測MET値に使用<br><br>
+        <b>[2]</b> Realzola RA, et al. "Metabolic Profile of Reciprocal Supersets Versus Traditional Resistance Training." <i>J Strength Cond Res.</i> 2022;36(10):2709-2716. PMID:33927111<br>
+        → デッドリフト・シーテッドロー・チェストプレス・オーバーヘッドプレスのMET推定に使用<br><br>
+        <b>[3]</b> Nakagata T, et al. "Body Weight Resistance Exercise as an Alternative to Slow Walking for Increasing Postexercise Oxygen Consumption." <i>Physiol Int.</i> 2018;105(4):348-358. PMID:30587026<br>
+        → 自重種目（スクワット・プッシュアップ・クランチ・ヒールレイズ等）のMET値に使用（平均MET=3.1）<br><br>
+        <b>[4]</b> Poulios A, et al. "Energy Expenditure of Seven Body-Weight Resistance Exercises." <i>J Strength Cond Res.</i> 2024;38(12):2034-2046. PMID:39178048<br>
+        → プッシュアップ・スクワット・プランク・ランジ・バーピー等のkcal/min実測値に使用<br><br>
+        <b>[5]</b> Haramura M, et al. "Cardiorespiratory and Metabolic Responses to Continuous Squat Exercise." <i>J Physiol Anthropol.</i> 2017;36(1):10. PMID:28179011<br>
+        → スクワットMET=6.5（間接熱量計実測）に使用<br><br>
+        <b>[6]</b> Herrmann SD, et al. "2024 Adult Compendium of Physical Activities." <i>J Sport Health Sci.</i> 2024;13(1):5-28. PMID:38242596<br>
+        → レジスタンス運動全般のMET範囲（3.5–6.0）の根拠。32,173件スクリーニング・701論文から作成<br><br>
+        <b>[7]</b> Buitrago S, et al. "Effects of Load and Training Modes on Physiological and Metabolic Responses in Resistance Exercise." <i>Appl Physiol Nutr Metab.</i> 2014;39(2):237-244. PMID:24552376<br>
+        → VO2・EPOCと総仕事量の線形関係の根拠。休憩時間分離計算モデルに使用
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--bl);margin:16px 0 6px">🧮 基礎代謝（BMR）計算式</div>
+      <div class="ibox" style="font-size:11px;line-height:1.7">
+        <b>[8]</b> Mifflin MD, et al. "A new predictive equation for resting energy expenditure in healthy individuals." <i>Am J Clin Nutr.</i> 1990;51(2):241-247. PMID:2305711<br>
+        → Harris-Benedict改訂式（Mifflin-St Jeor式）によるBMR計算に使用
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--am);margin:16px 0 6px">🏋️ 推定1RM計算式</div>
+      <div class="ibox" style="font-size:11px;line-height:1.7">
+        <b>[9]</b> Epley B. "Poundage Chart." <i>Boyd Epley Workout.</i> 1985. (Ostrowski KJ, et al. J Strength Cond Res. 1997 で検証)<br>
+        → 1RM推定式 w × (1 + reps/30)（Epley式）に使用
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:var(--gr);margin:16px 0 6px">🥗 食品栄養データ</div>
+      <div class="ibox" style="font-size:11px;line-height:1.7">
+        <b>[10]</b> 文部科学省「日本食品標準成分表2020年版（八訂）増補2023年」<br>
+        → 食品データベース全品目のエネルギー・PFC・食物繊維値の根拠
+      </div>
+
+      <div style="font-size:10px;color:var(--txt3);margin-top:16px;padding-top:10px;border-top:1px solid var(--bdr)">
+        ※ MET値は実測研究が存在しない種目について最も近い種目から類推している場合があります（evidence_level B/C）。<br>
+        ※ 消費カロリーは個人差・負荷強度・動作速度により大きく変動します。参考値としてご利用ください。
+      </div>
+    </div>
   </div>
 </div>
 
@@ -427,7 +490,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
         <button class="add-set-btn" onclick="addExSet(false)">＋ セットを追加</button>
         <div class="fg"><label class="fl">合計時間 (分)</label><input class="fi" type="number" id="ex-dur" placeholder="20" inputmode="numeric" oninput="updRM()"></div>
         <div class="ibox" id="rm-pv">推定1RM: -- kg（Epley式）</div>
-        <button class="cfmbtn" onclick="addEx(false)">記録する</button>
+        <button class="cfmbtn" id="ex-add-btn" onclick="addEx(false)">記録する</button>
       </div>
 
       <!-- カスタム種目 -->
@@ -456,6 +519,7 @@ const TAGL={raw:'生',cooked:'加熱後',conv:'コンビニ',meal:'料理・外�
 const TAGC={raw:'t-r',cooked:'t-c',conv:'t-cv',meal:'t-m'};
 const TODAY=new Date().toISOString().slice(0,10);
 let viewDate=TODAY;
+let exViewDate=TODAY;
 
 let ST={
   days:{},
@@ -502,7 +566,11 @@ async function init(){
   const d=new Date();
   document.getElementById('hdate').textContent=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
   if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
-  setTimeout(()=>{document.getElementById('loading').classList.add('done');renderFood();loadSettingsUI();initCal();},280);
+  setTimeout(()=>{
+    document.getElementById('loading').classList.add('done');
+    renderFood();loadSettingsUI();initCal();
+    if(navigator.share){const b=document.getElementById('export-btn');if(b)b.textContent='🔗 共有・エクスポート';}
+  },280);
 }
 
 function go(t){
@@ -558,11 +626,17 @@ function openFood(meal){cMeal=meal;cFood=null;cFCat='すべて';document.getElem
 function bldFChips(){document.getElementById('fchips').innerHTML=['すべて',...FCATS].map(c=>`<button class="chip${c===cFCat?' on':''}" onclick="setFCat('${c.replace(/'/g,'&#39;')}')">${c}</button>`).join('');}
 function setFCat(c){cFCat=c;bldFChips();sF(document.getElementById('fq').value);}
 function swFTab(t){['db','manual'].forEach(x=>{document.getElementById('tab-'+x).classList.toggle('on',x===t);document.getElementById('fp-'+x).style.display=x===t?'block':'none';});}
+function hira2kata(s){return s.replace(/[\u3041-\u3096]/g,c=>String.fromCharCode(c.charCodeAt(0)+0x60));}
+function kata2hira(s){return s.replace(/[\u30A1-\u30F6]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60));}
 function sF(q){
   document.getElementById('f-det').style.display='none';
   let res=FDB;
   if(cFCat!=='すべて')res=res.filter(f=>f.cat===cFCat);
-  if(q)res=res.filter(f=>f.n.includes(q));
+  if(q){
+    const qK=hira2kata(q);
+    const qH=kata2hira(q);
+    res=res.filter(f=>{const n=f.n,nH=kata2hira(n);return n.includes(q)||n.includes(qK)||nH.includes(q)||nH.includes(qH);});
+  }
   res=res.slice(0,18);
   const c=document.getElementById('f-res');
   if(!res.length){c.innerHTML=`<div class="empty" style="padding:16px 0">「${q||cFCat}」は見つかりません<br><small style="font-size:11px">「手動入力」タブで直接入力できます</small></div>`;return;}
@@ -584,7 +658,10 @@ function addF(){if(!cFood)return;const a=parseFloat(document.getElementById('fd-
 function addManual(){const name=document.getElementById('m-n').value.trim();if(!name){toast('食品名を入力してください');return;}const k=parseFloat(document.getElementById('m-k').value)||0;if(!k){toast('カロリーを入力してください');return;}getDay(viewDate).meals[cMeal].push({n:name,a:parseFloat(document.getElementById('m-a').value)||null,tag:'conv',k:Math.round(k),p:+(parseFloat(document.getElementById('m-p').value)||0).toFixed(1),f:+(parseFloat(document.getElementById('m-f').value)||0).toFixed(1),c:+(parseFloat(document.getElementById('m-c').value)||0).toFixed(1),fi:+(parseFloat(document.getElementById('m-fi').value)||0).toFixed(1)});['m-n','m-k','m-p','m-f','m-c','m-fi','m-a'].forEach(id=>document.getElementById(id).value='');saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
 function goEditDay(ds){viewDate=ds;go('food');}
 
-let selExId=null,selGroup='chest',exSets=[],cxSets=[];
+function exNavDay(n){const d=new Date(exViewDate+'T00:00:00');d.setDate(d.getDate()+n);const nd=d.toISOString().slice(0,10);if(nd>TODAY)return;exViewDate=nd;renderEx();}
+function exNavToday(){exViewDate=TODAY;renderEx();}
+
+let selExId=null,selGroup='chest',exSets=[],cxSets=[],editExIdx=null;
 function buildExGroups(){
   document.getElementById('group-chips').innerHTML=EXGROUPS.map(g=>`<button class="group-chip${g.id===selGroup?' on':''}" onclick="setExGroup('${g.id}')">${g.label}</button>`).join('');
   renderExMenuList();
@@ -665,12 +742,24 @@ function addEx(isCustom){
   const rm=sets.reduce((best,s)=>{if(s.w&&s.r){const v=Math.round(s.w*(1+s.r/30)*10)/10;return v>best?v:best;}return best;},0);
   const kcal=Math.round(met*bw*(workTime/60)+1.5*bw*(totalRest/60));
   const totalVol=sets.reduce((s,set)=>s+((set.w||0)*(set.r||0)),0);
-  getDay().exercises.push({name,group,group_label,muscles,met,rm,k:kcal,sets:sets.map(s=>({...s})),dur,totalVol,ev,custom:!!isCustom});
-  saveST();closeOv('ex-ov');renderEx();toast('✓ 記録しました');
+  const record={name,group,group_label,muscles,met,rm,k:kcal,sets:sets.map(s=>({...s})),dur,totalVol,ev,custom:!!isCustom};
+  if(editExIdx!==null){
+    getDay(exViewDate).exercises[editExIdx]=record;
+    editExIdx=null;
+    saveST();closeOv('ex-ov');renderEx();toast('✓ 更新しました');
+  }else{
+    getDay(exViewDate).exercises.push(record);
+    saveST();closeOv('ex-ov');renderEx();toast('✓ 記録しました');
+  }
 }
 function renderEx(){
   const list=document.getElementById('ex-list');
-  const exes=getDay().exercises;
+  const exes=getDay(exViewDate).exercises;
+  const isToday=exViewDate===TODAY;
+  document.getElementById('ex-date-lbl').textContent=isToday?`今日 (${fmtDate(exViewDate)})`:fmtDate(exViewDate);
+  document.getElementById('ex-next-btn').disabled=isToday;
+  document.getElementById('ex-today-btn').style.display=isToday?'none':'inline-block';
+  document.getElementById('ex-list-title').textContent=isToday?'本日の記録':fmtDate(exViewDate)+'の記録';
   if(!exes.length){list.innerHTML='<div class="empty">まだ記録がありません</div>';document.getElementById('ek').textContent=0;document.getElementById('es').textContent=0;return;}
   const groups=EXGROUPS.map(g=>g.id);
   let tk=0,ts=0,html='';
@@ -686,11 +775,11 @@ function renderEx(){
       ts+=numSets;
       let setsHtml='';
       if(setsArr&&setsArr.length){
-        setsHtml=setsArr.map((s,i)=>`<div class="exs">セット${i+1}: <strong style="color:var(--txt)">${s.w||0}kg × ${s.r||0}rep</strong>${s.rest?` <span style="color:var(--am)">休憩${s.rest}分</span>`:''}</div>`).join('');
+        setsHtml=`<table style="width:100%;border-collapse:collapse;margin:5px 0 4px"><thead><tr style="font-size:10px;color:var(--txt3)"><th style="text-align:left;padding:2px 4px">セット</th><th style="padding:2px 4px">重さ</th><th style="padding:2px 4px">回数</th><th style="padding:2px 4px">RM</th></tr></thead><tbody>`+setsArr.map((s,i)=>{const rm=s.w&&s.r?Math.round(s.w*(1+s.r/30)*10)/10:'-';return`<tr style="font-size:12px;border-top:1px solid var(--bdr)"><td style="padding:3px 4px;color:var(--txt3)">${i+1}</td><td style="padding:3px 4px;text-align:center;font-weight:700">${s.w||0}kg</td><td style="padding:3px 4px;text-align:center;font-weight:700">${s.r||0}回</td><td style="padding:3px 4px;text-align:center;color:var(--bl)">${rm}kg</td></tr>`}).join('')+'</tbody></table>';
       }else{
         setsHtml=`<div class="exs">${e.w||0}kg × ${e.reps||0}rep × ${e.sets}set</div>`;
       }
-      html+=`<div class="exitem"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div class="exn">${e.custom?'★ ':''}${e.name}</div>${setsHtml}<div class="exs">${e.dur?e.dur+'分':''}${e.totalVol?' | 総負荷:'+e.totalVol+'kg':''} | MET:${e.met}</div>${e.rm?`<div class="exs">推定1RM: ${e.rm}kg${e.muscles?' | '+e.muscles:''}</div>`:''}<div class="exev">${e.ev||''}</div></div><div style="display:flex;align-items:center;gap:5px;flex-shrink:0;margin-left:7px"><span class="exk">${e.k}kcal</span><button class="delbtn" onclick="delEx(${idx})">×</button></div></div></div>`;
+      html+=`<div class="exitem"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div class="exn">${e.custom?'★ ':''}${e.name}</div>${setsHtml}<div class="exs">${e.dur?e.dur+'分 | ':''}${e.totalVol?'総負荷:'+e.totalVol+'kg | ':''}MET:${e.met}</div>${e.rm?`<div class="exs">推定1RM: ${e.rm}kg${e.muscles?' | '+e.muscles:''}</div>`:''}<div class="exev">${e.ev||''}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;margin-left:7px"><span class="exk">${e.k}kcal</span><button class="delbtn" style="background:var(--bl-lt);color:var(--bl);border:none;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer" onclick="editEx(${idx})">✏️</button><button class="delbtn" onclick="delEx(${idx})">×</button></div></div></div>`;
     });
     html+='</div>';
   });
@@ -698,20 +787,55 @@ function renderEx(){
   document.getElementById('ek').textContent=Math.round(tk);
   document.getElementById('es').textContent=ts;
 }
-function delEx(i){getDay().exercises.splice(i,1);saveST();renderEx();}
-function openEx(){selExId=null;exSets=[{w:0,r:10,rest:0}];cxSets=[];document.getElementById('ex-sel-info').style.display='none';swETab('sel');buildExGroups();renderExSets(false);openOv('ex-ov');}
+function delEx(i){getDay(exViewDate).exercises.splice(i,1);saveST();renderEx();}
+function openEx(){
+  editExIdx=null;selExId=null;exSets=[{w:0,r:10,rest:0}];cxSets=[];
+  document.getElementById('ex-sel-info').style.display='none';
+  document.getElementById('ex-add-btn').textContent='記録する';
+  document.getElementById('ex-add-btn').closest('.sheet').querySelector('.stitle').textContent='筋トレを記録';
+  swETab('sel');buildExGroups();renderExSets(false);
+  document.getElementById('ex-dur').value='';
+  openOv('ex-ov');
+}
+function editEx(i){
+  const e=getDay(exViewDate).exercises[i];if(!e)return;
+  editExIdx=i;
+  exSets=e.sets&&Array.isArray(e.sets)?e.sets.map(s=>({...s})):[{w:e.w||0,r:e.reps||10,rest:0}];
+  cxSets=[];
+  if(!e.custom){
+    swETab('sel');
+    const exDb=EXDB.find(x=>x.n===e.name);
+    selExId=exDb?exDb.id:null;
+    const grp=exDb?exDb.group:'chest';
+    selGroup=grp;
+    buildExGroups();
+    if(selExId){renderExMenuList();const exEl=EXDB.find(x=>x.id===selExId);if(exEl){const ev=exEl.evidence&&exEl.evidence.length?`<a href="${exEl.evidence[0].url}" class="ev-link" target="_blank">📄 ${exEl.evidence[0].citation}</a>`:'<span style="font-size:10px;color:var(--txt3)">類推値</span>';document.getElementById('ex-sel-info').innerHTML=`<div class="ibox" style="font-size:12px"><strong>${exEl.n}</strong>　MET:${exEl.met}（${exEl.met_range[0]}–${exEl.met_range[1]}）<br>主働筋: ${exEl.muscles}<br>${ev}</div>`;document.getElementById('ex-sel-info').style.display='block';}}
+  }else{
+    swETab('custom');
+    if(cxSets.length===0){cxSets=exSets.map(s=>({...s}));}renderExSets(true);
+  }
+  renderExSets(false);
+  document.getElementById('ex-dur').value=e.dur||'';
+  updRM();
+  document.getElementById('ex-add-btn').textContent='更新する';
+  document.getElementById('ex-add-btn').closest('.sheet').querySelector('.stitle').textContent='筋トレを編集';
+  openOv('ex-ov');
+}
 
 // ── Calendar ──
 let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
-let calSelDate=TODAY,calPickMode=false;
+let calSelDate=TODAY,calPickMode=false,calPickTarget='food';
 function initCal(){renderCal();}
 function calMove(d){calMonth+=d;if(calMonth>11){calMonth=0;calYear++;}else if(calMonth<0){calMonth=11;calYear--;}renderCal();}
-function openFoodCal(){calPickMode=true;calSelDate=viewDate;const[y,m]=viewDate.split('-');calYear=parseInt(y);calMonth=parseInt(m)-1;go('calendar');}
+function openFoodCal(){calPickMode=true;calPickTarget='food';calSelDate=viewDate;const[y,m]=viewDate.split('-');calYear=parseInt(y);calMonth=parseInt(m)-1;go('calendar');}
+function openExCal(){calPickMode=true;calPickTarget='exercise';calSelDate=exViewDate;const[y,m]=exViewDate.split('-');calYear=parseInt(y);calMonth=parseInt(m)-1;go('calendar');}
 function renderCal(){
   // pick-mode banner
   let bn=document.getElementById('cal-pick-banner');
   if(!bn){bn=document.createElement('div');bn.id='cal-pick-banner';const sc=document.getElementById('screen-calendar');sc.insertBefore(bn,sc.firstChild);}
-  bn.innerHTML=calPickMode?`<div style="background:var(--gr);color:#fff;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">📅 日付を選んで食事を編集<button onclick="calPickMode=false;renderCal()" style="background:rgba(255,255,255,.25);border:none;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer">キャンセル</button></div>`:'';
+  const bannerColor=calPickTarget==='exercise'?'var(--rd)':'var(--gr)';
+  const bannerMsg=calPickTarget==='exercise'?'📅 日付を選んで筋トレを表示':'📅 日付を選んで食事を編集';
+  bn.innerHTML=calPickMode?`<div style="background:${bannerColor};color:#fff;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">${bannerMsg}<button onclick="calPickMode=false;renderCal()" style="background:rgba(255,255,255,.25);border:none;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer">キャンセル</button></div>`:'';
   const months=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
   document.getElementById('cal-month-label').textContent=`${calYear}年 ${months[calMonth]}`;
   const dows=['日','月','火','水','木','金','土'];
@@ -735,7 +859,7 @@ function renderCal(){
   document.getElementById('cal-grid').innerHTML=cells;
   renderCalDetail();
 }
-function selCalDay(ds){calSelDate=ds;if(calPickMode){calPickMode=false;goEditDay(ds);return;}renderCal();}
+function selCalDay(ds){calSelDate=ds;if(calPickMode){calPickMode=false;if(calPickTarget==='exercise'){exViewDate=ds;go('exercise');}else{goEditDay(ds);}return;}renderCal();}
 function renderCalDetail(){
   const ds=calSelDate;const day=ST.days[ds];
   const [y,m,d]=ds.split('-');
@@ -850,7 +974,26 @@ function saveSt(){ST.settings={gender:document.getElementById('s-gender').value,
 
 async function syncNotion(){const token=ST.settings.notionToken;if(!token){toast('設定でTokenを入力してください');go('settings');return;}const btn=document.getElementById('sync-btn');btn.textContent='同期中…';btn.disabled=true;try{const day=getDay();const allF=Object.values(day.meals).flat();const intake=Math.round(allF.reduce((s,f)=>s+f.k,0));const burn=Math.round(day.exercises.reduce((s,e)=>s+e.k,0));const res=await fetch('https://api.notion.com/v1/pages',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json','Notion-Version':'2022-06-28'},body:JSON.stringify({parent:{type:'workspace',workspace:true},properties:{title:{title:[{text:{content:`HealthLog ${TODAY}`}}]}},children:[{object:'block',type:'heading_2',heading_2:{rich_text:[{text:{content:'📊 本日サマリー'}}]}},{object:'block',type:'paragraph',paragraph:{rich_text:[{text:{content:`摂取: ${intake} kcal | 運動消費: ${burn} kcal | 体重: ${ST.settings.weight||'--'}kg`}}]}}]})});if(!res.ok)throw new Error((await res.json()).message);toast('✓ Notionに同期しました');}catch(e){toast('エラー: '+e.message);}finally{btn.textContent='Notion同期';btn.disabled=false;}}
 
-function exportData(){const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(ST,null,2));a.download=`healthlog_${TODAY}.json`;a.click();toast('✓ エクスポートしました');}
+function exportData(){
+  const json=JSON.stringify(ST,null,2);
+  const blob=new Blob([json],{type:'application/json;charset=utf-8'});
+  const fname=`healthlog_${TODAY}.json`;
+  // iPhone/iPad: Web Share API でファイル共有
+  if(navigator.share){
+    const file=new File([blob],fname,{type:'application/json'});
+    navigator.share({files:[file],title:'HealthLog データ',text:'HealthLogのバックアップデータ'})
+      .then(()=>toast('✓ 共有しました'))
+      .catch(e=>{if(e.name!=='AbortError')dlBlob(blob,fname);});
+    return;
+  }
+  dlBlob(blob,fname);
+}
+function dlBlob(blob,fname){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=fname;a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+  toast('✓ エクスポートしました');
+}
 function importData(inp){const file=inp.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{try{const data=JSON.parse(e.target.result);if(data.settings){ST={...ST,...data};saveST();renderFood();loadSettingsUI();toast('✓ インポートしました');}else toast('フォーマットが正しくありません');}catch{toast('読み込みに失敗しました');}};r.readAsText(file);inp.value='';}
 
 function openOv(id){document.getElementById(id).classList.add('open');}
