@@ -495,6 +495,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
         <button class="segb" id="tab-manual" onclick="swFTab('manual')">手動入力</button>
       </div>
       <div id="fp-db">
+        <div id="f-recent" style="margin-bottom:10px"></div>
         <input class="sinput" type="text" id="fq" placeholder="例：カレーライス、カルボナーラ、寿司まぐろ…" oninput="sF(this.value)" autocomplete="off">
         <div class="chips" id="fchips" style="margin-top:8px"></div>
         <div id="f-res"></div>
@@ -688,7 +689,32 @@ function delF(m,i){getDay(viewDate).meals[m].splice(i,1);saveST();renderFood();}
 function toggleM(m){const b=document.getElementById('mb-'+m),a=document.getElementById('ar-'+m);const v=b.style.display==='none';b.style.display=v?'block':'none';a.textContent=v?'▲':'▼';}
 
 let cMeal=null,cFood=null,cFCat='すべて';
-function openFood(meal){cMeal=meal;cFood=null;cFCat='すべて';document.getElementById('fq').value='';document.getElementById('f-res').innerHTML='';document.getElementById('f-det').style.display='none';swFTab('db');bldFChips();openOv('food-ov');setTimeout(()=>document.getElementById('fq').focus(),300);}
+
+function addToRecent(food){
+  if(!food||!food.n)return;
+  if(!ST.recentFoods)ST.recentFoods=[];
+  ST.recentFoods=ST.recentFoods.filter(f=>f.n!==food.n);
+  ST.recentFoods.unshift({...food});
+  if(ST.recentFoods.length>15)ST.recentFoods=ST.recentFoods.slice(0,15);
+  saveST();
+}
+function renderFRecent(){
+  const el=document.getElementById('f-recent');if(!el)return;
+  const list=ST.recentFoods||[];
+  if(!list.length){el.innerHTML='';return;}
+  el.innerHTML=`<div style="font-size:11px;font-weight:700;color:var(--txt3);margin-bottom:6px">🕐 最近使った食品</div>`+
+    list.map(f=>`<div class="fcand" style="display:flex;justify-content:space-between;align-items:center" onclick='selF(${JSON.stringify(f).replace(/'/g,"&#39;")});document.getElementById("f-recent").style.display="none"'><div class="fcname" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.n}</div><div style="font-size:11px;color:var(--txt3);flex-shrink:0;margin-left:8px">${f.k}kcal/100g</div></div>`).join('');
+}
+function openFood(meal){
+  cMeal=meal;cFood=null;cFCat='すべて';
+  document.getElementById('fq').value='';
+  document.getElementById('f-res').innerHTML='';
+  document.getElementById('f-det').style.display='none';
+  const rec=document.getElementById('f-recent');if(rec)rec.style.display='';
+  swFTab('db');bldFChips();renderFRecent();
+  openOv('food-ov');
+  setTimeout(()=>document.getElementById('fq').focus(),300);
+}
 function bldFChips(){document.getElementById('fchips').innerHTML=['すべて',...FCATS].map(c=>`<button class="chip${c===cFCat?' on':''}" onclick="setFCat('${c.replace(/'/g,'&#39;')}')">${c}</button>`).join('');}
 function setFCat(c){cFCat=c;bldFChips();sF(document.getElementById('fq').value);}
 function swFTab(t){['db','manual'].forEach(x=>{document.getElementById('tab-'+x).classList.toggle('on',x===t);document.getElementById('fp-'+x).style.display=x===t?'block':'none';});}
@@ -696,6 +722,7 @@ function hira2kata(s){return s.replace(/[\u3041-\u3096]/g,c=>String.fromCharCode
 function kata2hira(s){return s.replace(/[\u30A1-\u30F6]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60));}
 function sF(q){
   document.getElementById('f-det').style.display='none';
+  const rec=document.getElementById('f-recent');if(rec)rec.style.display=q?'none':'';
   let res=FDB;
   if(cFCat!=='すべて')res=res.filter(f=>f.cat===cFCat);
   if(q){
@@ -720,8 +747,8 @@ function selF(f){
 }
 function setAmt(a){document.getElementById('fd-amt').value=a;updPv();}
 function updPv(){if(!cFood)return;const a=parseFloat(document.getElementById('fd-amt').value)||100,r=a/100;document.getElementById('fd-pv').textContent=`→ ${Math.round(cFood.k*r)} kcal / P:${(cFood.p*r).toFixed(1)}g F:${(cFood.f*r).toFixed(1)}g C:${(cFood.c*r).toFixed(1)}g`;}
-function addF(){if(!cFood)return;const a=parseFloat(document.getElementById('fd-amt').value)||100,r=a/100;getDay(viewDate).meals[cMeal].push({n:cFood.n,a,tag:cFood.tag||'',k:Math.round(cFood.k*r),p:+((cFood.p*r).toFixed(1)),f:+((cFood.f*r).toFixed(1)),c:+((cFood.c*r).toFixed(1)),fi:+((cFood.fi*r).toFixed(1))});saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
-function addManual(){const name=document.getElementById('m-n').value.trim();if(!name){toast('食品名を入力してください');return;}const k=parseFloat(document.getElementById('m-k').value)||0;if(!k){toast('カロリーを入力してください');return;}getDay(viewDate).meals[cMeal].push({n:name,a:parseFloat(document.getElementById('m-a').value)||null,tag:'conv',k:Math.round(k),p:+(parseFloat(document.getElementById('m-p').value)||0).toFixed(1),f:+(parseFloat(document.getElementById('m-f').value)||0).toFixed(1),c:+(parseFloat(document.getElementById('m-c').value)||0).toFixed(1),fi:+(parseFloat(document.getElementById('m-fi').value)||0).toFixed(1)});['m-n','m-k','m-p','m-f','m-c','m-fi','m-a'].forEach(id=>document.getElementById(id).value='');saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
+function addF(){if(!cFood)return;const a=parseFloat(document.getElementById('fd-amt').value)||100,r=a/100;getDay(viewDate).meals[cMeal].push({n:cFood.n,a,tag:cFood.tag||'',k:Math.round(cFood.k*r),p:+((cFood.p*r).toFixed(1)),f:+((cFood.f*r).toFixed(1)),c:+((cFood.c*r).toFixed(1)),fi:+((cFood.fi*r).toFixed(1))});addToRecent(cFood);saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
+function addManual(){const name=document.getElementById('m-n').value.trim();if(!name){toast('食品名を入力してください');return;}const k=parseFloat(document.getElementById('m-k').value)||0;if(!k){toast('カロリーを入力してください');return;}const mf={n:name,k:Math.round(k),p:+(parseFloat(document.getElementById('m-p').value)||0).toFixed(1),f:+(parseFloat(document.getElementById('m-f').value)||0).toFixed(1),c:+(parseFloat(document.getElementById('m-c').value)||0).toFixed(1),fi:+(parseFloat(document.getElementById('m-fi').value)||0).toFixed(1),tag:'conv'};getDay(viewDate).meals[cMeal].push({...mf,a:parseFloat(document.getElementById('m-a').value)||null});addToRecent(mf);['m-n','m-k','m-p','m-f','m-c','m-fi','m-a'].forEach(id=>document.getElementById(id).value='');saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
 function goEditDay(ds){viewDate=ds;go('food');}
 
 function exNavDay(n){const d=new Date(exViewDate+'T00:00:00');d.setDate(d.getDate()+n);const nd=d.toISOString().slice(0,10);if(nd>TODAY)return;exViewDate=nd;renderEx();}
