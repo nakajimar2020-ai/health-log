@@ -11,6 +11,31 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>HealthLog</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<!-- Firebase SDK (compat v9) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+// ▼▼▼ Firebase設定 — Firebaseコンソールからコピーして貼り付けてください ▼▼▼
+const FIREBASE_CONFIG = {
+  apiKey:            "YOUR_API_KEY",
+  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId:         "YOUR_PROJECT_ID",
+  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId:             "YOUR_APP_ID"
+};
+// ▲▲▲ ここまで ▲▲▲
+
+let fbApp=null,fbAuth=null,fbDb=null,fbUser=null;
+try{
+  if(FIREBASE_CONFIG.apiKey!=='YOUR_API_KEY'){
+    fbApp=firebase.initializeApp(FIREBASE_CONFIG);
+    fbAuth=firebase.auth();
+    fbDb=firebase.firestore();
+  }
+}catch(e){console.warn('Firebase init error:',e);}
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -209,7 +234,10 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
   <div class="hdr">
     <div class="hdr-inner">
       <div><div class="htitle">🏋️ HealthLog</div><div class="hsub" id="hdate"></div></div>
-      <button class="hbtn" onclick="syncNotion()" id="sync-btn">Notion同期</button>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button id="hdr-auth-icon" onclick="go('settings')" title="ログインしていません" style="background:none;border:none;font-size:20px;cursor:pointer;padding:2px;line-height:1">👤</button>
+        <button class="hbtn" onclick="syncNotion()" id="sync-btn">Notion同期</button>
+      </div>
     </div>
     <div class="tabs">
       <div class="tab on" onclick="go('food')"><span class="ti">🍽</span><span>食事</span></div>
@@ -360,6 +388,22 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
           <button onclick="document.getElementById('imp').click()" style="flex:1;padding:10px;background:var(--card2);color:var(--txt2);border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">📥 インポート</button>
         </div>
         <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(this)">
+      </div>
+      <!-- Googleアカウント連携 -->
+      <div class="card">
+        <div class="ctitle">クラウド同期（Google）</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0 10px">
+          <div class="ndot off" id="fb-dot"></div>
+          <div id="fb-lbl" style="font-size:13px">未ログイン（ローカル保存中）</div>
+        </div>
+        <div id="fb-user-info" style="font-size:12px;color:var(--txt2);margin-bottom:8px"></div>
+        <button id="fb-login-btn" onclick="signInGoogle()" style="width:100%;padding:12px;background:#fff;color:#444;border:1.5px solid #ddd;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/></svg>
+          Googleでログイン
+        </button>
+        <button id="fb-migrate-btn" onclick="migrateToFirestore()" style="display:none;width:100%;margin-top:8px;padding:10px;background:var(--bl-lt);color:var(--bl);border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">☁️ 既存データをFirebaseに移行</button>
+        <button id="fb-logout-btn" onclick="signOutUser()" style="display:none;width:100%;margin-top:8px;padding:10px;background:var(--card2);color:var(--txt2);border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">ログアウト</button>
+        <div style="font-size:10px;color:var(--txt3);margin-top:10px;line-height:1.6">ログインすると記録がGoogleアカウントに保存されます。機種変更後も同じアカウントでデータを復元できます。</div>
       </div>
       <div class="card">
         <div class="ctitle">引用文献</div>
@@ -593,8 +637,28 @@ let ST={
   settings:{gender:'male',age:30,height:170,weight:70,target:65,weeks:12,activity:1.55,notionToken:''},
   bmrF:1.0,
 };
+// ── データ永続化（localStorage / Firestore 自動切替）──
 function loadST(){try{const s=localStorage.getItem('hl6');if(s)ST={...ST,...JSON.parse(s)};}catch(e){}}
-function saveST(){try{localStorage.setItem('hl6',JSON.stringify(ST));}catch(e){}}
+function saveST(){
+  try{localStorage.setItem('hl6',JSON.stringify(ST));}catch(e){}
+  if(fbUser&&fbDb){
+    // Firestoreに非同期保存（失敗してもアプリは動く）
+    fbDb.collection('users').doc(fbUser.uid).set(ST,{merge:true}).catch(e=>console.warn('Firestore save error:',e));
+  }
+}
+async function loadFromFirestore(){
+  if(!fbUser||!fbDb)return false;
+  try{
+    const doc=await fbDb.collection('users').doc(fbUser.uid).get();
+    if(doc.exists){
+      const data=doc.data();
+      ST={...ST,...data};
+      localStorage.setItem('hl6',JSON.stringify(ST));
+      return true;
+    }
+    return false;
+  }catch(e){console.warn('Firestore load error:',e);return false;}
+}
 
 function getDay(d=TODAY){
   if(!ST.days[d])ST.days[d]={meals:{b:[],l:[],d:[],s:[]},exercises:[]};
@@ -637,6 +701,7 @@ async function init(){
     document.getElementById('loading').classList.add('done');
     renderFood();loadSettingsUI();initCal();
     if(navigator.share){const b=document.getElementById('export-btn');if(b)b.textContent='🔗 共有・エクスポート';}
+    initFirebaseAuth();
   },280);
 }
 
@@ -1066,6 +1131,77 @@ function loadSettingsUI(){const s=ST.settings;['gender','age','ht','wt','tgt','w
 function saveSt(){ST.settings={gender:document.getElementById('s-gender').value,age:parseInt(document.getElementById('s-age').value)||30,height:parseFloat(document.getElementById('s-ht').value)||170,weight:parseFloat(document.getElementById('s-wt').value)||70,target:parseFloat(document.getElementById('s-tgt').value)||65,weeks:parseInt(document.getElementById('s-wks').value)||12,activity:parseFloat(document.getElementById('s-act').value)||1.55,notionToken:document.getElementById('s-ntk').value.trim()};saveST();loadSettingsUI();toast('✓ 設定を保存しました');}
 
 async function syncNotion(){const token=ST.settings.notionToken;if(!token){toast('設定でTokenを入力してください');go('settings');return;}const btn=document.getElementById('sync-btn');btn.textContent='同期中…';btn.disabled=true;try{const day=getDay();const allF=Object.values(day.meals).flat();const intake=Math.round(allF.reduce((s,f)=>s+f.k,0));const burn=Math.round(day.exercises.reduce((s,e)=>s+e.k,0));const res=await fetch('https://api.notion.com/v1/pages',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json','Notion-Version':'2022-06-28'},body:JSON.stringify({parent:{type:'workspace',workspace:true},properties:{title:{title:[{text:{content:`HealthLog ${TODAY}`}}]}},children:[{object:'block',type:'heading_2',heading_2:{rich_text:[{text:{content:'📊 本日サマリー'}}]}},{object:'block',type:'paragraph',paragraph:{rich_text:[{text:{content:`摂取: ${intake} kcal | 運動消費: ${burn} kcal | 体重: ${ST.settings.weight||'--'}kg`}}]}}]})});if(!res.ok)throw new Error((await res.json()).message);toast('✓ Notionに同期しました');}catch(e){toast('エラー: '+e.message);}finally{btn.textContent='Notion同期';btn.disabled=false;}}
+
+// ── Firebase 認証 ──
+async function signInGoogle(){
+  if(!fbAuth){toast('Firebase未設定。設定画面でFirebase設定を確認してください');return;}
+  try{
+    const provider=new firebase.auth.GoogleAuthProvider();
+    await fbAuth.signInWithPopup(provider);
+    // onAuthStateChanged が発火してUIを更新
+  }catch(e){
+    if(e.code!=='auth/popup-closed-by-user')toast('ログインに失敗しました: '+e.message);
+  }
+}
+async function signOutUser(){
+  if(!fbAuth)return;
+  await fbAuth.signOut();
+  fbUser=null;
+  updateAuthUI(null);
+  toast('ログアウトしました');
+}
+async function migrateToFirestore(){
+  if(!fbUser||!fbDb){toast('ログインが必要です');return;}
+  try{
+    await fbDb.collection('users').doc(fbUser.uid).set(ST,{merge:true});
+    toast('✓ データをFirebaseに移行しました');
+    updateAuthUI(fbUser);
+  }catch(e){toast('移行に失敗しました: '+e.message);}
+}
+function updateAuthUI(user){
+  fbUser=user;
+  const loginBtn=document.getElementById('fb-login-btn');
+  const logoutBtn=document.getElementById('fb-logout-btn');
+  const userInfo=document.getElementById('fb-user-info');
+  const migrateBtn=document.getElementById('fb-migrate-btn');
+  const statusDot=document.getElementById('fb-dot');
+  const statusLbl=document.getElementById('fb-lbl');
+  if(!loginBtn)return;
+  if(user){
+    loginBtn.style.display='none';
+    logoutBtn.style.display='block';
+    if(userInfo)userInfo.textContent=user.displayName||user.email;
+    if(migrateBtn)migrateBtn.style.display='block';
+    if(statusDot){statusDot.className='ndot on';}
+    if(statusLbl)statusLbl.textContent='同期中: '+(user.displayName||user.email);
+    // ヘッダーのミニアイコン更新
+    const hIcon=document.getElementById('hdr-auth-icon');
+    if(hIcon){hIcon.textContent='☁️';hIcon.title=user.displayName||user.email;}
+  }else{
+    loginBtn.style.display='block';
+    logoutBtn.style.display='none';
+    if(userInfo)userInfo.textContent='';
+    if(migrateBtn)migrateBtn.style.display='none';
+    if(statusDot){statusDot.className='ndot off';}
+    if(statusLbl)statusLbl.textContent='未ログイン（ローカル保存中）';
+    const hIcon=document.getElementById('hdr-auth-icon');
+    if(hIcon){hIcon.textContent='👤';hIcon.title='ログインしていません';}
+  }
+}
+function initFirebaseAuth(){
+  if(!fbAuth)return;
+  fbAuth.onAuthStateChanged(async(user)=>{
+    if(user){
+      fbUser=user;
+      // Firestoreからデータ取得（ローカルより新しければ上書き）
+      const loaded=await loadFromFirestore();
+      updateAuthUI(user);
+      if(loaded){renderFood();renderEx();renderW();renderWeekly();loadSettingsUI();}
+    }else{
+      updateAuthUI(null);
+    }
+  });
+}
 
 function exportData(){
   const json=JSON.stringify(ST,null,2);
