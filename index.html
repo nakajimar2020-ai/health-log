@@ -954,7 +954,8 @@ input,select,textarea,.fi,.fsel,.sinput,.win{background:#f7f7f5!important;color:
         </div>
         <div id="ex-sets-container"></div>
         <button class="add-set-btn" onclick="addExSet(false)">＋ セットを追加</button>
-        <div class="fg"><label class="fl">合計時間 (分)</label><input class="fi" type="number" id="ex-dur" placeholder="20" inputmode="numeric" oninput="updRM()"></div>
+        <div class="fg"><label class="fl">合計時間 (分)</label><input class="fi" type="number" id="ex-dur" placeholder="" inputmode="numeric" oninput="updRM()"></div>
+        <div style="font-size:11px;color:var(--txt3);margin:-4px 0 8px;line-height:1.5">💡 合計時間と休憩時間を入力すると消費カロリーがより正確になります。<br>消費 ＝ MET × 体重 × 実働時間（合計−休憩）＋ 安静代謝 × 休憩時間</div>
         <div class="ibox" id="rm-pv">推定1RM: -- kg（Epley式）</div>
         <button class="cfmbtn" id="ex-add-btn" onclick="addEx(false)">記録する</button>
       </div>
@@ -971,7 +972,8 @@ input,select,textarea,.fi,.fsel,.sinput,.win{background:#f7f7f5!important;color:
         </div>
         <div id="cx-sets-container"></div>
         <button class="add-set-btn" onclick="addExSet(true)">＋ セットを追加</button>
-        <div class="fg"><label class="fl">合計時間 (分)</label><input class="fi" type="number" id="cx-dur" placeholder="20" inputmode="numeric"></div>
+        <div class="fg"><label class="fl">合計時間 (分)</label><input class="fi" type="number" id="cx-dur" placeholder="" inputmode="numeric"></div>
+        <div style="font-size:11px;color:var(--txt3);margin:-4px 0 8px;line-height:1.5">💡 合計時間と休憩時間を入力すると消費カロリーがより正確になります。<br>消費 ＝ MET × 体重 × 実働時間（合計−休憩）＋ 安静代謝 × 休憩時間</div>
         <button class="cfmbtn" onclick="addEx(true)">記録する</button>
       </div>
     </div>
