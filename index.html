@@ -418,16 +418,16 @@ input,select,textarea,.fi,.fsel,.sinput,.win{background:#f7f7f5!important;color:
     <div id="screen-settings" class="screen">
       <div class="card">
         <div class="ctitle">基本情報</div>
-        <div class="fg"><label class="fl">性別</label><select class="fsel" id="s-gender"><option value="male">男性</option><option value="female">女性</option></select></div>
-        <div class="fg"><label class="fl">年齢</label><input class="fi" type="number" id="s-age" placeholder="30" inputmode="numeric"></div>
-        <div class="fg"><label class="fl">身長 (cm)</label><input class="fi" type="number" id="s-ht" placeholder="170" inputmode="decimal"></div>
-        <div class="fg"><label class="fl">体重 (kg)</label><input class="fi" type="number" id="s-wt" placeholder="70.0" step="0.1" inputmode="decimal"></div>
+        <div class="fg"><label class="fl">性別</label><select class="fsel" id="s-gender"><option value="">未選択</option><option value="male">男性</option><option value="female">女性</option></select></div>
+        <div class="fg"><label class="fl">年齢</label><input class="fi" type="number" id="s-age" placeholder="例：30" inputmode="numeric"></div>
+        <div class="fg"><label class="fl">身長 (cm)</label><input class="fi" type="number" id="s-ht" placeholder="例：170" inputmode="decimal"></div>
+        <div class="fg"><label class="fl">体重 (kg)</label><input class="fi" type="number" id="s-wt" placeholder="例：70.0" step="0.1" inputmode="decimal"></div>
       </div>
       <div class="card">
         <div class="ctitle">ダイエット目標</div>
-        <div class="fg"><label class="fl">目標体重 (kg)</label><input class="fi" type="number" id="s-tgt" placeholder="65.0" step="0.1" inputmode="decimal"></div>
-        <div class="fg"><label class="fl">目標期間 (週)</label><input class="fi" type="number" id="s-wks" placeholder="12" inputmode="numeric"></div>
-        <div class="fg"><label class="fl">活動レベル</label><select class="fsel" id="s-act"><option value="1.2">ほぼ座り仕事（1.2）</option><option value="1.375">軽い運動 週1-3回（1.375）</option><option value="1.55" selected>中程度 週3-5回（1.55）</option><option value="1.725">活発 週6-7回（1.725）</option><option value="1.9">非常に活発（1.9）</option></select></div>
+        <div class="fg"><label class="fl">目標体重 (kg)</label><input class="fi" type="number" id="s-tgt" placeholder="例：65.0" step="0.1" inputmode="decimal"></div>
+        <div class="fg"><label class="fl">目標期間 (週)</label><input class="fi" type="number" id="s-wks" placeholder="例：12" inputmode="numeric"></div>
+        <div class="fg"><label class="fl">活動レベル</label><select class="fsel" id="s-act"><option value="">未選択</option><option value="1.2">ほぼ座り仕事（1.2）</option><option value="1.375">軽い運動 週1-3回（1.375）</option><option value="1.55">中程度 週3-5回（1.55）</option><option value="1.725">活発 週6-7回（1.725）</option><option value="1.9">非常に活発（1.9）</option></select></div>
       </div>
       <div class="card">
         <div class="ctitle">データ管理</div>
@@ -476,32 +476,34 @@ input,select,textarea,.fi,.fsel,.sinput,.win{background:#f7f7f5!important;color:
         <div class="fg" style="margin-bottom:8px">
           <label class="fl">性別</label>
           <select id="m-gender" class="fsel" onchange="calcPFC()">
+            <option value="">未選択</option>
             <option value="male">男性</option>
             <option value="female">女性</option>
           </select>
         </div>
         <div class="fg" style="margin-bottom:8px">
           <label class="fl">年齢</label>
-          <input id="m-age" type="number" class="fi" placeholder="30" min="10" max="100" oninput="calcPFC()">
+          <input id="m-age" type="number" class="fi" placeholder="例：30" min="10" max="100" oninput="calcPFC()">
         </div>
         <div class="fg" style="margin-bottom:8px">
           <label class="fl">身長 (cm)</label>
-          <input id="m-height" type="number" class="fi" placeholder="170" min="100" max="220" oninput="calcPFC()">
+          <input id="m-height" type="number" class="fi" placeholder="例：170" min="100" max="220" oninput="calcPFC()">
         </div>
         <div class="fg" style="margin-bottom:8px">
           <label class="fl">現在の体重 (kg)</label>
-          <input id="m-weight" type="number" class="fi" placeholder="70" min="30" max="200" step="0.1" oninput="calcPFC()">
+          <input id="m-weight" type="number" class="fi" placeholder="例：70" min="30" max="200" step="0.1" oninput="calcPFC()">
         </div>
         <div class="fg" style="margin-bottom:8px">
           <label class="fl">目標体重 (kg)</label>
-          <input id="m-target" type="number" class="fi" placeholder="65" min="30" max="200" step="0.1" oninput="calcPFC()">
+          <input id="m-target" type="number" class="fi" placeholder="例：65" min="30" max="200" step="0.1" oninput="calcPFC()">
         </div>
         <div class="fg">
           <label class="fl">活動レベル</label>
           <select id="m-activity" class="fsel" onchange="calcPFC()">
+            <option value="">未選択</option>
             <option value="1.2">ほぼ座り仕事</option>
             <option value="1.375">軽い運動 週1-3回</option>
-            <option value="1.55" selected>中程度 週3-5回</option>
+            <option value="1.55">中程度 週3-5回</option>
             <option value="1.725">活発 週6-7回</option>
             <option value="1.9">非常に活発</option>
           </select>
@@ -996,7 +998,7 @@ let exViewDate=TODAY;
 
 let ST={
   days:{},
-  settings:{gender:'male',age:'',height:'',weight:'',target:'',weeks:12,activity:1.55},
+  settings:{gender:'',age:'',height:'',weight:'',target:'',weeks:'',activity:''},
   bmrF:1.0,
 };
 // ── データ永続化（localStorage / Firestore 自動切替）──
@@ -1098,11 +1100,11 @@ function setDietMethod(method){
 }
 function calcPFC(){
   const gender=document.getElementById('m-gender').value;
-  const age=parseFloat(document.getElementById('m-age').value)||30;
-  const height=parseFloat(document.getElementById('m-height').value)||170;
-  const weight=parseFloat(document.getElementById('m-weight').value)||70;
-  const activity=parseFloat(document.getElementById('m-activity').value)||1.55;
-  if(!height||!weight){document.getElementById('pfc-result').style.display='none';return;}
+  const age=parseFloat(document.getElementById('m-age').value)||0;
+  const height=parseFloat(document.getElementById('m-height').value)||0;
+  const weight=parseFloat(document.getElementById('m-weight').value)||0;
+  const activity=parseFloat(document.getElementById('m-activity').value)||0;
+  if(!gender||!height||!weight||!activity){document.getElementById('pfc-result').style.display='none';return;}
   // BMR (Harris-Benedict)
   const bmr=gender==='male'
     ? 88.362+(13.397*weight)+(4.799*height)-(5.677*age)
@@ -1248,7 +1250,7 @@ function saveMenuSettings(){
 }
 function loadMenuUI(){
   const s=ST.settings;
-  const setVal=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined)el.value=v;};
+  const setVal=(id,v)=>{const el=document.getElementById(id);if(el)el.value=(v!==undefined&&v!==null)?v:'';};
   setVal('m-gender',s.gender);
   setVal('m-age',s.age);
   setVal('m-height',s.height);
