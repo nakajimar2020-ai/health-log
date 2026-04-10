@@ -1601,7 +1601,7 @@ function renderCalDetail(){
   const totalReps=exes.reduce((s,e)=>s+(e.reps*e.sets),0);
   const totalLoad=exes.reduce((s,e)=>s+(e.w*e.reps*e.sets),0);
   const totalEx=exes.length;
-  const tgt=calcTgt();
+  const tgt=ST.settings.targetKcal||calcTgt();
   let html=`<div class="card"><div class="cal-detail-date">${label}${editBtn}</div>`;
   const calAchievePct=tgt>0?Math.min(Math.round(intake/tgt*100),100):0;
   const calAchieveColor=calAchievePct>110?'var(--rd)':calAchievePct>90?'var(--am)':'var(--gr)';
@@ -1706,7 +1706,7 @@ function renderWeekly(){
     `<div class="met"><div class="mv" style="color:var(--am)">${tdC}</div><div class="mu">g</div><div class="ml">C</div></div>`+
     `<div class="met"><div class="mv" style="color:${fiColor}">${tdFi}</div><div class="mu">g</div><div class="ml">食繊</div></div>`;
   // 達成率バー
-  const tgt=calcTgt();
+  const tgt=ST.settings.targetKcal||calcTgt();
   const achievePct=tgt>0?Math.min(Math.round(tdIntake/tgt*100),100):0;
   document.getElementById('sm-achieve-bar').style.width=achievePct+'%';
   document.getElementById('sm-achieve-bar').style.background=achievePct>110?'var(--rd)':achievePct>90?'var(--am)':'var(--gr)';
@@ -1745,7 +1745,7 @@ function renderWeekly(){
   document.getElementById('sm-weight-change').innerHTML=weightChangeHtml;
 
   // ── セクション③ 次週の目標 ──
-  const nextTgt=calcTgt();
+  const nextTgt=ST.settings.targetKcal||calcTgt();
   document.getElementById('sm-next-target').textContent=nextTgt+' kcal';
   const tdeeVal=tdee();
   document.getElementById('sm-next-detail').innerHTML=
