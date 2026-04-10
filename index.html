@@ -405,6 +405,21 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
           <button id="export-btn" onclick="exportData()" style="flex:1;padding:10px;background:var(--bl-lt);color:var(--bl);border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">📊 Excelエクスポート</button>
         </div>
       </div>
+      <!-- クラウド同期 -->
+      <div class="card">
+        <div class="ctitle">クラウド同期（Google）</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0 10px">
+          <div class="ndot off" id="fb-dot"></div>
+          <div id="fb-lbl" style="font-size:13px">未ログイン（ローカル保存中）</div>
+        </div>
+        <div id="fb-user-info" style="font-size:12px;color:var(--txt2);margin-bottom:8px"></div>
+        <button id="fb-login-btn" onclick="signInGoogle()" style="width:100%;padding:12px;background:#fff;color:#444;border:1.5px solid #ddd;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          Googleでログイン
+        </button>
+        <button id="fb-migrate-btn" onclick="migrateToFirestore()" style="display:none;width:100%;padding:10px;background:var(--bl-lt);color:var(--bl);border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px">☁️ データをFirebaseへ移行</button>
+        <button id="fb-logout-btn" onclick="signOutUser()" style="display:none;width:100%;padding:10px;background:var(--rd-lt);color:var(--rd);border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px">ログアウト</button>
+      </div>
       <div class="card">
         <div class="ctitle">引用文献</div>
         <button onclick="openOv('refs-ov')" style="width:100%;padding:11px;background:var(--card2);color:var(--txt2);border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;text-align:left">📄 使用文献一覧を見る →</button>
@@ -565,22 +580,6 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
       <button onclick="openStrategy()" style="width:100%;padding:14px;background:linear-gradient(135deg,#1D9E75,#0F6E56);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:16px">
         📖 減量ストラテジーを読む
       </button>
-
-      <!-- Firebase認証 -->
-      <div class="card">
-        <div class="ctitle">クラウド同期（Google）</div>
-        <div style="display:flex;align-items:center;gap:8px;padding:6px 0 10px">
-          <div class="ndot off" id="fb-dot"></div>
-          <div id="fb-lbl" style="font-size:13px">未ログイン（ローカル保存中）</div>
-        </div>
-        <div id="fb-user-info" style="font-size:12px;color:var(--txt2);margin-bottom:8px"></div>
-        <button id="fb-login-btn" onclick="signInGoogle()" style="width:100%;padding:12px;background:#fff;color:#444;border:1.5px solid #ddd;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
-          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          Googleでログイン
-        </button>
-        <button id="fb-migrate-btn" onclick="migrateToFirestore()" style="display:none;width:100%;padding:10px;background:var(--bl-lt);color:var(--bl);border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px">☁️ データをFirebaseへ移行</button>
-        <button id="fb-logout-btn" onclick="signOutUser()" style="display:none;width:100%;padding:10px;background:var(--rd-lt);color:var(--rd);border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px">ログアウト</button>
-      </div>
 
       <div style="text-align:center;color:var(--txt2);font-size:11px;padding:12px 0 24px">HealthLog v4.0</div>
     </div>
