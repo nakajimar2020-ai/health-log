@@ -1194,6 +1194,25 @@ function recalcFromCustomKcal(){
   document.getElementById('r-p').textContent=p_g+'g';
   document.getElementById('r-f').textContent=f_g+'g';
   document.getElementById('r-c').textContent=c_g+'g';
+  // 非運動日アドバイスを再計算
+  let offday_msg='';
+  if(currentDietMethod==='lowcarb'){
+    const title=document.getElementById('r-offday-title');
+    if(title){title.textContent='💡 糖質の使い方アドバイス';title.style.color='#1D9E75';}
+    offday_msg=`糖質 <strong>${c_g}g</strong> を維持。削減は不要です。<br>
+<span style="font-size:12px">🏋️ <strong>運動日</strong>はトレーニング前後に糖質を集中させてエネルギーとして使い切りましょう。<br>
+例：トレ前 ${Math.round(c_g*0.4)}g ／ トレ後 ${Math.round(c_g*0.4)}g ／ 他の食事 ${c_g-Math.round(c_g*0.4)*2}g</span>`;
+  }else if(currentDietMethod==='lowfat'){
+    const title=document.getElementById('r-offday-title');
+    if(title){title.textContent='🏃 非運動日のアドバイス';title.style.color='#FF9800';}
+    const offCut=Math.round(c_g*0.3);
+    const onigiri=(offCut/40).toFixed(1);
+    offday_msg=`糖質を<strong>${offCut}g減らして</strong> ${c_g-offCut}g に抑えましょう（-${offCut*4}kcal／おにぎり約${onigiri}個分）。タンパク質 ${p_g}g は維持してください。`;
+  }else{
+    const offCut=Math.round(c_g*0.2);
+    offday_msg=`糖質を <strong>${offCut}g</strong> 程度減らし ${c_g-offCut}g を目安に。タンパク質 ${p_g}g は維持してください。`;
+  }
+  if(offday_msg)document.getElementById('r-offday').innerHTML=offday_msg;
   window._pfcCalc={...calc,targetKcal:customKcal,p_g,f_g,c_g};
 }
 function saveMenuSettings(){
