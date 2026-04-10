@@ -1333,11 +1333,11 @@ function toggleM(m){const b=document.getElementById('mb-'+m),a=document.getEleme
 
 let cMeal=null,cFood=null,cFCat='すべて';
 
-function addToRecent(food){
+function addToRecent(food,amt){
   if(!food||!food.n)return;
   if(!ST.recentFoods)ST.recentFoods=[];
   ST.recentFoods=ST.recentFoods.filter(f=>f.n!==food.n);
-  ST.recentFoods.unshift({...food});
+  ST.recentFoods.unshift({...food,lastAmt:amt||null});
   if(ST.recentFoods.length>15)ST.recentFoods=ST.recentFoods.slice(0,15);
   saveST();
 }
@@ -1411,13 +1411,13 @@ function selF(f){
   ['k','p','f','c','fi'].forEach(k=>document.getElementById('fd-'+k).textContent=f[k]);
   document.getElementById('f-res').innerHTML='';
   document.getElementById('qas').innerHTML=(f.qa||[100]).map(a=>`<button class="qab" onclick="setAmt(${a})">${a}g</button>`).join('');
-  setAmt((f.qa&&f.qa[0])||100);
+  setAmt(f.lastAmt||(f.qa&&f.qa[0])||100);
   document.getElementById('f-det').style.display='block';
 }
 function setAmt(a){document.getElementById('fd-amt').value=a;updPv();}
 function updPv(){if(!cFood)return;const a=parseFloat(document.getElementById('fd-amt').value)||100,r=a/100;document.getElementById('fd-pv').textContent=`→ ${Math.round(cFood.k*r)} kcal / P:${(cFood.p*r).toFixed(1)}g F:${(cFood.f*r).toFixed(1)}g C:${(cFood.c*r).toFixed(1)}g`;}
-function addF(){if(!cFood)return;const a=parseFloat(document.getElementById('fd-amt').value)||100,r=a/100;getDay(viewDate).meals[cMeal].push({n:cFood.n,a,tag:cFood.tag||'',k:Math.round(cFood.k*r),p:+((cFood.p*r).toFixed(1)),f:+((cFood.f*r).toFixed(1)),c:+((cFood.c*r).toFixed(1)),fi:+((cFood.fi*r).toFixed(1))});addToRecent(cFood);saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
-function addManual(){const name=document.getElementById('m-n').value.trim();if(!name){toast('食品名を入力してください');return;}const k=parseFloat(document.getElementById('m-k').value)||0;if(!k){toast('カロリーを入力してください');return;}const mf={n:name,k:Math.round(k),p:+(parseFloat(document.getElementById('m-p').value)||0).toFixed(1),f:+(parseFloat(document.getElementById('m-f').value)||0).toFixed(1),c:+(parseFloat(document.getElementById('m-c').value)||0).toFixed(1),fi:+(parseFloat(document.getElementById('m-fi').value)||0).toFixed(1),tag:'conv'};getDay(viewDate).meals[cMeal].push({...mf,a:parseFloat(document.getElementById('m-a').value)||null});addToRecent(mf);['m-n','m-k','m-p','m-f','m-c','m-fi','m-a'].forEach(id=>document.getElementById(id).value='');saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
+function addF(){if(!cFood)return;const a=parseFloat(document.getElementById('fd-amt').value)||100,r=a/100;getDay(viewDate).meals[cMeal].push({n:cFood.n,a,tag:cFood.tag||'',k:Math.round(cFood.k*r),p:+((cFood.p*r).toFixed(1)),f:+((cFood.f*r).toFixed(1)),c:+((cFood.c*r).toFixed(1)),fi:+((cFood.fi*r).toFixed(1))});addToRecent(cFood,a);saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
+function addManual(){const name=document.getElementById('m-n').value.trim();if(!name){toast('食品名を入力してください');return;}const k=parseFloat(document.getElementById('m-k').value)||0;if(!k){toast('カロリーを入力してください');return;}const mAmt=parseFloat(document.getElementById('m-a').value)||null;const mf={n:name,k:Math.round(k),p:+(parseFloat(document.getElementById('m-p').value)||0).toFixed(1),f:+(parseFloat(document.getElementById('m-f').value)||0).toFixed(1),c:+(parseFloat(document.getElementById('m-c').value)||0).toFixed(1),fi:+(parseFloat(document.getElementById('m-fi').value)||0).toFixed(1),tag:'conv'};getDay(viewDate).meals[cMeal].push({...mf,a:mAmt});addToRecent(mf,mAmt);['m-n','m-k','m-p','m-f','m-c','m-fi','m-a'].forEach(id=>document.getElementById(id).value='');saveST();closeOv('food-ov');renderFood();toast('✓ 追加しました');}
 function goEditDay(ds){viewDate=ds;go('food');}
 
 function exNavDay(n){const d=new Date(exViewDate+'T00:00:00');d.setDate(d.getDate()+n);const nd=d.toISOString().slice(0,10);if(nd>TODAY)return;exViewDate=nd;renderEx();}
