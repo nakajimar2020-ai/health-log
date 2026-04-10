@@ -574,9 +574,14 @@ input,select,textarea,.fi,.fsel,.sinput,.win{background:#f7f7f5!important;color:
           <div style="background:var(--gr-lt,#E1F5EE);border-radius:10px;padding:12px;margin-bottom:10px">
             <div style="font-size:11px;color:var(--green,#1D9E75);font-weight:700;margin-bottom:6px">📊 運動日の目標</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-              <div style="background:#fff;border-radius:8px;padding:8px;text-align:center">
-                <div id="r-kcal" style="font-size:20px;font-weight:800;color:var(--green,#1D9E75)">--</div>
-                <div style="font-size:10px;color:#888">kcal/日</div>
+              <div style="background:#fff;border-radius:8px;padding:8px;text-align:center;grid-column:1/-1">
+                <div style="font-size:10px;color:#888;margin-bottom:4px">計算値</div>
+                <div id="r-kcal" style="font-size:16px;font-weight:700;color:#aaa">--</div>
+                <div style="font-size:10px;color:#888;margin:6px 0 4px">目標カロリー（修正可）</div>
+                <div style="display:flex;align-items:center;justify-content:center;gap:4px">
+                  <input type="number" id="r-kcal-custom" inputmode="numeric" oninput="this.dataset.edited='1'" style="width:90px;font-size:20px;font-weight:800;color:var(--green,#1D9E75);border:none;border-bottom:2px solid var(--green,#1D9E75);text-align:center;background:transparent;outline:none;padding:2px 0">
+                  <span style="font-size:12px;color:#888">kcal/日</span>
+                </div>
               </div>
               <div style="background:#fff;border-radius:8px;padding:8px;text-align:center">
                 <div id="r-p" style="font-size:18px;font-weight:800;color:#4CAF50">--g</div>
@@ -1138,7 +1143,9 @@ function calcPFC(){
     const lfTitle=document.getElementById('r-offday-title');
     if(lfTitle){lfTitle.textContent='🏃 非運動日のアドバイス';lfTitle.style.color='#FF9800';}
   }
-  document.getElementById('r-kcal').textContent=targetKcal;
+  document.getElementById('r-kcal').textContent=targetKcal+' kcal';
+  const customEl=document.getElementById('r-kcal-custom');
+  if(customEl&&!customEl.dataset.edited)customEl.value=targetKcal;
   document.getElementById('r-p').textContent=p_g+'g';
   document.getElementById('r-f').textContent=f_g+'g';
   document.getElementById('r-c').textContent=c_g+'g';
@@ -1157,7 +1164,8 @@ function saveMenuSettings(){
   ST.settings.activity=calc.activity;
   ST.settings.target=parseFloat(document.getElementById('m-target').value)||ST.settings.target;
   ST.settings.dietMethod=calc.method;
-  ST.settings.targetKcal=calc.targetKcal;
+  const customKcal=parseFloat(document.getElementById('r-kcal-custom')?.value);
+  ST.settings.targetKcal=customKcal||calc.targetKcal;
   ST.settings.targetP=calc.p_g;
   ST.settings.targetF=calc.f_g;
   ST.settings.targetC=calc.c_g;
@@ -1185,6 +1193,8 @@ function loadMenuUI(){
   setVal('m-weight',s.weight);
   setVal('m-target',s.target);
   setVal('m-activity',s.activity);
+  const customEl=document.getElementById('r-kcal-custom');
+  if(customEl&&s.targetKcal){customEl.value=s.targetKcal;customEl.dataset.edited='1';}
   // スライダー復元（糖質制限）
   const lcps=document.getElementById('lc-p-slider');
   const lcpv=document.getElementById('lc-p-val');
