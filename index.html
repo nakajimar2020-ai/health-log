@@ -578,9 +578,10 @@ input,select,textarea,.fi,.fsel,.sinput,.win{background:#f7f7f5!important;color:
                 <div style="font-size:10px;color:#888;margin-bottom:4px">計算値</div>
                 <div id="r-kcal" style="font-size:16px;font-weight:700;color:#aaa">--</div>
                 <div style="font-size:10px;color:#888;margin:6px 0 4px">目標カロリー（修正可）</div>
-                <div style="display:flex;align-items:center;justify-content:center;gap:4px">
-                  <input type="number" id="r-kcal-custom" inputmode="numeric" oninput="this.dataset.edited='1';recalcFromCustomKcal()" style="width:90px;font-size:20px;font-weight:800;color:var(--green,#1D9E75);border:none;border-bottom:2px solid var(--green,#1D9E75);text-align:center;background:transparent;outline:none;padding:2px 0">
-                  <span style="font-size:12px;color:#888">kcal/日</span>
+                <div style="display:flex;align-items:center;justify-content:center;gap:6px">
+                  <input type="number" id="r-kcal-custom" inputmode="numeric" oninput="this.dataset.edited='1'" style="width:80px;font-size:20px;font-weight:800;color:var(--green,#1D9E75);border:none;border-bottom:2px solid var(--green,#1D9E75);text-align:center;background:transparent;outline:none;padding:2px 0">
+                  <span style="font-size:12px;color:#888">kcal</span>
+                  <button onclick="recalcFromCustomKcal()" style="padding:4px 10px;font-size:12px;font-weight:700;background:var(--green,#1D9E75);color:#fff;border:none;border-radius:6px;cursor:pointer">更新</button>
                 </div>
               </div>
               <div style="background:#fff;border-radius:8px;padding:8px;text-align:center">
