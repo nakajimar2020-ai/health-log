@@ -579,7 +579,7 @@ input,select,textarea,.fi,.fsel,.sinput,.win{background:#f7f7f5!important;color:
                 <div id="r-kcal" style="font-size:16px;font-weight:700;color:#aaa">--</div>
                 <div style="font-size:10px;color:#888;margin:6px 0 4px">目標カロリー（修正可）</div>
                 <div style="display:flex;align-items:center;justify-content:center;gap:4px">
-                  <input type="number" id="r-kcal-custom" inputmode="numeric" oninput="this.dataset.edited='1'" style="width:90px;font-size:20px;font-weight:800;color:var(--green,#1D9E75);border:none;border-bottom:2px solid var(--green,#1D9E75);text-align:center;background:transparent;outline:none;padding:2px 0">
+                  <input type="number" id="r-kcal-custom" inputmode="numeric" oninput="this.dataset.edited='1';recalcFromCustomKcal()" style="width:90px;font-size:20px;font-weight:800;color:var(--green,#1D9E75);border:none;border-bottom:2px solid var(--green,#1D9E75);text-align:center;background:transparent;outline:none;padding:2px 0">
                   <span style="font-size:12px;color:#888">kcal/日</span>
                 </div>
               </div>
@@ -1153,6 +1153,47 @@ function calcPFC(){
   document.getElementById('pfc-result').style.display='block';
   // 一時保存
   window._pfcCalc={targetKcal,p_g,f_g,c_g,tdee:tdeeVal,bmr:Math.round(bmr),activity,weight,height,age,gender,method:currentDietMethod};
+}
+function recalcFromCustomKcal(){
+  const customEl=document.getElementById('r-kcal-custom');
+  const customKcal=parseFloat(customEl?.value);
+  if(!customKcal||customKcal<500||customKcal>9999)return;
+  const calc=window._pfcCalc;
+  if(!calc)return;
+  let p_g,f_g,c_g;
+  if(currentDietMethod==='lowcarb'){
+    const lcpSlider=document.getElementById('lc-p-slider');
+    const lccSlider=document.getElementById('lc-c-slider');
+    const pRate=lcpSlider?(parseFloat(lcpSlider.value)/10):2.7;
+    const cFixed=lccSlider?parseFloat(lccSlider.value):100;
+    p_g=Math.round(calc.weight*pRate);
+    c_g=cFixed;
+    f_g=Math.max(Math.round((customKcal-(p_g*4)-(c_g*4))/9),0);
+  }else if(currentDietMethod==='lowfat'){
+    const lfpSlider=document.getElementById('lf-p-slider');
+    const lffSlider=document.getElementById('lf-f-slider');
+    const pRate=lfpSlider?(parseFloat(lfpSlider.value)/10):1.5;
+    const fPct=lffSlider?(parseFloat(lffSlider.value)/100):0.25;
+    p_g=Math.round(calc.weight*pRate);
+    f_g=Math.round(customKcal*fPct/9);
+    c_g=Math.max(Math.round((customKcal-(p_g*4)-(f_g*9))/4),0);
+  }else{
+    // standard: 現在の比率を維持して再計算
+    const total=calc.p_g*4+calc.f_g*9+calc.c_g*4;
+    if(total>0){
+      p_g=Math.round(calc.p_g*(customKcal/total)*4/4);
+      f_g=Math.round(calc.f_g*(customKcal/total)*9/9);
+      c_g=Math.max(Math.round((customKcal-(p_g*4)-(f_g*9))/4),0);
+    }else{
+      p_g=Math.round(customKcal*0.20/4);
+      f_g=Math.round(customKcal*0.25/9);
+      c_g=Math.max(Math.round((customKcal-(p_g*4)-(f_g*9))/4),0);
+    }
+  }
+  document.getElementById('r-p').textContent=p_g+'g';
+  document.getElementById('r-f').textContent=f_g+'g';
+  document.getElementById('r-c').textContent=c_g+'g';
+  window._pfcCalc={...calc,targetKcal:customKcal,p_g,f_g,c_g};
 }
 function saveMenuSettings(){
   const calc=window._pfcCalc;
