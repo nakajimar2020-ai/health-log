@@ -37,9 +37,10 @@ function initFirebaseSDK(){
 </script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-::placeholder{color:#bbb!important;opacity:1!important}
-::-webkit-input-placeholder{color:#bbb!important}
-::-moz-placeholder{color:#bbb!important}
+::placeholder{color:#ccc!important;opacity:1!important}
+::-webkit-input-placeholder{color:#ccc!important}
+::-moz-placeholder{color:#ccc!important}
+.fi.default-val,.fsel.default-val{color:#bbb!important;-webkit-text-fill-color:#bbb!important}
 :root{color-scheme:only light;
   --gr:#1D9E75;--gr-dk:#0F6E56;--gr-lt:#E1F5EE;
   --rd:#E24B4A;--rd-lt:#FEECEC;
@@ -422,14 +423,14 @@ input,select,textarea,.fi,.fsel,.sinput,.win{background:#f7f7f5!important;color:
       <div class="card">
         <div class="ctitle">基本情報</div>
         <div class="fg"><label class="fl">性別</label><select class="fsel" id="s-gender"><option value="">未選択</option><option value="male">男性</option><option value="female">女性</option></select></div>
-        <div class="fg"><label class="fl">年齢</label><input class="fi" type="number" id="s-age" placeholder="30" inputmode="numeric"></div>
-        <div class="fg"><label class="fl">身長 (cm)</label><input class="fi" type="number" id="s-ht" placeholder="170" inputmode="decimal"></div>
-        <div class="fg"><label class="fl">体重 (kg)</label><input class="fi" type="number" id="s-wt" placeholder="70.0" step="0.1" inputmode="decimal"></div>
+        <div class="fg"><label class="fl">年齢</label><input class="fi" type="number" id="s-age" placeholder="30" data-dval="30" inputmode="numeric"></div>
+        <div class="fg"><label class="fl">身長 (cm)</label><input class="fi" type="number" id="s-ht" placeholder="170" data-dval="170" inputmode="decimal"></div>
+        <div class="fg"><label class="fl">体重 (kg)</label><input class="fi" type="number" id="s-wt" placeholder="70.0" data-dval="70" step="0.1" inputmode="decimal"></div>
       </div>
       <div class="card">
         <div class="ctitle">ダイエット目標</div>
-        <div class="fg"><label class="fl">目標体重 (kg)</label><input class="fi" type="number" id="s-tgt" placeholder="65.0" step="0.1" inputmode="decimal"></div>
-        <div class="fg"><label class="fl">目標期間 (週)</label><input class="fi" type="number" id="s-wks" placeholder="12" inputmode="numeric"></div>
+        <div class="fg"><label class="fl">目標体重 (kg)</label><input class="fi" type="number" id="s-tgt" placeholder="65.0" data-dval="65" step="0.1" inputmode="decimal"></div>
+        <div class="fg"><label class="fl">目標期間 (週)</label><input class="fi" type="number" id="s-wks" placeholder="12" data-dval="12" inputmode="numeric"></div>
         <div class="fg"><label class="fl">活動レベル</label><select class="fsel" id="s-act"><option value="">未選択</option><option value="1.2">ほぼ座り仕事（1.2）</option><option value="1.375">軽い運動 週1-3回（1.375）</option><option value="1.55">中程度 週3-5回（1.55）</option><option value="1.725">活発 週6-7回（1.725）</option><option value="1.9">非常に活発（1.9）</option></select></div>
       </div>
       <div class="card">
@@ -486,19 +487,19 @@ input,select,textarea,.fi,.fsel,.sinput,.win{background:#f7f7f5!important;color:
         </div>
         <div class="fg" style="margin-bottom:8px">
           <label class="fl">年齢</label>
-          <input id="m-age" type="number" class="fi" placeholder="30" min="10" max="100" oninput="calcPFC()">
+          <input id="m-age" type="number" class="fi" placeholder="30" data-dval="30" min="10" max="100" oninput="calcPFC()">
         </div>
         <div class="fg" style="margin-bottom:8px">
           <label class="fl">身長 (cm)</label>
-          <input id="m-height" type="number" class="fi" placeholder="170" min="100" max="220" oninput="calcPFC()">
+          <input id="m-height" type="number" class="fi" placeholder="170" data-dval="170" min="100" max="220" oninput="calcPFC()">
         </div>
         <div class="fg" style="margin-bottom:8px">
           <label class="fl">現在の体重 (kg)</label>
-          <input id="m-weight" type="number" class="fi" placeholder="70" min="30" max="200" step="0.1" oninput="calcPFC()">
+          <input id="m-weight" type="number" class="fi" placeholder="70" data-dval="70" min="30" max="200" step="0.1" oninput="calcPFC()">
         </div>
         <div class="fg" style="margin-bottom:8px">
           <label class="fl">目標体重 (kg)</label>
-          <input id="m-target" type="number" class="fi" placeholder="65" min="30" max="200" step="0.1" oninput="calcPFC()">
+          <input id="m-target" type="number" class="fi" placeholder="65" data-dval="65" min="30" max="200" step="0.1" oninput="calcPFC()">
         </div>
         <div class="fg">
           <label class="fl">活動レベル</label>
@@ -1066,6 +1067,7 @@ async function init(){
   if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
   setTimeout(()=>{
     document.getElementById('loading').classList.add('done');
+    initDefaultInputListeners();
     renderFood();loadSettingsUI();initCal();
 // FirebaseはSDK読み込み後にinitFirebaseSDK()が呼ばれる
   },280);
@@ -1251,14 +1253,34 @@ function saveMenuSettings(){
   renderFood();renderWeekly();
   toast('✓ 設定を保存しました');
 }
+function setFieldDval(id,userVal){
+  const el=document.getElementById(id);if(!el)return;
+  const dval=el.dataset.dval;
+  if(userVal!==''&&userVal!==null&&userVal!==undefined){
+    el.value=userVal;el.classList.remove('default-val');
+  }else if(dval){
+    el.value=dval;el.classList.add('default-val');
+  }else{
+    el.value='';el.classList.remove('default-val');
+  }
+}
+function initDefaultInputListeners(){
+  document.querySelectorAll('[data-dval]').forEach(el=>{
+    if(el._dvalInit)return;el._dvalInit=true;
+    el.addEventListener('focus',function(){
+      if(this.classList.contains('default-val')){this.value='';this.classList.remove('default-val');}
+    });
+    el.addEventListener('input',function(){this.classList.remove('default-val');});
+  });
+}
 function loadMenuUI(){
   const s=ST.settings;
   const setVal=(id,v)=>{const el=document.getElementById(id);if(el)el.value=(v!==undefined&&v!==null)?v:'';};
   setVal('m-gender',s.gender);
-  setVal('m-age',s.age);
-  setVal('m-height',s.height);
-  setVal('m-weight',s.weight);
-  setVal('m-target',s.target);
+  setFieldDval('m-age',s.age);
+  setFieldDval('m-height',s.height);
+  setFieldDval('m-weight',s.weight);
+  setFieldDval('m-target',s.target);
   setVal('m-activity',s.activity);
   const customEl=document.getElementById('r-kcal-custom');
   if(customEl&&s.targetKcal){customEl.value=s.targetKcal;customEl.dataset.edited='1';}
@@ -1856,7 +1878,14 @@ function togglePFCChart(){
 
 function loadSettingsUI(){
   const s=ST.settings;
-  ['gender','age','ht','wt','tgt','wks','act'].forEach(k=>{const el=document.getElementById('s-'+k);if(el)el.value=s[{gender:'gender',age:'age',ht:'height',wt:'weight',tgt:'target',wks:'weeks',act:'activity'}[k]]||'';});
+  const keyMap={gender:'gender',age:'age',ht:'height',wt:'weight',tgt:'target',wks:'weeks',act:'activity'};
+  const dvalMap={age:'30',ht:'170',wt:'70',tgt:'65',wks:'12'};
+  ['gender','age','ht','wt','tgt','wks','act'].forEach(k=>{
+    const el=document.getElementById('s-'+k);if(!el)return;
+    const v=s[keyMap[k]];
+    if(dvalMap[k]){setFieldDval('s-'+k,v);}
+    else{el.value=(v!==undefined&&v!==null)?v:'';}
+  });
 }
 function saveSt(){ST.settings={gender:document.getElementById('s-gender').value,age:parseInt(document.getElementById('s-age').value)||30,height:parseFloat(document.getElementById('s-ht').value)||170,weight:parseFloat(document.getElementById('s-wt').value)||70,target:parseFloat(document.getElementById('s-tgt').value)||65,weeks:parseInt(document.getElementById('s-wks').value)||12,activity:parseFloat(document.getElementById('s-act').value)||1.55};const _s=ST.settings,minK=_s.gender==='male'?1500:1200;const _bmr=_s.gender==='male'?88.362+(13.397*_s.weight)+(4.799*_s.height)-(5.677*_s.age):447.593+(9.247*_s.weight)+(3.098*_s.height)-(4.330*_s.age);ST.settings.targetKcal=Math.max(Math.round(_bmr*_s.activity)-500,minK);saveST();loadSettingsUI();loadMenuUI();renderFood();renderWeekly();toast('✓ 設定を保存しました');}
 
