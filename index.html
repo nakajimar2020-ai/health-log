@@ -511,6 +511,25 @@ input,select,textarea,.fi,.fsel,.sinput,.win{background:#f7f7f5!important;color:
             <option value="1.9">非常に活発</option>
           </select>
         </div>
+        <!-- BMI・理想体重・消費カロリー表示 -->
+        <div id="bmi-box" style="display:none;background:var(--card2,#f7f7f5);border-radius:10px;padding:12px;margin-top:10px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+            <div style="text-align:center">
+              <div style="font-size:10px;color:var(--txt3,#aaa);margin-bottom:2px">現在のBMI</div>
+              <div style="font-size:22px;font-weight:700" id="bmi-val">--</div>
+              <div style="font-size:11px;font-weight:600;margin-top:2px" id="bmi-cat">--</div>
+            </div>
+            <div style="text-align:center">
+              <div style="font-size:10px;color:var(--txt3,#aaa);margin-bottom:2px">理想体重 (BMI 22)</div>
+              <div style="font-size:22px;font-weight:700;color:var(--gr,#1D9E75)" id="bmi-ideal">-- <span style="font-size:13px">kg</span></div>
+            </div>
+          </div>
+          <div id="kcal-to-goal-box" style="display:none;border-top:1px solid var(--bdr,#e8e8e8);padding-top:8px;margin-top:4px;text-align:center">
+            <div style="font-size:10px;color:var(--txt3,#aaa);margin-bottom:3px">目標体重まで消費が必要なカロリー</div>
+            <div style="font-size:20px;font-weight:700;color:var(--rd,#E24B4A)" id="kcal-to-goal">-- <span style="font-size:12px">kcal</span></div>
+            <div style="font-size:10px;color:var(--txt3,#aaa);margin-top:2px">（脂肪1kg≒7,200kcal で計算）</div>
+          </div>
+        </div>
       </div>
 
       <!-- ダイエット手法カード -->
@@ -1106,7 +1125,28 @@ function calcPFC(){
   const age=parseFloat(document.getElementById('m-age').value)||0;
   const height=parseFloat(document.getElementById('m-height').value)||0;
   const weight=parseFloat(document.getElementById('m-weight').value)||0;
+  const target=parseFloat(document.getElementById('m-target').value)||0;
   const activity=parseFloat(document.getElementById('m-activity').value)||0;
+  // BMI・理想体重・消費カロリー（身長＋体重だけで計算可）
+  const bmiBox=document.getElementById('bmi-box');
+  if(height&&weight){
+    const hm=height/100;
+    const bmi=weight/(hm*hm);
+    const ideal=22*hm*hm;
+    const bmiCat=bmi<18.5?{l:'低体重',c:'#378ADD'}:bmi<25?{l:'標準',c:'#1D9E75'}:bmi<30?{l:'過体重',c:'#EF9F27'}:{l:'肥満',c:'#E24B4A'};
+    document.getElementById('bmi-val').textContent=bmi.toFixed(1);
+    document.getElementById('bmi-val').style.color=bmiCat.c;
+    document.getElementById('bmi-cat').textContent=bmiCat.l;
+    document.getElementById('bmi-cat').style.color=bmiCat.c;
+    document.getElementById('bmi-ideal').innerHTML=ideal.toFixed(1)+' <span style="font-size:13px">kg</span>';
+    const kcalBox=document.getElementById('kcal-to-goal-box');
+    if(target&&weight>target){
+      const kcal=Math.round((weight-target)*7200);
+      document.getElementById('kcal-to-goal').innerHTML=kcal.toLocaleString()+' <span style="font-size:12px">kcal</span>';
+      kcalBox.style.display='block';
+    }else{kcalBox.style.display='none';}
+    bmiBox.style.display='block';
+  }else{bmiBox.style.display='none';}
   if(!gender||!height||!weight||!activity){document.getElementById('pfc-result').style.display='none';return;}
   // BMR (Harris-Benedict)
   const bmr=gender==='male'
