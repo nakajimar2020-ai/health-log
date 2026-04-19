@@ -37,10 +37,9 @@ function initFirebaseSDK(){
 </script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-::placeholder{color:#ccc!important;opacity:1!important}
-::-webkit-input-placeholder{color:#ccc!important}
-::-moz-placeholder{color:#ccc!important}
-.fi.default-val,.fsel.default-val{color:#bbb!important;-webkit-text-fill-color:#bbb!important}
+::placeholder{color:#bbb!important;opacity:1!important;-webkit-text-fill-color:#bbb!important}
+::-webkit-input-placeholder{color:#bbb!important;-webkit-text-fill-color:#bbb!important}
+::-moz-placeholder{color:#bbb!important}
 :root{color-scheme:only light;
   --gr:#1D9E75;--gr-dk:#0F6E56;--gr-lt:#E1F5EE;
   --rd:#E24B4A;--rd-lt:#FEECEC;
@@ -1067,7 +1066,6 @@ async function init(){
   if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
   setTimeout(()=>{
     document.getElementById('loading').classList.add('done');
-    initDefaultInputListeners();
     renderFood();loadSettingsUI();initCal();
 // FirebaseはSDK読み込み後にinitFirebaseSDK()が呼ばれる
   },280);
@@ -1253,34 +1251,14 @@ function saveMenuSettings(){
   renderFood();renderWeekly();
   toast('✓ 設定を保存しました');
 }
-function setFieldDval(id,userVal){
-  const el=document.getElementById(id);if(!el)return;
-  const dval=el.dataset.dval;
-  if(userVal!==''&&userVal!==null&&userVal!==undefined){
-    el.value=userVal;el.classList.remove('default-val');
-  }else if(dval){
-    el.value=dval;el.classList.add('default-val');
-  }else{
-    el.value='';el.classList.remove('default-val');
-  }
-}
-function initDefaultInputListeners(){
-  document.querySelectorAll('[data-dval]').forEach(el=>{
-    if(el._dvalInit)return;el._dvalInit=true;
-    el.addEventListener('focus',function(){
-      if(this.classList.contains('default-val')){this.value='';this.classList.remove('default-val');}
-    });
-    el.addEventListener('input',function(){this.classList.remove('default-val');});
-  });
-}
 function loadMenuUI(){
   const s=ST.settings;
   const setVal=(id,v)=>{const el=document.getElementById(id);if(el)el.value=(v!==undefined&&v!==null)?v:'';};
   setVal('m-gender',s.gender);
-  setFieldDval('m-age',s.age);
-  setFieldDval('m-height',s.height);
-  setFieldDval('m-weight',s.weight);
-  setFieldDval('m-target',s.target);
+  setVal('m-age',s.age);
+  setVal('m-height',s.height);
+  setVal('m-weight',s.weight);
+  setVal('m-target',s.target);
   setVal('m-activity',s.activity);
   const customEl=document.getElementById('r-kcal-custom');
   if(customEl&&s.targetKcal){customEl.value=s.targetKcal;customEl.dataset.edited='1';}
@@ -1879,12 +1857,10 @@ function togglePFCChart(){
 function loadSettingsUI(){
   const s=ST.settings;
   const keyMap={gender:'gender',age:'age',ht:'height',wt:'weight',tgt:'target',wks:'weeks',act:'activity'};
-  const dvalMap={age:'30',ht:'170',wt:'70',tgt:'65',wks:'12'};
   ['gender','age','ht','wt','tgt','wks','act'].forEach(k=>{
     const el=document.getElementById('s-'+k);if(!el)return;
     const v=s[keyMap[k]];
-    if(dvalMap[k]){setFieldDval('s-'+k,v);}
-    else{el.value=(v!==undefined&&v!==null)?v:'';}
+    el.value=(v!==undefined&&v!==null)?v:'';
   });
 }
 function saveSt(){ST.settings={gender:document.getElementById('s-gender').value,age:parseInt(document.getElementById('s-age').value)||30,height:parseFloat(document.getElementById('s-ht').value)||170,weight:parseFloat(document.getElementById('s-wt').value)||70,target:parseFloat(document.getElementById('s-tgt').value)||65,weeks:parseInt(document.getElementById('s-wks').value)||12,activity:parseFloat(document.getElementById('s-act').value)||1.55};const _s=ST.settings,minK=_s.gender==='male'?1500:1200;const _bmr=_s.gender==='male'?88.362+(13.397*_s.weight)+(4.799*_s.height)-(5.677*_s.age):447.593+(9.247*_s.weight)+(3.098*_s.height)-(4.330*_s.age);ST.settings.targetKcal=Math.max(Math.round(_bmr*_s.activity)-500,minK);saveST();loadSettingsUI();loadMenuUI();renderFood();renderWeekly();toast('✓ 設定を保存しました');}
